@@ -8,7 +8,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import pl.coderslab.sportsbet2.service.impl.CustomUserDetaisService;
+
+import javax.validation.Validator;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CustomUserDetaisService customUserDetailsService() {
         return new CustomUserDetaisService();
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

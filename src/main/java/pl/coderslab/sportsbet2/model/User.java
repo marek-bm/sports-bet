@@ -30,13 +30,13 @@ public class User {
     @NotEmpty
     private String password;
 
-    @NotEmpty
+//    @NotEmpty
     private String firstName;
 
     @NotEmpty
     private String lastName;
 
-    @NotEmpty
+    @NotNull
     private boolean adult;
 
     @EmailUnique

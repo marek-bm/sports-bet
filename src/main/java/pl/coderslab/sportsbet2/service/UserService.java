@@ -9,4 +9,6 @@ public interface UserService {
     User findByMail(String email);
     void saveUser(User user);
     List<User> findAll();
+    User findUserByMail(String emial);
+    User findUsersByUsername(String username);
 }

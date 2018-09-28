@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.coderslab.sportsbet2.model.Country;
@@ -14,6 +15,7 @@ import pl.coderslab.sportsbet2.service.CountryService;
 import pl.coderslab.sportsbet2.service.UserService;
 
 import javax.validation.Valid;
+import javax.validation.Validator;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -25,17 +27,20 @@ public class RegistrationController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    Validator validator;
+
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registrationInit(Model model){
 
-        List<Country> countries=countryService.findAll();
+
 
         UserDTO userDTO=new UserDTO();
 
         model.addAttribute("userDTO", userDTO);
-        model.addAttribute("countries", countries);
-        return "registration";
 
+
+        return "registration";
     }
 
 
@@ -46,29 +51,46 @@ public class RegistrationController {
             return "registration";
         }
 
-        User user=userDTO.getUser();
-        String userName=user.getUsername();
+        User user=new User();
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setUsername(userDTO.getUsername());
+        user.setMail(userDTO.getMail());
+        user.setPassword(userDTO.getPassword());
+        user.setEnabled(true);
+        user.setAdult(userDTO.getAdult());
+        user.setStreet(userDTO.getStreet());
+        user.setCity(userDTO.getCity());
+        user.setCountry(userDTO.getCountry());
+        user.setDataProcessingAcknowledgement(userDTO.getDataProcessingAcknowledgement());
+        user.setWallet(new Wallet());
+        user.getWallet().setBankAccount(userDTO.getBankAccount());
+        user.getWallet().setBalance(BigDecimal.valueOf(0));
+        userService.saveUser(user);
 
-        //verification if username exists in DB
+        return "success";
+
+        /* this was first verification before custom validators were introduced
+
+        verification if username exists in DB
         if(userExists(userName)==true){
             return "registration";
         }
 
-
-
-        //verification if email address exists in DB
-        //alternative way of searching by stream
+        verification if email address exists in DB
+        alternative way of searching by stream
         if (userService.findAll().stream().anyMatch(u -> u.getMail().equals(user.getMail()))) {
             return "registration";
         }
+         */
 
 
-        Wallet wallet=userDTO.getWallet();
-        wallet.setBalance(BigDecimal.valueOf(0));
-        user.setWallet(wallet);
-        userService.saveUser(user);
+    }
 
-        return "success";
+    @ModelAttribute
+    public void showCountires(Model model){
+        List<Country> countries=countryService.findAll();
+        model.addAttribute("countries", countries);
 
     }
 
