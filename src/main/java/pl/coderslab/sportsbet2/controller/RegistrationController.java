@@ -40,7 +40,7 @@ public class RegistrationController {
         model.addAttribute("userDTO", userDTO);
 
 
-        return "registration";
+        return "/forms/registration";
     }
 
 
@@ -48,7 +48,7 @@ public class RegistrationController {
     public String registrationFinish(@Valid UserDTO userDTO, BindingResult result, Model model){
 
         if (result.hasErrors()){
-            return "registration";
+            return "/forms/registration";
         }
 
         User user=new User();
