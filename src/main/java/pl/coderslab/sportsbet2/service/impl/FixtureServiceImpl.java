@@ -6,6 +6,8 @@ import pl.coderslab.sportsbet2.model.Fixture;
 import pl.coderslab.sportsbet2.repository.FixtureRepository;
 import pl.coderslab.sportsbet2.service.FixtureService;
 
+import java.util.List;
+
 @Service
 public class FixtureServiceImpl  implements FixtureService {
 
@@ -14,5 +16,10 @@ public class FixtureServiceImpl  implements FixtureService {
 
     public Fixture saveFixture(Fixture fixture){
         return fixtureRepository.save(fixture);
+    }
+
+    @Override
+    public List<Fixture> saveFixtures(List<Fixture> fixtures) {
+        return fixtureRepository.save(fixtures);
     }
 }

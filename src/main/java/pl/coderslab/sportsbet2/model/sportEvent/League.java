@@ -16,13 +16,13 @@ public class League {
 
     private int division;
 
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL)
     private List<Season> seasons;
 
     @OneToOne
     private Country country;
 
-    @OneToMany
+    @OneToMany (mappedBy = "league")
     private List<Fixture> fixtures;
 
 }

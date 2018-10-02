@@ -17,11 +17,11 @@ public class Fixture {
     private Integer Id;
 
     @NotEmpty
-    @OneToOne (cascade = CascadeType.MERGE)
+    @OneToOne
     private SportCategory category;
 
     @NotEmpty
-    @OneToOne
+    @ManyToOne
     private League league;
 
     @ManyToOne
@@ -37,11 +37,11 @@ public class Fixture {
     private String matchStatus;
 
     @NotEmpty
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     private Team homeTeam;
 
     @NotEmpty
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     private Team awayTeam;
 
     //final time home team goals

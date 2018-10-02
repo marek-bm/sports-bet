@@ -1,5 +1,7 @@
 package pl.coderslab.sportsbet2.model.sportEvent;
 
+import pl.coderslab.sportsbet2.model.Fixture;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,10 +13,14 @@ public class Season {
 
     private String seasonYear;
 
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL)
     private List<Team> teams;
 
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL)
     private List<League> leagues;
+
+    @OneToMany (mappedBy = "season", cascade = CascadeType.ALL)
+    private  List<Fixture> fixtures;
+
 
 }

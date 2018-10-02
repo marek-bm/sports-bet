@@ -6,4 +6,5 @@ import pl.coderslab.sportsbet2.model.Fixture;
 
 @Repository
 public interface FixtureRepository extends JpaRepository<Fixture, Integer> {
+
 }
