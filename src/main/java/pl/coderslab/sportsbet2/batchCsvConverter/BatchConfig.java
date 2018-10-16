@@ -65,13 +65,17 @@ public class BatchConfig {
     }
 
 
+
+
     @Bean
     public LineMapper<FixtureDTO> lineMapper() {
         DefaultLineMapper<FixtureDTO> defaultLineMapper=new DefaultLineMapper<>();
         DelimitedLineTokenizer lineTokenizer=new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(",");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames(new String[]{"date", "ftag", "fthg", "ftr", "htag", "hthg", "htr", "match_status", "matchday", "away_team_id", "category_id", "home_team_id", "league_id", "season_id" });
+        lineTokenizer.setNames(new String[]{"date", "ftag", "fthg", "ftr", "htag", "hthg", "htr", "match_status",
+                "matchday", "away_team_id", "category_id", "home_team_id", "league_id", "season_id",
+                "homeWinOdd",	"drawOdd",	"awayWinOdd",	"goal_more_2_5",	"goal_less_2_5"});
 
         BeanWrapperFieldSetMapper<FixtureDTO> fieldSetMapper= new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(FixtureDTO.class);
@@ -81,6 +85,5 @@ public class BatchConfig {
 
         return defaultLineMapper;
     }
-
-
 }
+

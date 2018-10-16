@@ -1,56 +1,32 @@
 package pl.coderslab.sportsbet2.model.sportEvent;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
     private Integer id;
 
     @NotNull
+    @Getter @Setter
     private String name;
 
-    @OneToMany (mappedBy = "team", cascade = CascadeType.ALL)
-    private List<Result> results;
+    @Getter @Setter
+    @OneToMany (cascade = CascadeType.ALL)
+    private Map<Season, SeasonResult> results;
+//    private List<SeasonResult> results;
 
     //constructor
     public Team() {
-        this.results=new ArrayList<>();
+        this.results=new HashMap<>();
     }
 
-    //add result
-
-    public void addResult(Result result){
-        this.results.add(result);
-    }
-
-
-    //getters and setters
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Result> getResults() {
-        return results;
-    }
-
-    public void setResults(List<Result> results) {
-        this.results = results;
-    }
 }

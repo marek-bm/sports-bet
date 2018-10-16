@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th> # </th>
+        <th> Team </th>
+        <th> P </th>
+        <th> Pts </th>
+        <th> GD </th>
+        <th> W </th>
+        <th> D </th>
+        <th> L </th>
+
+    </tr>
+
+    <tr th:each="result, iterationStatus: ${seasonResults}">
+        <td th:text="${iterationStatus.count}">  </td>
+        <td th:text="${result.team.name}">  </td>
+        <td th:text="${result.getPlayedGames()}">  </td>
+        <td th:text="${result.points}">  </td>
+        <td th:text="${result.goalsScoredAway+ result.getGoalsScoredHome()-result.getGoalsLostAway()-result.getGoalsLostHome()}">  </td>
+        <td th:text="${result.getWins()}">  </td>
+        <td th:text="${result.getDraws()}"> </td>
+        <td th:text="${result.getLost()}"> </td>
+
+    </tr>
+
+    </thead>
+
+
+
+
+</table>
+
+</body>
+</html>

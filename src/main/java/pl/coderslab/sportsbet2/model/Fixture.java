@@ -1,5 +1,8 @@
 package pl.coderslab.sportsbet2.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.coderslab.sportsbet2.model.sportEvent.League;
 import pl.coderslab.sportsbet2.model.sportEvent.Season;
@@ -8,178 +11,108 @@ import pl.coderslab.sportsbet2.model.sportEvent.Team;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Fixture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter @Getter
     private Integer Id;
 
     @NotEmpty
+    @Setter @Getter
     @OneToOne
     private SportCategory category;
 
     @NotEmpty
+    @Setter @Getter
     @ManyToOne
     private League league;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
+    @Setter @Getter
     private Season season;
 
     @NotEmpty
+    @Setter @Getter
     private int matchday;
 
     @Temporal(TemporalType.DATE)
+    @Setter @Getter
     private java.util.Date Date;
 
     @NotNull
+    @Setter @Getter
     private String matchStatus;
 
     @NotEmpty
     @ManyToOne (cascade = CascadeType.ALL)
+    @Setter @Getter
     private Team homeTeam;
 
     @NotEmpty
     @ManyToOne (cascade = CascadeType.ALL)
+    @Setter @Getter
     private Team awayTeam;
 
+    @Setter @Getter
     //final time home team goals
     private Integer FTHG;
 
+    @Setter @Getter
     //final time away team goals
     private Integer FTAG;
 
     //final result (H-HomeTeam, A- AwayTeam, D-draw)
+    @Setter @Getter
     private String FTR;
 
     //home team half-time goal
+    @Setter @Getter
     private Integer HTHG;
 
     //away team half-time goal
+    @Setter @Getter
     private Integer HTAG;
 
     //half time result (H-HomeTeam, A- AwayTeam, D-draw)
+    @Setter @Getter
     private char HTR;
 
+    //odds
+    @Setter @Getter
+    private BigDecimal homeWinOdd;
+    @Setter @Getter
+    private BigDecimal drawOdd;
+    @Setter @Getter
+    private BigDecimal awayWinOdd;
+    @Setter @Getter
+    private BigDecimal goal_more_2_5;
+    @Setter @Getter
+    private BigDecimal goal_less_2_5;
 
-    public Integer getId() {
-        return Id;
+
+/*
+Getters, setters and constructor replaced with lombok annotation
+ */
+
+
+    public void setDateFromString(String date) {
+        DateFormat format = new SimpleDateFormat("dd/MM/yy");
+        try {
+            java.util.Date dateConverted=format.parse(date);
+            this.Date=dateConverted;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setId(Integer id) {
-        Id = id;
-    }
-
-    public SportCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(SportCategory category) {
-        this.category = category;
-    }
-
-    public League getLeague() {
-        return league;
-    }
-
-    public void setLeague(League league) {
-        this.league = league;
-    }
-
-    public Season getSeason() {
-        return season;
-    }
-
-    public void setSeason(Season season) {
-        this.season = season;
-    }
-
-    public int getMatchday() {
-        return matchday;
-    }
-
-    public void setMatchday(int matchday) {
-        this.matchday = matchday;
-    }
-
-    public java.util.Date getDate() {
-        return Date;
-    }
-
-    public void setDate(java.util.Date date) {
-        Date = date;
-    }
-
-    public String getMatchStatus() {
-        return matchStatus;
-    }
-
-    public void setMatchStatus(String matchStatus) {
-        this.matchStatus = matchStatus;
-    }
-
-    public Team getHomeTeam() {
-        return homeTeam;
-    }
-
-    public void setHomeTeam(Team homeTeam) {
-        this.homeTeam = homeTeam;
-    }
-
-    public Team getAwayTeam() {
-        return awayTeam;
-    }
-
-    public void setAwayTeam(Team awayTeam) {
-        this.awayTeam = awayTeam;
-    }
-
-    public Integer getFTHG() {
-        return FTHG;
-    }
-
-    public void setFTHG(Integer FTHG) {
-        this.FTHG = FTHG;
-    }
-
-    public Integer getFTAG() {
-        return FTAG;
-    }
-
-    public void setFTAG(Integer FTAG) {
-        this.FTAG = FTAG;
-    }
-
-    public String getFTR() {
-        return FTR;
-    }
-
-    public void setFTR(String FTR) {
-        this.FTR = FTR;
-    }
-
-    public Integer getHTHG() {
-        return HTHG;
-    }
-
-    public void setHTHG(Integer HTHG) {
-        this.HTHG = HTHG;
-    }
-
-    public Integer getHTAG() {
-        return HTAG;
-    }
-
-    public void setHTAG(Integer HTAG) {
-        this.HTAG = HTAG;
-    }
-
-    public char getHTR() {
-        return HTR;
-    }
-
-    public void setHTR(char HTR) {
-        this.HTR = HTR;
-    }
 }

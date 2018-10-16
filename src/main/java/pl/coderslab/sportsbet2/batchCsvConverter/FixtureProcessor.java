@@ -1,5 +1,6 @@
 package pl.coderslab.sportsbet2.batchCsvConverter;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Component;
 import pl.coderslab.sportsbet2.model.Fixture;
 import pl.coderslab.sportsbet2.model.sportEvent.*;
 import pl.coderslab.sportsbet2.service.*;
+
+import java.util.Map;
 
 @Component
 public class FixtureProcessor implements ItemProcessor<FixtureDTO, Fixture> {
@@ -56,6 +59,11 @@ public class FixtureProcessor implements ItemProcessor<FixtureDTO, Fixture> {
         fixture.setHomeTeam(homeTeam);
         fixture.setLeague(league);
         fixture.setSeason(season);
+        fixture.setHomeWinOdd(fixtureDTO.getHomeWinOdd());
+        fixture.setDrawOdd(fixtureDTO.getDrawOdd());
+        fixture.setAwayWinOdd(fixtureDTO.getAwayWinOdd());
+        fixture.setGoal_less_2_5(fixtureDTO.getGoal_less_2_5());
+        fixture.setGoal_more_2_5(fixtureDTO.getGoal_more_2_5());
 
         log.info("Converting event on: "+fixtureDTO.getDate()+" matchday: "+ fixtureDTO.getMatchday());
 
@@ -64,7 +72,8 @@ public class FixtureProcessor implements ItemProcessor<FixtureDTO, Fixture> {
 
 
     /**
-     * Method which takes as input home team, away team, results obtained form fixtureDTO
+     * Method which calculates season result for each team.
+     * It takes as input home team, away team, results obtained form fixtureDTO
      * and assing the scored goals and point to the particular team
      *
      * @param homeTeam
@@ -75,9 +84,23 @@ public class FixtureProcessor implements ItemProcessor<FixtureDTO, Fixture> {
 
     public static void resultSolver(Team homeTeam, Team awayTeam, FixtureDTO fixtureDTO, Season season){
 
-        Result homeTeamResult=new Result();
-        Result awayTeamResult=new Result();
+//        SeasonResult homeTeamResult=new SeasonResult();
+//        SeasonResult awayTeamResult=new SeasonResult();
 
+        Map<Season, SeasonResult> homeTeamResults=homeTeam.getResults();
+        SeasonResult homeTeamResult= homeTeamResults.get(season);
+
+        if(homeTeamResult==null){
+            homeTeamResult=new SeasonResult();
+        }
+
+
+        Map<Season, SeasonResult> awayTeamResults=awayTeam.getResults();
+        SeasonResult awayTeamResult= awayTeamResults.get(season);
+
+        if(awayTeamResult==null){
+            awayTeamResult=new SeasonResult();
+        }
 
         if(fixtureDTO.getFTR().equals("H")){
             homeTeamResult.setPoints(homeTeamResult.getPoints()+3);
@@ -103,17 +126,26 @@ public class FixtureProcessor implements ItemProcessor<FixtureDTO, Fixture> {
         homeTeamResult.setTeam(homeTeam);
         awayTeamResult.setTeam(awayTeam);
 
-        homeTeam.addResult(homeTeamResult);
-        awayTeam.addResult(awayTeamResult);
+//        homeTeam.addResult(homeTeamResult);
+//        awayTeam.addResult(awayTeamResult);
 
         int goalsHomeTeam=fixtureDTO.getFTHG();
         int goalsAwayTeam=fixtureDTO.getFTAG();
 
-        homeTeamResult.setGetGoalsScoredHome(homeTeamResult.getGetGoalsScoredHome()+goalsHomeTeam);
-        homeTeamResult.setGetGoalsLostHome(homeTeamResult.getGetGoalsScoredHome()+goalsAwayTeam);
+        homeTeamResult.setGoalsScoredHome(homeTeamResult.getGoalsScoredHome()+goalsHomeTeam);
+        homeTeamResult.setGoalsLostHome(homeTeamResult.getGoalsScoredHome()+goalsAwayTeam);
 
         awayTeamResult.setGoalsScoredAway(awayTeamResult.getGoalsScoredAway()+goalsAwayTeam);
-        awayTeamResult.setGetGoalsLostAway(awayTeamResult.getGetGoalsLostAway()+goalsHomeTeam);
+        awayTeamResult.setGoalsLostAway(awayTeamResult.getGoalsLostAway()+goalsHomeTeam);
+
+        homeTeamResults.put(season, homeTeamResult);
+        awayTeamResults.put(season, awayTeamResult);
+
+        homeTeam.setResults(homeTeamResults);
+        awayTeam.setResults(awayTeamResults);
+
+        homeTeamResult.setPlayedGames(homeTeamResult.getPlayedGames()+1);
+        awayTeamResult.setPlayedGames(awayTeamResult.getPlayedGames()+1);
 
     }
 
