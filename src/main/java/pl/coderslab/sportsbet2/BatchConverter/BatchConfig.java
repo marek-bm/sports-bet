@@ -1,4 +1,4 @@
-package pl.coderslab.sportsbet2.batchCsvConverter;
+package pl.coderslab.sportsbet2.BatchConverter;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -26,7 +26,7 @@ import pl.coderslab.sportsbet2.model.Fixture;
 public class BatchConfig {
 
     @Bean
-    public FixtureProcessor itemProcessor() {
+    FixtureProcessor itemProcessor() {
         return new FixtureProcessor();
     }
 

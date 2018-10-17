@@ -1,4 +1,4 @@
-package pl.coderslab.sportsbet2.batchCsvConverter;
+package pl.coderslab.sportsbet2.BatchConverter;
 
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;

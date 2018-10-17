@@ -15,4 +15,9 @@ public class TeamServiceImpl implements TeamService {
     public Team findTeamById(int id) {
         return teamRepository.findOne(id);
     }
+
+    @Override
+    public Team findTeamByName(String name) {
+        return teamRepository.findTeamByName(name);
+    }
 }

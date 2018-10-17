@@ -1,4 +1,4 @@
-package pl.coderslab.sportsbet2.batchCsvConverter;
+package pl.coderslab.sportsbet2.BatchConverter;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,10 +39,10 @@ public class FixtureDTO {
     private String matchStatus;
 
     @Getter @Setter
-    private int homeTeam_id;
+    private String homeTeam;
 
     @Getter @Setter
-    private int awayTeam_id;
+    private String awayTeam;
 
     @Getter @Setter
     //final time home team goals
@@ -66,7 +66,7 @@ public class FixtureDTO {
 
     @Getter @Setter
     //half time result (H-HomeTeam, A- AwayTeam, D-draw)
-    private char HTR;
+    private String HTR;
 
     @Getter @Setter
     private BigDecimal homeWinOdd;

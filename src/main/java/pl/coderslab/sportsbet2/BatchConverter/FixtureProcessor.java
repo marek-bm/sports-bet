@@ -1,4 +1,4 @@
-package pl.coderslab.sportsbet2.batchCsvConverter;
+package pl.coderslab.sportsbet2.BatchConverter;
 
 
 import org.slf4j.Logger;
@@ -13,7 +13,7 @@ import pl.coderslab.sportsbet2.service.*;
 import java.util.Map;
 
 @Component
-public class FixtureProcessor implements ItemProcessor<FixtureDTO, Fixture> {
+public class FixtureProcessor implements ItemProcessor <FixtureDTO, Fixture> {
     private static final Logger log = LoggerFactory.getLogger(FixtureProcessor.class);
 
     @Autowired
@@ -36,8 +36,8 @@ public class FixtureProcessor implements ItemProcessor<FixtureDTO, Fixture> {
     public Fixture process(FixtureDTO fixtureDTO) throws Exception {
         Fixture fixture=new Fixture();
 
-        Team awayTeam=teamService.findTeamById(fixtureDTO.getAwayTeam_id());
-        Team homeTeam=teamService.findTeamById(fixtureDTO.getHomeTeam_id());
+        Team awayTeam=teamService.findTeamByName(fixtureDTO.getAwayTeam());
+        Team homeTeam=teamService.findTeamByName(fixtureDTO.getHomeTeam());
 
         SportCategory category=sportCategoryService.findSportCategoryById(fixtureDTO.getCategory_id());
         League league=leagueService.findLeagueById(fixtureDTO.getLeague_id());
@@ -84,68 +84,72 @@ public class FixtureProcessor implements ItemProcessor<FixtureDTO, Fixture> {
 
     public static void resultSolver(Team homeTeam, Team awayTeam, FixtureDTO fixtureDTO, Season season){
 
+        try {
 //        SeasonResult homeTeamResult=new SeasonResult();
 //        SeasonResult awayTeamResult=new SeasonResult();
 
-        Map<Season, SeasonResult> homeTeamResults=homeTeam.getResults();
-        SeasonResult homeTeamResult= homeTeamResults.get(season);
+            Map<Season, SeasonResult> homeTeamResults=homeTeam.getResults();
+            SeasonResult homeTeamResult= homeTeamResults.get(season);
 
-        if(homeTeamResult==null){
-            homeTeamResult=new SeasonResult();
-        }
-
-
-        Map<Season, SeasonResult> awayTeamResults=awayTeam.getResults();
-        SeasonResult awayTeamResult= awayTeamResults.get(season);
-
-        if(awayTeamResult==null){
-            awayTeamResult=new SeasonResult();
-        }
-
-        if(fixtureDTO.getFTR().equals("H")){
-            homeTeamResult.setPoints(homeTeamResult.getPoints()+3);
-            homeTeamResult.setWins(homeTeamResult.getWins()+1);
-            awayTeamResult.setLost(awayTeamResult.getLost()+1);
-        }
-        else if(fixtureDTO.getFTR().equals("D")){
-            homeTeamResult.setPoints(homeTeamResult.getPoints()+1);
-            homeTeamResult.setDraws(homeTeamResult.getDraws()+1);
-            awayTeamResult.setPoints(awayTeamResult.getPoints()+1);
-            awayTeamResult.setDraws(awayTeamResult.getDraws()+1);
-        }
-        else {
-            awayTeamResult.setPoints(awayTeamResult.getPoints()+3);
-            homeTeamResult.setLost(homeTeamResult.getLost()+1);
-            awayTeamResult.setWins(awayTeamResult.getWins()+1);
-        }
+            if(homeTeamResult==null){
+                homeTeamResult=new SeasonResult();
+            }
 
 
-        homeTeamResult.setSeason(season);
-        awayTeamResult.setSeason(season);
+            Map<Season, SeasonResult> awayTeamResults=awayTeam.getResults();
+            SeasonResult awayTeamResult= awayTeamResults.get(season);
 
-        homeTeamResult.setTeam(homeTeam);
-        awayTeamResult.setTeam(awayTeam);
+            if(awayTeamResult==null){
+                awayTeamResult=new SeasonResult();
+            }
+
+            if(fixtureDTO.getFTR().equals("H")){
+                homeTeamResult.setPoints(homeTeamResult.getPoints()+3);
+                homeTeamResult.setWins(homeTeamResult.getWins()+1);
+                awayTeamResult.setLost(awayTeamResult.getLost()+1);
+            }
+            else if(fixtureDTO.getFTR().equals("D")){
+                homeTeamResult.setPoints(homeTeamResult.getPoints()+1);
+                homeTeamResult.setDraws(homeTeamResult.getDraws()+1);
+                awayTeamResult.setPoints(awayTeamResult.getPoints()+1);
+                awayTeamResult.setDraws(awayTeamResult.getDraws()+1);
+            }
+            else {
+                awayTeamResult.setPoints(awayTeamResult.getPoints()+3);
+                homeTeamResult.setLost(homeTeamResult.getLost()+1);
+                awayTeamResult.setWins(awayTeamResult.getWins()+1);
+            }
+
+
+            homeTeamResult.setSeason(season);
+            awayTeamResult.setSeason(season);
+
+            homeTeamResult.setTeam(homeTeam);
+            awayTeamResult.setTeam(awayTeam);
 
 //        homeTeam.addResult(homeTeamResult);
 //        awayTeam.addResult(awayTeamResult);
 
-        int goalsHomeTeam=fixtureDTO.getFTHG();
-        int goalsAwayTeam=fixtureDTO.getFTAG();
+            int goalsHomeTeam=fixtureDTO.getFTHG();
+            int goalsAwayTeam=fixtureDTO.getFTAG();
 
-        homeTeamResult.setGoalsScoredHome(homeTeamResult.getGoalsScoredHome()+goalsHomeTeam);
-        homeTeamResult.setGoalsLostHome(homeTeamResult.getGoalsScoredHome()+goalsAwayTeam);
+            homeTeamResult.setGoalsScoredHome(homeTeamResult.getGoalsScoredHome()+goalsHomeTeam);
+            homeTeamResult.setGoalsLostHome(homeTeamResult.getGoalsScoredHome()+goalsAwayTeam);
 
-        awayTeamResult.setGoalsScoredAway(awayTeamResult.getGoalsScoredAway()+goalsAwayTeam);
-        awayTeamResult.setGoalsLostAway(awayTeamResult.getGoalsLostAway()+goalsHomeTeam);
+            awayTeamResult.setGoalsScoredAway(awayTeamResult.getGoalsScoredAway()+goalsAwayTeam);
+            awayTeamResult.setGoalsLostAway(awayTeamResult.getGoalsLostAway()+goalsHomeTeam);
 
-        homeTeamResults.put(season, homeTeamResult);
-        awayTeamResults.put(season, awayTeamResult);
+            homeTeamResults.put(season, homeTeamResult);
+            awayTeamResults.put(season, awayTeamResult);
 
-        homeTeam.setResults(homeTeamResults);
-        awayTeam.setResults(awayTeamResults);
+            homeTeam.setResults(homeTeamResults);
+            awayTeam.setResults(awayTeamResults);
 
-        homeTeamResult.setPlayedGames(homeTeamResult.getPlayedGames()+1);
-        awayTeamResult.setPlayedGames(awayTeamResult.getPlayedGames()+1);
+            homeTeamResult.setPlayedGames(homeTeamResult.getPlayedGames()+1);
+            awayTeamResult.setPlayedGames(awayTeamResult.getPlayedGames()+1);
+        } catch (NullPointerException e) {
+
+        }
 
     }
 

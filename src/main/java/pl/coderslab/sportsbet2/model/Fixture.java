@@ -85,7 +85,7 @@ public class Fixture {
 
     //half time result (H-HomeTeam, A- AwayTeam, D-draw)
     @Setter @Getter
-    private char HTR;
+    private String HTR;
 
     //odds
     @Setter @Getter
