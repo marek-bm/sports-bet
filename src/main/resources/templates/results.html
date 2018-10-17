@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+
+<div th:each="fixture : ${fixtures}">
+
+
+    <ul th:text="|Matchday ${fixture.getKey()}|"></ul>
+
+    <table>
+        <thead>
+        <tr>
+
+            <th> Date</th>
+            <th> Teams</th>
+            <th> FT Result</th>
+            <th> HT Result</th>
+            <th> Winning combination</th>
+        </tr>
+        </thead>
+
+        <tr th:each="event : ${fixture.getValue()}">
+            <td th:text="${event.getDate()}"></td>
+            <td th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
+            <td th:text="|${event.getFTHG()} : ${event.FTAG}|"></td>
+            <td th:text="|(${event.getHTHG()} : ${event.HTAG})|"></td>
+
+            <td th:if="${event.FTR.startsWith('H')}" th:text="' 1, 1X, 12'"></td>
+            <td th:if="${event.FTR.startsWith('D')}" th:text="' 1X, X, X2'"></td>
+            <td th:if="${event.FTR.startsWith('A')}" th:text="' 2, X2, 12'"></td>
+        </tr>
+
+    </table>
+</div>
+
+</body>
+</html>
