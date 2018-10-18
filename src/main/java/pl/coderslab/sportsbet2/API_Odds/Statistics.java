@@ -8,7 +8,9 @@ import pl.coderslab.sportsbet2.model.sportEvent.Season;
 import pl.coderslab.sportsbet2.model.sportEvent.Team;
 import pl.coderslab.sportsbet2.service.FixtureService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class Statistics {
@@ -75,6 +77,31 @@ public class Statistics {
         }
 
         return matchResult;
+    }
+
+
+    public Map<String, Double> odds(double[][] matchResultsProbabilityMatrix){
+        Map<String, Double> odds=new HashMap<>();
+
+        double homeWin=0;
+        double draw=0;
+
+        for(int i=0; i<matchResultsProbabilityMatrix.length; i++){
+            for(int j=0; j<i; j++){
+                homeWin+=matchResultsProbabilityMatrix[i][j]; }
+        }
+
+        for(int i=0; i<matchResultsProbabilityMatrix.length; i++){
+            draw+=matchResultsProbabilityMatrix[i][i];
+        }
+
+        double awayWin=100-(homeWin+draw);
+
+        odds.put("win",homeWin);
+        odds.put("draw", draw);
+        odds.put("lost", awayWin);
+
+        return odds;
     }
 
 

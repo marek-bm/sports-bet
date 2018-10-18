@@ -11,6 +11,8 @@ import pl.coderslab.sportsbet2.model.sportEvent.Team;
 import pl.coderslab.sportsbet2.repository.FixtureRepository;
 import pl.coderslab.sportsbet2.service.SeasonService;
 
+import java.util.Map;
+
 @Controller
 public class Trial {
 
@@ -39,6 +41,8 @@ public class Trial {
 
         double[][] matchResultProbabilityMatix=statistics.matchResultProbability(homeTeamGoalsProbability, awayTeamGoalsProbability);
 
+        Map<String, Double> odds=statistics.odds(matchResultProbabilityMatix);
+
         model.addAttribute("ht", home);
         model.addAttribute("at", away);
 
@@ -49,6 +53,8 @@ public class Trial {
         model.addAttribute("awayGoals", awayTeamGoalsProbability);
 
         model.addAttribute("result", matchResultProbabilityMatix); //match result matrix
+
+        model.addAttribute("odds", odds);
 
         return "fixture-stats";
     }

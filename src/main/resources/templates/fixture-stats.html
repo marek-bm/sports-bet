@@ -7,6 +7,39 @@
 <body>
 
 <ul>
+    <li><h3>Probabilitties for 1/x/2 market </h3></li>
+</ul>
+
+<table border="1">
+
+    <tr>
+        <td>Home Team: </td>
+        <td rowspan="2">Draw </td>
+        <td >Away Team</td>
+    </tr>
+
+    <tr>
+        <td th:text="${ht.getName()}"></td>
+        <td th:text="${at.getName()}"></td>
+
+    </tr>
+
+    <tr>
+        <td> 1 </td>
+        <td> X </td>
+        <td> 2 </td>
+    </tr>
+
+    <tr>
+        <td th:text="|${#numbers.formatDecimal(odds.get('win'),1,2)} %|"></td>
+        <td th:text="|${#numbers.formatDecimal(odds.get('draw'),1,2)} %|"/>
+        <td th:text="|${#numbers.formatDecimal(odds.get('lost'),1,2)} %|"/>
+    </tr>
+
+</table>
+
+
+<ul>
     <li><h3>Goal score estimation</h3></li>
 </ul>
 
