@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<ul>
+    <li><h3>Goal score estimation</h3></li>
+</ul>
+
+<p th:text="|Home team goal score: ${ht.getName()} : ${#numbers.formatDecimal(hg,1,1)}|"/>
+<p th:text="|Away team goal score: ${at.getName()} : ${#numbers.formatDecimal(ag,1,1)}|"/>
+
+
+
+<ul>
+    <li><h3>Probability of scoring given amount of goals,% </h3></li>
+</ul>
+
+
+<table border="1">
+
+    <!--<thead>-->
+    <!--<th colspan="3" > Probability of scoring given amount of goals,%</th>-->
+    <!--</thead>-->
+    <tr>
+        <td>Goals  </td>
+        <td th:text="${ht.getName()}">home goals</td>
+        <td th:text="${at.getName()}">away goals</td>
+    </tr>
+
+    <tr th:each="g, iteration: ${#numbers.sequence(0,5)}">
+        <td th:text="${iteration.index}"></td>
+        <td th:text="${#numbers.formatDecimal(homeGoals[g],1,2)}*100"></td>
+        <td th:text="${#numbers.formatDecimal(awayGoals[g],1,2)}*100"></td>
+    </tr>
+</table>
+
+
+
+<ul>
+    <li><h3>Probability for specific match result, % </h3></li>
+</ul>
+
+
+
+<table border="1">
+    <tr>
+        <td rowspan="2" colspan="2"></td>
+        <th colspan="6" th:text="|Away team: ${at.getName()}|"></th>
+    </tr>
+
+    <tr>
+        <th th:width="100px" th:each="i, iter: ${#numbers.sequence(0,5)}" th:text="${iter.index}"> </th>
+    </tr>
+
+    <tr> <th width="200px" rowspan="7" th:text="|Home team: ${ht.getName()}|" ></th> </tr>
+
+    <tr th:each="i, iter: ${#numbers.sequence(0,5)}">
+        <th width="100px" th:text="${iter.index}"></th>
+        <td th:each="j: ${#numbers.sequence(0,5)}" th:text="${#numbers.formatDecimal(result[i][j],1,2)}"></td>
+    </tr>
+</table>
+
+
+
+
+
+<!--<table border="1">-->
+
+    <!--<thead>-->
+    <!--<tr> Home Team goals</tr>-->
+    <!--</thead>-->
+
+    <!--&lt;!&ndash; v = Poissons number (probability)&ndash;&gt;-->
+    <!--&lt;!&ndash; i =  iteration index &ndash;&gt;-->
+
+    <!--<tbody>-->
+    <!--<tr th:each="v,i: ${result}">-->
+        <!--<td th:text="${i.index}">  </td>-->
+    <!--</tr>-->
+
+    <!--<tr th:each="j: ${result}" th:text="${result[i][j]}"></tr>-->
+
+    <!--</tbody>-->
+
+
+<!--</table>-->
+
+
+</body>
+</html>

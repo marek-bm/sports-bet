@@ -1,9 +1,11 @@
 package pl.coderslab.sportsbet2.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.coderslab.sportsbet2.API_Odds.Statistics;
 import pl.coderslab.sportsbet2.model.Fixture;
 import pl.coderslab.sportsbet2.model.sportEvent.Season;
 import pl.coderslab.sportsbet2.service.FixtureService;
@@ -13,9 +15,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class FixtureController {
+
 
     @Autowired
     FixtureService fixtureService;
@@ -33,8 +37,27 @@ public class FixtureController {
 
         model.addAttribute("fixtures", fixtureMap);
 
-        return "results";
+        return "results-finished";
     }
+
+
+    @RequestMapping("/active")
+    public String activeFixtures(Model model){
+        Season currentSeason=seasonService.findById(7);
+
+        List<Fixture> currentSeasonGames=fixtureService.findAllBySeasonAndMatchStatus(currentSeason, "active");
+
+        Map<Integer, List<Fixture>> fixtureMap=fixturesAsMapSortByMatchday(currentSeasonGames);
+
+        model.addAttribute("fixtures", fixtureMap);
+
+        return "results-active";
+
+    }
+
+
+
+
 
 
 
@@ -46,7 +69,12 @@ public class FixtureController {
     */
     private Map<Integer, List<Fixture>> fixturesAsMapSortByMatchday(List<Fixture> currentSeasonGames) {
         Map<Integer, List<Fixture>> fixtureMap=new HashMap<>();
-        int counter=1;
+
+        Fixture f=currentSeasonGames.stream()
+                .collect(Collectors.minBy((x,y)-> x.getMatchday()-y.getMatchday()))
+                .get();
+
+        int counter=f.getMatchday();
 
         fixtureMap.put(counter,new ArrayList<>());
 
