@@ -28,4 +28,8 @@ public interface FixtureRepository extends JpaRepository<Fixture, Integer> {
     List<Fixture> findTop5ByHomeTeam(Team team);
     List<Fixture> findTop5ByAwayTeam(Team team);
 
+    List<Fixture> findAllByMatchStatus(String status);
+
+    Fixture findById(int id);
+
 }

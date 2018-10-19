@@ -69,4 +69,14 @@ public class FixtureServiceImpl  implements FixtureService {
     public List<Fixture> findTop5ByAwayTeam(Team team) {
         return fixtureRepository.findTop5ByAwayTeam(team);
     }
+
+    @Override
+    public List<Fixture> findAllByMatchStatus(String status) {
+        return fixtureRepository.findAllByMatchStatus(status);
+    }
+
+    @Override
+    public Fixture findById(int id) {
+        return fixtureRepository.findOne(id);
+    }
 }

@@ -30,6 +30,7 @@ public class Season {
     private  List<Fixture> fixtures;
 
     @OneToMany (mappedBy = "season")
+    @Getter @Setter
     List<SeasonResult> seasonResults;
 
 }

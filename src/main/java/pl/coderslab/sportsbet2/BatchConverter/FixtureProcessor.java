@@ -85,8 +85,6 @@ public class FixtureProcessor implements ItemProcessor <FixtureDTO, Fixture> {
     public static void resultSolver(Team homeTeam, Team awayTeam, FixtureDTO fixtureDTO, Season season){
 
         try {
-//        SeasonResult homeTeamResult=new SeasonResult();
-//        SeasonResult awayTeamResult=new SeasonResult();
 
             Map<Season, SeasonResult> homeTeamResults=homeTeam.getResults();
             SeasonResult homeTeamResult= homeTeamResults.get(season);
@@ -152,5 +150,80 @@ public class FixtureProcessor implements ItemProcessor <FixtureDTO, Fixture> {
         }
 
     }
+
+
+
+    public static void resultSolver(Fixture fixture){
+
+        Team homeTeam=fixture.getHomeTeam();
+        Team awayTeam=fixture.getAwayTeam();
+        Season season=fixture.getSeason();
+
+        try {
+
+            Map<Season, SeasonResult> homeTeamResults=homeTeam.getResults();
+            SeasonResult homeTeamResult= homeTeamResults.get(season);
+
+            if(homeTeamResult==null){
+                homeTeamResult=new SeasonResult();
+            }
+
+
+            Map<Season, SeasonResult> awayTeamResults=awayTeam.getResults();
+            SeasonResult awayTeamResult= awayTeamResults.get(season);
+
+            if(awayTeamResult==null){
+                awayTeamResult=new SeasonResult();
+            }
+
+            if(fixture.getFTR().equals("H")){
+                homeTeamResult.setPoints(homeTeamResult.getPoints()+3);
+                homeTeamResult.setWins(homeTeamResult.getWins()+1);
+                awayTeamResult.setLost(awayTeamResult.getLost()+1);
+            }
+            else if(fixture.getFTR().equals("D")){
+                homeTeamResult.setPoints(homeTeamResult.getPoints()+1);
+                homeTeamResult.setDraws(homeTeamResult.getDraws()+1);
+                awayTeamResult.setPoints(awayTeamResult.getPoints()+1);
+                awayTeamResult.setDraws(awayTeamResult.getDraws()+1);
+            }
+            else {
+                awayTeamResult.setPoints(awayTeamResult.getPoints()+3);
+                homeTeamResult.setLost(homeTeamResult.getLost()+1);
+                awayTeamResult.setWins(awayTeamResult.getWins()+1);
+            }
+
+
+            homeTeamResult.setSeason(season);
+            awayTeamResult.setSeason(season);
+
+            homeTeamResult.setTeam(homeTeam);
+            awayTeamResult.setTeam(awayTeam);
+
+//        homeTeam.addResult(homeTeamResult);
+//        awayTeam.addResult(awayTeamResult);
+
+            int goalsHomeTeam=fixture.getFTHG();
+            int goalsAwayTeam=fixture.getFTAG();
+
+            homeTeamResult.setGoalsScoredHome(homeTeamResult.getGoalsScoredHome()+goalsHomeTeam);
+            homeTeamResult.setGoalsLostHome(homeTeamResult.getGoalsScoredHome()+goalsAwayTeam);
+
+            awayTeamResult.setGoalsScoredAway(awayTeamResult.getGoalsScoredAway()+goalsAwayTeam);
+            awayTeamResult.setGoalsLostAway(awayTeamResult.getGoalsLostAway()+goalsHomeTeam);
+
+            homeTeamResults.put(season, homeTeamResult);
+            awayTeamResults.put(season, awayTeamResult);
+
+            homeTeam.setResults(homeTeamResults);
+            awayTeam.setResults(awayTeamResults);
+
+            homeTeamResult.setPlayedGames(homeTeamResult.getPlayedGames()+1);
+            awayTeamResult.setPlayedGames(awayTeamResult.getPlayedGames()+1);
+        } catch (NullPointerException e) {
+
+        }
+    }
+
 
 }

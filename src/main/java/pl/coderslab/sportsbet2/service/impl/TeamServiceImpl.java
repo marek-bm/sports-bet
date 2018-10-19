@@ -6,6 +6,8 @@ import pl.coderslab.sportsbet2.model.sportEvent.Team;
 import pl.coderslab.sportsbet2.repository.TeamRepository;
 import pl.coderslab.sportsbet2.service.TeamService;
 
+import java.util.List;
+
 @Service
 public class TeamServiceImpl implements TeamService {
     @Autowired
@@ -19,5 +21,10 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team findTeamByName(String name) {
         return teamRepository.findTeamByName(name);
+    }
+
+    @Override
+    public List<Team> findAll() {
+        return teamRepository.findAll();
     }
 }

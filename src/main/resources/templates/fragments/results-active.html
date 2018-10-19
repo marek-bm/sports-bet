@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="active-events">
+
+    <h2> Upcoming events </h2>
+
+
+    <div th:each="fixture : ${fixtures}">
+
+
+        <ul th:text="|Matchday ${fixture.getKey()}|"></ul>
+
+        <table>
+            <thead>
+            <tr>
+
+                <th> Date</th>
+                <th> Teams</th>
+                <th> FT Result</th>
+                <th> HT Result</th>
+                <th width="50"> 1 </th>
+                <th width="50"> x </th>
+                <th width="50"> 2 </th>
+                <th width="50"> less2.5 </th>
+                <th width="50"> more2.5 </th>
+                <td width="50"> </td>
+            </tr>
+            </thead>
+
+            <tr th:each="event : ${fixture.getValue()}">
+                <td th:text="${event.getDate()}"></td>
+                <td th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
+                <td th:text="|${event.getFTHG()} : ${event.FTAG}|"></td>
+                <td th:text="|(${event.getHTHG()} : ${event.HTAG})|"></td>
+
+                <td th:text="${event.getHomeWinOdd()}"></td>
+                <td th:text="${event.getDrawOdd()}"></td>
+                <td th:text="${event.getAwayWinOdd()}"></td>
+                <td th:text="${event.getGoal_less_2_5()}"></td>
+                <td th:text="${event.getGoal_more_2_5()}"></td>
+
+                <td>
+                    <form th:action="@{/fixture-edit/{id} (id=${event.getId()})}" th:object="${fixture}" method="get">
+                        <input type="submit" value="Edit"/>
+                    </form>
+                </td>
+
+
+                <td th:if="${event.getMatchStatus().equals('active')}">
+                <form th:action="@{/fixture-stats/{id} (id=${event.getId()})}" method="get">
+                    <input type="submit" value="Show stats"/>
+                </form>
+                </td>
+
+
+            </tr>
+
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

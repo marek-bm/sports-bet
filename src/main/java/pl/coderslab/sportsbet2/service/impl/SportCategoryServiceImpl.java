@@ -6,6 +6,8 @@ import pl.coderslab.sportsbet2.model.sportEvent.SportCategory;
 import pl.coderslab.sportsbet2.repository.SportCategoryRepository;
 import pl.coderslab.sportsbet2.service.SportCategoryService;
 
+import java.util.List;
+
 @Service
 public class SportCategoryServiceImpl implements SportCategoryService {
     @Autowired
@@ -15,5 +17,10 @@ public class SportCategoryServiceImpl implements SportCategoryService {
     @Override
     public SportCategory findSportCategoryById(int id) {
         return sportCategoryRepository.findOne(id);
+    }
+
+    @Override
+    public List<SportCategory> findAll() {
+        return sportCategoryRepository.findAll();
     }
 }

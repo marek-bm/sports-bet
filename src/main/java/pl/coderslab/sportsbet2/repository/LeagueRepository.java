@@ -7,4 +7,5 @@ import pl.coderslab.sportsbet2.model.sportEvent.League;
 @Repository
 public interface LeagueRepository extends JpaRepository<League, Integer> {
     League findLeagueById(int id);
+
 }

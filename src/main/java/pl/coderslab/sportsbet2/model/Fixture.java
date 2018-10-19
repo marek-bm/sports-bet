@@ -3,7 +3,6 @@ package pl.coderslab.sportsbet2.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.NotEmpty;
 import pl.coderslab.sportsbet2.model.sportEvent.League;
 import pl.coderslab.sportsbet2.model.sportEvent.Season;
 import pl.coderslab.sportsbet2.model.sportEvent.SportCategory;
@@ -25,14 +24,14 @@ public class Fixture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter @Getter
-    private Integer Id;
+    private Integer id;
 
-    @NotEmpty
+    @NotNull
     @Setter @Getter
     @OneToOne
     private SportCategory category;
 
-    @NotEmpty
+    @NotNull
     @Setter @Getter
     @ManyToOne
     private League league;
@@ -41,24 +40,24 @@ public class Fixture {
     @Setter @Getter
     private Season season;
 
-    @NotEmpty
+    @NotNull
     @Setter @Getter
     private int matchday;
 
     @Temporal(TemporalType.DATE)
-    @Setter @Getter
+    @Getter
     private java.util.Date Date;
 
     @NotNull
     @Setter @Getter
     private String matchStatus;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne (cascade = CascadeType.ALL)
     @Setter @Getter
     private Team homeTeam;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne (cascade = CascadeType.ALL)
     @Setter @Getter
     private Team awayTeam;
@@ -104,8 +103,11 @@ public class Fixture {
 Getters, setters and constructor replaced with lombok annotation
  */
 
+    public void setDate(java.util.Date date) {
+        Date = date;
+    }
 
-    public void setDateFromString(String date) {
+    public void setDate(String date) {
         DateFormat format = new SimpleDateFormat("dd/MM/yy");
         try {
             java.util.Date dateConverted=format.parse(date);

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Welcome to sport bets</h1>
+
+<table>
+    <tr>
+        <td>
+            <p sec:authorize="isAuthenticated()">
+            <p>Logged as <span sec:authentication="name"/> </p>
+            <!--<p>User role: <span sec:authentication="authorities"></span></p>-->
+            </p>
+        </td>
+
+        <td>
+            <a th:href="@{/account}">User Account</a>
+        </td>
+
+        <td>
+            <a th:href="@{/mycoupons}">My bets</a>
+        </td>
+
+        <td>
+            <a th:href="@{/wallet}">My wallet</a>
+        </td>
+
+
+        <td>
+            <a th:href="@{/results}">Results</a>
+        </td>
+
+
+        <td>
+            <p sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout"/>
+            </form>
+            </p>
+        </td>
+
+    </tr>
+</table>
+
+
+<table>
+
+    <tr>
+
+        <td>
+            <div th:include="fragments/results-active :: active-events"/>
+        </td>
+
+        <td>
+            <!--<div th:include="fixtures :: bets"/>-->
+        </td>
+
+        <td>
+            <!--<a th:href="@{/mycoupon}">Coupon Details</a>-->
+            <!--<div th:include="coupon :: coupon"/>-->
+        </td>
+
+    </tr>
+
+</table>
+
+
+</body>
+</html>

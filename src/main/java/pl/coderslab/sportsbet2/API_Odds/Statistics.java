@@ -15,6 +15,11 @@ import java.util.Map;
 @Component
 public class Statistics {
 
+    /*
+    calculation based on:
+    https://help.smarkets.com/hc/en-gb/articles/115001457989-How-to-calculate-Poisson-distribution-for-football-betting
+     */
+
     @Autowired
     FixtureService fixtureService;
 
@@ -25,6 +30,10 @@ public class Statistics {
 
         double result=homeTeamAttackStrength*awayTeamDeffenceStrength*homeTeamGlobalsStrength;
 
+        //to aviod arythmetiacl exception
+        if(result==0.0){
+            result=0.001;
+        }
         return result;
     }
 
@@ -34,6 +43,11 @@ public class Statistics {
         double awayTeamGlobalStrength=this.awayTeamGoalsGlobalAVG(season);
 
         double result=homeTeamDeffenceStrength*awayTeamAttackStrength*awayTeamAttackStrength;
+
+        //to avoid arthmetical exception in furtehr operation
+        if(result==0.0){
+            result=0.001;
+        }
 
         return  result;
     }
@@ -71,7 +85,7 @@ public class Statistics {
 
         for(int i=0; i<homeTeamGoals.length; i++){
             for(int j=0; j<awayTeamGoals.length; j++){
-                double probability=homeTeamGoals[i]*awayTeamGoals[j]*100;
+                double probability=homeTeamGoals[i]*awayTeamGoals[j];
                 matchResult[i][j]=probability;
             }
         }
@@ -85,6 +99,7 @@ public class Statistics {
 
         double homeWin=0;
         double draw=0;
+        double goalsLessThan2_5=0;
 
         for(int i=0; i<matchResultsProbabilityMatrix.length; i++){
             for(int j=0; j<i; j++){
@@ -95,11 +110,22 @@ public class Statistics {
             draw+=matchResultsProbabilityMatrix[i][i];
         }
 
-        double awayWin=100-(homeWin+draw);
+        for (int i=0; i<3; i++){
+            for(int j=0; j<3; j++){
+                goalsLessThan2_5+=matchResultsProbabilityMatrix[i][j];
+            }
+
+        }
+
+
+        double awayWin=1-(homeWin+draw);
+        double goalsMoreThan2_5=1-goalsLessThan2_5;
 
         odds.put("win",homeWin);
         odds.put("draw", draw);
         odds.put("lost", awayWin);
+        odds.put("goalsLess",goalsLessThan2_5);
+        odds.put("goalsMore", goalsMoreThan2_5);
 
         return odds;
     }

@@ -6,6 +6,8 @@ import pl.coderslab.sportsbet2.model.sportEvent.Season;
 import pl.coderslab.sportsbet2.repository.SeasonRepository;
 import pl.coderslab.sportsbet2.service.SeasonService;
 
+import java.util.List;
+
 @Service
 public class SeasonServiceImpl implements SeasonService {
 
@@ -16,4 +18,11 @@ public class SeasonServiceImpl implements SeasonService {
     public Season findById(int id) {
         return seasonRepository.findOne(id);
     }
+
+    @Override
+    public List<Season> findAll() {
+        return seasonRepository.findAll();
+    }
+
+
 }
