@@ -23,9 +23,9 @@ public class HomeController {
     SeasonService seasonService;
 
     @RequestMapping("/")
-    @ResponseBody
     public String home(){
-        return "home page";
+
+        return "blank";
     }
 
     @RequestMapping("/admin")

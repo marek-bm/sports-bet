@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping ("/results")
 public class FixtureController {
 
     @Autowired
@@ -46,7 +47,7 @@ public class FixtureController {
     @Autowired
     Odds odds;
 
-    @RequestMapping ("/all")
+    @RequestMapping ("/finished")
     public String resultsDisplay(Model model){
         Season currentSeason=seasonService.findById(7);
 
@@ -74,7 +75,7 @@ public class FixtureController {
 
     }
 
-    @RequestMapping(value = "/fixture-edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editFixture(@PathVariable Integer id, Model model){
         Fixture fixture=fixtureService.findById(id);
         ArrayList<String> status=new ArrayList<>();
@@ -87,7 +88,7 @@ public class FixtureController {
         return "forms/fixture-edit";
     }
 
-    @RequestMapping (value = "/fixture-edit", method = RequestMethod.POST)
+    @RequestMapping (value = "/edit", method = RequestMethod.POST)
     public String saveEditedFixture(@Valid Fixture fixture, BindingResult result){
 
         if (result.hasErrors()){
@@ -101,7 +102,7 @@ public class FixtureController {
     }
 
 
-    @RequestMapping(value = "/fixture-new", method = RequestMethod.GET)
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newFixtureStep1(Model model){
 
         Fixture fixture=new Fixture();
@@ -111,7 +112,7 @@ public class FixtureController {
     }
 
 
-    @RequestMapping(value = "/fixture-new", method = RequestMethod.POST)
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String newFixtureStep2(@Valid Fixture fixture, BindingResult result, Model model ){
 
         if (result.hasErrors()){

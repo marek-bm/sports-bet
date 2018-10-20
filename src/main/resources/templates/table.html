@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<div th:fragment="tab">
+
 <table>
     <thead>
     <tr>
@@ -19,6 +21,7 @@
         <th width="50"> L </th>
 
     </tr>
+    </thead>
 
     <tr th:each="result, iterationStatus: ${seasonResults}">
         <td th:text="${iterationStatus.count}">  </td>
@@ -32,12 +35,10 @@
 
     </tr>
 
-    </thead>
-
-
-
 
 </table>
+
+</div>
 
 </body>
 </html>

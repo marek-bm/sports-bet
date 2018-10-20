@@ -36,8 +36,19 @@
             <tr th:each="event : ${fixture.getValue()}">
                 <td th:text="${event.getDate()}"></td>
                 <td th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
-                <td th:text="|${event.getFTHG()} : ${event.FTAG}|"></td>
-                <td th:text="|(${event.getHTHG()} : ${event.HTAG})|"></td>
+
+                <!--<td th:text="|${event.getFTHG()} : ${event.FTAG}|"></td>-->
+
+                <td th:switch="${event.FTHG}">
+                    <span th:case="null" th:text="|-- : --|"></span>
+                    <span th:case="${event.getFTHG()}" th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>
+                </td>
+
+                <!--<td th:text="|(${event.getHTHG()} : ${event.HTAG})|"></td>-->
+                <td th:switch="${event.HTHG}">
+                    <span th:case="null" th:text="|-- : --|"></span>
+                    <span th:case="${event.getHTHG()}" th:text="|(${event.getHTHG()} : ${event.HTAG})|"></span>
+                </td>
 
                 <td th:text="${event.getHomeWinOdd()}"></td>
                 <td th:text="${event.getDrawOdd()}"></td>

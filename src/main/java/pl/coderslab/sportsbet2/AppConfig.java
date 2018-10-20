@@ -17,8 +17,24 @@ public class AppConfig extends WebMvcConfigurerAdapter  {
     }
 
 
+
     @Override
     public void addFormatters (FormatterRegistry registry) {
         registry.addConverter(getDateConverter());
     }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler(
+//                "/webjars/**",
+//                "/img/**",
+//                "/css/**",
+//                "/js/**", "/vendor/**")
+//                .addResourceLocations(
+//                        "classpath:/static/img/",
+//                        "classpath:/static/css/",
+//                        "classpath:/static/js/",
+//                        "classpath:/static/vendor/**");
+//    }
+
 }

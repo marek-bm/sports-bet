@@ -17,6 +17,26 @@
             </p>
         </td>
 
+
+        <td>
+            <a th:href="@{/results/active}">Active fixtures</a>
+        </td>
+
+
+        <td>
+            <a th:href="@{/results/finished}"> Past results </a>
+        </td>
+
+        <td>
+            <a th:href="@{/table}"> Table </a>
+        </td>
+
+        <td>
+            <a th:href="@{/results/new}"> Create Fixture </a>
+        </td>
+
+
+
         <td>
             <a th:href="@{/account}">User Account</a>
         </td>
@@ -52,11 +72,11 @@
     <tr>
 
         <td>
-            <div th:include="fragments/results-active :: active-events"/>
+            <div th:replace="fragments/results-active::active-events"></div>
         </td>
 
         <td>
-            <!--<div th:include="fixtures :: bets"/>-->
+            <div th:include="table :: tab"/>
         </td>
 
         <td>
