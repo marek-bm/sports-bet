@@ -1,92 +1,137 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>FootballBet</title>
+
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css"  rel="stylesheet"/>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet"/>
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet"/>
+
 </head>
-<body>
+<body id="page-top">
 
-<h1>Welcome to sport bets</h1>
+<nav th:include="fragments/header :: header"></nav>
 
-<table>
-    <tr>
-        <td>
-            <p sec:authorize="isAuthenticated()">
-            <p>Logged as <span sec:authentication="name"/> </p>
-            <!--<p>User role: <span sec:authentication="authorities"></span></p>-->
-            </p>
-        </td>
+<div id="wrapper">
 
+    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
 
-        <td>
-            <a th:href="@{/results/active}">Active fixtures</a>
-        </td>
+    <div id="content-wrapper">
 
+        <h1>Welcome to sport bets</h1>
 
-        <td>
-            <a th:href="@{/results/finished}"> Past results </a>
-        </td>
-
-        <td>
-            <a th:href="@{/table}"> Table </a>
-        </td>
-
-        <td>
-            <a th:href="@{/results/new}"> Create Fixture </a>
-        </td>
+        <table>
+            <tr>
+                <td>
+                    <p sec:authorize="isAuthenticated()">
+                    <p>Logged as <span sec:authentication="name"/> </p>
+                    <!--<p>User role: <span sec:authentication="authorities"></span></p>-->
+                    </p>
+                </td>
 
 
-
-        <td>
-            <a th:href="@{/account}">User Account</a>
-        </td>
-
-        <td>
-            <a th:href="@{/mycoupons}">My bets</a>
-        </td>
-
-        <td>
-            <a th:href="@{/wallet}">My wallet</a>
-        </td>
+                <td>
+                    <a th:href="@{/results/active}">Active fixtures</a>
+                </td>
 
 
-        <td>
-            <a th:href="@{/results}">Results</a>
-        </td>
+                <td>
+                    <a th:href="@{/results/finished}"> Past results </a>
+                </td>
+
+                <td>
+                    <a th:href="@{/table}"> Table </a>
+                </td>
+
+                <td>
+                    <a th:href="@{/results/new}"> Create Fixture </a>
+                </td>
 
 
-        <td>
-            <p sec:authorize="isAuthenticated()">
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Logout"/>
-            </form>
-            </p>
-        </td>
 
-    </tr>
-</table>
+                <td>
+                    <a th:href="@{/account}">User Account</a>
+                </td>
+
+                <td>
+                    <a th:href="@{/mycoupons}">My bets</a>
+                </td>
+
+                <td>
+                    <a th:href="@{/wallet}">My wallet</a>
+                </td>
 
 
-<table>
+                <td>
+                    <a th:href="@{/results}">Results</a>
+                </td>
 
-    <tr>
 
-        <td>
-            <div th:replace="fragments/results-active::active-events"></div>
-        </td>
+                <td>
+                    <p sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <input type="submit" value="Logout"/>
+                    </form>
+                    </p>
+                </td>
 
-        <td>
-            <div th:include="table :: tab"/>
-        </td>
+            </tr>
+        </table>
 
-        <td>
-            <!--<a th:href="@{/mycoupon}">Coupon Details</a>-->
-            <!--<div th:include="coupon :: coupon"/>-->
-        </td>
 
-    </tr>
+        <table>
 
-</table>
+            <tr>
+
+                <td>
+                    <div th:insert="fragments/results-active::active-events"></div>
+                </td>
+
+                <td>
+                    <div th:insert="table :: tab"/>
+                </td>
+
+                <td>
+                    <!--<a th:href="@{/mycoupon}">Coupon Details</a>-->
+                    <!--<div th:include="coupon :: coupon"/>-->
+                </td>
+
+            </tr>
+
+        </table>
+
+
+
+
+    </div>
+
+    <div th:include="fragments/footer :: footer"></div>
+
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin.min.js"></script>
 
 
 </body>
