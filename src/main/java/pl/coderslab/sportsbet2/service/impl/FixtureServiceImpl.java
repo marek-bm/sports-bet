@@ -22,7 +22,7 @@ public class FixtureServiceImpl  implements FixtureService {
 
     @Override
     public List<Fixture> saveFixtures(List<Fixture> fixtures) {
-        return fixtureRepository.save(fixtures);
+        return fixtureRepository.saveAll(fixtures);
     }
 
     @Override
@@ -77,6 +77,6 @@ public class FixtureServiceImpl  implements FixtureService {
 
     @Override
     public Fixture findById(int id) {
-        return fixtureRepository.findOne(id);
+        return fixtureRepository.getOne(id);
     }
 }

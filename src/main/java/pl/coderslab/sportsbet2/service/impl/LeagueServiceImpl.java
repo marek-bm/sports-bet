@@ -13,6 +13,6 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public League findLeagueById(int id) {
-        return leagueRepository.findOne(id);
+        return leagueRepository.getOne(id);
     }
 }

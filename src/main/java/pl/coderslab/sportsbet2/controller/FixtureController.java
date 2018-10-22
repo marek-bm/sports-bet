@@ -57,7 +57,7 @@ public class FixtureController {
 
         model.addAttribute("fixtures", fixtureMap);
 
-        return "fragments/results-all";
+        return "results-all";
     }
 
 
@@ -71,7 +71,7 @@ public class FixtureController {
 
         model.addAttribute("fixtures", fixtureMap);
 
-        return "fragments/results-active";
+        return "results-active";
 
     }
 

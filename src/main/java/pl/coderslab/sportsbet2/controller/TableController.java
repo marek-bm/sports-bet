@@ -20,15 +20,15 @@ public class TableController {
     @Autowired
     SeasonResultsService seasonResultsService;
 
+
     @RequestMapping("/table")
     public String table(Model model){
 
-        int seasonId=seasonRepository.findTopByIdAndOrderByIdDesc();
-        Season season=seasonRepository.findOne(seasonId);
+        Integer seasonId=seasonRepository.findTopByIdAndOrderByIdDesc();
+        Season season=seasonRepository.getOne(seasonId);
         List<SeasonResult> seasonResults=seasonResultsService.findAllBySeasonOrderByPointsDesc(season);
         model.addAttribute("seasonResults", seasonResults);
         return "table";
     }
-
 
 }

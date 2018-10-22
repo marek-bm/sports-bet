@@ -29,7 +29,7 @@ public class MatchStatisticController {
 
     @RequestMapping("/fixture-stats/{id}")
     public String odds(Model model, @PathVariable int id){
-        Fixture fixture=fixtureRepository.findOne(id);
+        Fixture fixture=fixtureRepository.findById(id);
         Season season=fixture.getSeason();
         Team home=fixture.getHomeTeam();
         Team away=fixture.getAwayTeam();

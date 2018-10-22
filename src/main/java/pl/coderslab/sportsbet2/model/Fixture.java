@@ -53,12 +53,12 @@ public class Fixture {
     private String matchStatus;
 
     @NotNull
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Setter @Getter
     private Team homeTeam;
 
     @NotNull
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Setter @Getter
     private Team awayTeam;
 

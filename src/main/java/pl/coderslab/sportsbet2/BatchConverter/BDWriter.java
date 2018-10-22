@@ -16,6 +16,7 @@ public class BDWriter implements ItemWriter<Fixture> {
 
     @Override
     public void write(List<? extends Fixture> fixtures) throws Exception {
-        fixtureRepository.save(fixtures);
+//        fixtureRepository.save(fixtures);
+        fixtureRepository.saveAll(fixtures);
     }
 }

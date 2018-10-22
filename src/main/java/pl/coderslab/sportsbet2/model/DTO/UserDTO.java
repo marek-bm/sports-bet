@@ -2,8 +2,6 @@ package pl.coderslab.sportsbet2.model.DTO;
 
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import pl.coderslab.sportsbet2.model.Country;
 import pl.coderslab.sportsbet2.validators.EmailUnique;
 import pl.coderslab.sportsbet2.validators.UsernameUnique;
@@ -12,16 +10,16 @@ import javax.validation.constraints.NotNull;
 
 public class UserDTO {
     @UsernameUnique
-    @NotEmpty
+    @NotNull
     private String username;
 
-    @NotEmpty
+    @NotNull
     private String password;
 
-    @NotEmpty
+    @NotNull
     private String firstName;
 
-    @NotEmpty
+    @NotNull
     private String lastName;
 
     @NotNull

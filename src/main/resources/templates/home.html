@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -98,12 +103,12 @@
             <tr>
 
                 <td>
-                    <div th:insert="fragments/results-active::active-events"></div>
+                    <div layout:fragment="active"></div>
                 </td>
 
-                <td>
-                    <div th:insert="table :: tab"/>
-                </td>
+                <!--<td>-->
+                    <!--<div th:replace="table :: tab"/>-->
+                <!--</td>-->
 
                 <td>
                     <!--<a th:href="@{/mycoupon}">Coupon Details</a>-->

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      >
 <head>
     <meta charset="UTF-8"/>
     <title>Title</title>
@@ -8,6 +10,7 @@
 
 <div th:fragment="tab">
 
+    <p> Table </p>
 <table>
     <thead>
     <tr>
@@ -34,7 +37,6 @@
         <td th:text="${result.getLost()}"> </td>
 
     </tr>
-
 
 </table>
 

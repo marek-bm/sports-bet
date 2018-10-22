@@ -15,7 +15,6 @@ import pl.coderslab.sportsbet2.service.CountryService;
 import pl.coderslab.sportsbet2.service.UserService;
 
 import javax.validation.Valid;
-import javax.validation.Validator;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -26,9 +25,6 @@ public class RegistrationController {
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    Validator validator;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registrationInit(Model model){

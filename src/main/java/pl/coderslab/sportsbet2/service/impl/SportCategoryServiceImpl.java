@@ -16,7 +16,7 @@ public class SportCategoryServiceImpl implements SportCategoryService {
 
     @Override
     public SportCategory findSportCategoryById(int id) {
-        return sportCategoryRepository.findOne(id);
+        return sportCategoryRepository.getOne(id);
     }
 
     @Override

@@ -16,7 +16,7 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     public Season findById(int id) {
-        return seasonRepository.findOne(id);
+        return seasonRepository.getOne(id);
     }
 
     @Override

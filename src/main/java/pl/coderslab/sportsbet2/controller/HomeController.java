@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.coderslab.sportsbet2.model.Fixture;
 import pl.coderslab.sportsbet2.service.FixtureService;
+import pl.coderslab.sportsbet2.service.SeasonResultsService;
 import pl.coderslab.sportsbet2.service.SeasonService;
 
 import java.util.List;
@@ -21,6 +22,10 @@ public class HomeController {
 
     @Autowired
     SeasonService seasonService;
+
+    @Autowired
+    SeasonResultsService seasonResultsService;
+
 
     @RequestMapping("/")
     public String home(){
@@ -46,12 +51,6 @@ public class HomeController {
 
         return "home";
     }
-
-
-
-
-
-
 
 
 }
