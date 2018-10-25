@@ -14,4 +14,8 @@ public interface UserService {
 
     User getByUsername(String username);
     User findById(int id);
+
+    boolean checkIfValidOldPassword(User user, String oldPassword);
+
+    void changeUserPassword(User user, String password);
 }

@@ -46,7 +46,14 @@
                         </form>
                     </td>
 
+                    <td>
+                        <form th:action="@{/user-updatePassword}" method="get">
+                            <input type="number" name="id" hidden th:value="${user.getId()}">
+                            <input type="submit" value="Change Password"/>
+                        </form>
+                    </td>
                 </tr>
+
             </table>
 
 

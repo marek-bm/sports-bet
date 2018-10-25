@@ -1,13 +1,13 @@
 package pl.coderslab.sportsbet2.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.sportsbet2.model.Country;
 import pl.coderslab.sportsbet2.model.User;
 import pl.coderslab.sportsbet2.service.CountryService;
@@ -15,6 +15,7 @@ import pl.coderslab.sportsbet2.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class UserController {
@@ -69,6 +70,35 @@ public class UserController {
         userService.saveUser(user);
         return "user-account";
     }
+
+    @RequestMapping(value = "/user-updatePassword", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('READ_PRIVILEGE')")
+    public String changeUserPassword(@RequestParam("id") int userId, Model model) {
+        model.addAttribute("id", userId);
+        return "forms/updatePassword";
+
+    }
+
+    @RequestMapping(value = "/user-updatePassword", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('READ_PRIVILEGE')")
+    public String changeUserPassword(Locale locale,
+                                              @RequestParam("password") String password,
+                                              @RequestParam("oldpassword") String oldPassword,
+                                     Model model) {
+
+        User user = userService.findUsersByUsername(
+                SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if (!userService.checkIfValidOldPassword(user, oldPassword)) {
+            model.addAttribute("warning", "Invalid password");
+            return "forms/updatePassword";
+//            throw new InvalidOldPasswordException();
+        }
+        userService.changeUserPassword(user, password);
+        return "pass-success";
+
+    }
+
 
     @ModelAttribute
     public void showCountires(Model model){
