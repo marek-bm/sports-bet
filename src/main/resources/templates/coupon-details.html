@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<table>
+    <tr>
+        <td>
+            <a th:href="@{/home}">Home</a>
+        </td>
+</table>
+
+
+<table>
+
+    <tr>
+        <td>Category: </td>
+        <td>Country:</td>
+        <td>League:</td>
+        <td>Teams:</td>
+        <td>Matchday:</td>
+        <td>Half Time Result:</td>
+        <td>Final Time Result:</td>
+        <td>Bet placed:</td>
+        <td> Winning combination:</td>
+        <td>Status:</td>
+    </tr>
+
+
+    <tr th:each="bet: ${bets}">
+        <td th:text="${bet.event.category.categoryName}"></td>
+        <td th:text="${bet.event.country.countryName}"></td>
+        <td th:text="${bet.event.league.name}"></td>
+        <td th:text="|${bet.event.homeTeam.name} v ${bet.event.awayTeam.name}|" ></td>
+        <td th:text="|Nr: ${bet.event.matchday} played on: ${bet.event.Date}|"></td>
+        <td th:text="|${bet.event.HTHG} : ${bet.event.HTAG}|"></td>
+        <td th:text="|${bet.event.FTHG} : ${bet.event.FTAG}|"></td>
+
+
+        <td th:if="${bet.placedBet.startsWith('H')}" th:text="'1'"></td>
+        <td th:if="${bet.placedBet.startsWith('D')}" th:text="'X'"></td>
+        <td th:if="${bet.placedBet.startsWith('A')}" th:text="'2'"></td>
+        <td th:if="${bet.placedBet.startsWith('LT2_5')}" th:text="'<2.5'"></td>
+        <td th:if="${bet.placedBet.startsWith('GT2_5')}" th:text="'>2.5'"></td>
+
+
+        <td th:if="${bet.event.FTR.contains('pedning')}" th:text="'pedning'"></td>
+        <td th:if="${bet.event.FTR.startsWith('H')}" th:text="'1'"></td>
+        <td th:if="${bet.event.FTR.startsWith('D')}" th:text="'X'"></td>
+        <td th:if="${bet.event.FTR.startsWith('A')}" th:text="'2'"></td>
+        <td th:if="${bet.event.FTR.startsWith('LT2_5')}" th:text="'<2.5'"></td>
+        <td th:if="${bet.event.FTR.startsWith('GT2_5')}" th:text="'>2.5'"></td>
+
+        <td th:if="${bet.won==false}" th:text="' bet lost'"></td>
+        <td th:if="${bet.won==true}" th:text="' bet won'"></td>
+
+   </tr>
+
+
+</table>
+
+</body>
+</html>

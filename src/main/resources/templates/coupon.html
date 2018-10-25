@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+
+<table>
+    <tr>
+        <td>
+            <a th:href="@{/home}">Home</a>
+        </td>
+</table>
+
+
+<div th:fragment="coupon">
+
+    <div th:if="${sessionBets.isEmpty()}"> No bets are placed so far</div>
+
+    <div th:if="${!sessionBets.isEmpty()}">
+
+        <table>
+
+            <!--/*@thymesVar id="sessionBets" type="pl.coderslab.sport_book.model.betting.SingleBet"*/-->
+            <tr th:each="bet: ${sessionBets}">
+                <td th:text="|${bet.event.homeTeam.name} v|"></td>
+                <td th:text="${bet.event.awayTeam.name}"></td>
+                <td th:text="${bet.betPrice}"></td>
+
+                <!--/*@thymesVar id="userBetOnResult" type="pl.coderslab.sport_book.model.betting.SingleBet"*/-->
+                <td th:if="${bet.placedBet}==H" th:text="'Bet:Home 1'"></td>
+                <td th:if="${bet.placedBet}==D" th:text="'Bet:Draw X'"></td>
+                <td th:if="${bet.placedBet}==A" th:text="'Bet:Away 2'"></td>
+
+
+                <td th:if="${bet.placedBet}==LT2_5" th:text="'Bet:Goals less 2.5'"></td>
+                <td th:if="${bet.placedBet}==GT2_5" th:text="'Bet:Goals more 2.5'"></td>
+
+                <td>
+                    <form th:action="@{/delbet}" method="post">
+                        <input type="hidden" name="eventId" th:value="${bet.event.id}"/>
+                        <input type="submit" th:value="x"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <form th:action="@{/payfromaccount}" method="post">
+        <p> Bet->  <input type="number" name="charge"> PLN </p>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+
+
+
+</div>
+
+
+
+    </body>
+</html>

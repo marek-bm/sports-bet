@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head th:replace="fragments/header :: header">
+
+</head>
+
+<body id="page-top">
+
+<nav th:replace="fragments/topbar :: topbar"></nav>
+
+<div id="wrapper">
+
+    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
+
+    <div id="content-wrapper">
+
+
+        <h1>Betting history </h1>
+
+        <div sec:authorize="isAnonymous()">
+            <p> Section available for logges users</p>
+            <a th:href="@{/home}">Home</a>
+        </div>
+
+
+        <div sec:authorize="isAuthenticated()">
+            <div th:if="${coupons}==null">
+
+                <h5>No data to display</h5>
+            </div>
+
+
+            <div th:if="${coupons}!=null">
+                <div th:fragment="mybets">
+                    <div th:if="${coupons.isEmpty()}"> No coupons are available</div>
+                    <div th:if="${!coupons.isEmpty()}">
+
+                        <table>
+                            <thead>
+                            <tr>
+
+                                <th>Id</th>
+                                <th>Created</th>
+                                <th>Bet Value</th>
+                                <th>Expected Win</th>
+                                <th>Status</th>
+
+                            </tr>
+                            </thead>
+
+
+                            <tr th:each="item: ${coupons}">
+
+
+                                <td th:text="${item.id}"></td>
+                                <td th:text="${item.dateCreated}"></td>
+                                <td th:text="${item.betValue}"></td>
+                                <td th:text="${item.winValue}"></td>
+                                <td th:if="${item.isWon}==false"> Active</td>
+                                <td th:if="${item.isWon}==true"> Completed</td>
+
+                                <td>
+                                    <form th:action="@{/coupondetails}" th:object="${item}" method="post">
+                                        <input type="hidden" name="id" th:value="${item.id}"/>
+                                        <input type="submit" value="Details">
+                                    </form>
+                                </td>
+
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+
+</body>
+</html>

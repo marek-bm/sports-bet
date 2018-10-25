@@ -30,13 +30,11 @@ public class RegistrationController {
     public String registrationInit(Model model){
 
 
-
         UserDTO userDTO=new UserDTO();
 
         model.addAttribute("userDTO", userDTO);
 
-
-        return "/forms/registration";
+        return "register";
     }
 
 
@@ -44,7 +42,7 @@ public class RegistrationController {
     public String registrationFinish(@Valid UserDTO userDTO, BindingResult result, Model model){
 
         if (result.hasErrors()){
-            return "/forms/registration";
+            return "register";
         }
 
         User user=new User();

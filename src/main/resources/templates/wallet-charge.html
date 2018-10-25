@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+
+<head th:replace="fragments/header :: header">
+
+</head>
+
+<body id="page-top">
+
+<nav th:replace="fragments/topbar :: topbar"></nav>
+
+<div id="wrapper">
+
+    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
+
+    <div id="content-wrapper">
+
+
+        <h2>Bank service: </h2>
+
+        <table>
+            <tr>
+                <td>
+                    <a th:href="@{/home}">Home</a>
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <form th:action="@{/chargeaccount}" method="post">
+            <p>How much money you want to deposit <input type="number" name="charge"></p>
+            <p><input type="submit" value="Submit"/></p>
+        </form>
+    </div>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+</html>

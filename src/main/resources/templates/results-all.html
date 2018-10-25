@@ -1,61 +1,75 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
+<head th:replace="fragments/header :: header">
+
 </head>
-<body>
+<body id="page-top">
 
-<h2> Past events </h2>
+<nav th:replace="fragments/topbar :: topbar"></nav>
 
-<div th:each="fixture : ${fixtures}">
+<div id="wrapper">
 
+    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
 
-    <ul th:text="|Matchday ${fixture.getKey()}|"></ul>
-
-    <table>
-        <thead>
-        <tr>
-
-            <th> Date</th>
-            <th width="300"> Teams</th>
-            <th> FT Result</th>
-            <th> HT Result</th>
-            <th> Winning combination</th>
-        </tr>
-        </thead>
-
-        <tr th:each="event : ${fixture.getValue()}">
-            <td th:text="${event.getDate()}"></td>
-            <td th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
+    <div id="content-wrapper">
 
 
-            <td th:switch="${event.FTHG}">
-                <span th:case="null" th:text="|-- : --|"></span>
-                <span th:case="${event.getFTHG()}" th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>
-            </td>
+        <h2> Past events </h2>
+
+        <div th:each="fixture : ${fixtures}">
 
 
-            <td th:switch="${event.HTHG}">
-                <span th:case="null" th:text="|-- : --|"></span>
-                <span th:case="${event.getHTHG()}" th:text="|(${event.getHTHG()} : ${event.HTAG})|"></span>
-            </td>
+            <ul th:text="|Matchday ${fixture.getKey()}|"></ul>
+
+            <table class="table-hover">
+                <thead>
+                <tr>
+
+                    <th> Date</th>
+                    <th width="300"> Teams</th>
+                    <th> FT Result</th>
+                    <th> HT Result</th>
+                    <th> Winning combination</th>
+                </tr>
+                </thead>
+
+                <tr th:each="event : ${fixture.getValue()}">
+                    <td th:text="${event.getDate()}"></td>
+                    <td th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
 
 
-            <td th:switch="${event.FTR}">
-                <span th:case="null" th:text="--"></span>
-                <span th:case="H" th:text="' 1, 1X, 12'"></span>
-                <span th:case="D" th:text="' 1X, X, X2 '"></span>
-                <span th:case="A" th:text="' 1X, X, X2 '"></span>
-            </td>
+                    <td th:switch="${event.FTHG}">
+                        <span th:case="null" th:text="|-- : --|"></span>
+                        <span th:case="${event.getFTHG()}" th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>
+                    </td>
 
-            <!--<td th:if="${event.FTR.startsWith('H')}" th:text="' 1, 1X, 12'"></td>-->
-            <!--<td th:if="${event.FTR.startsWith('D')}" th:text="' 1X, X, X2'"></td>-->
-            <!--<td th:if="${event.FTR.startsWith('A')}" th:text="' 2, X2, 12'"></td>-->
-        </tr>
 
-    </table>
+                    <td th:switch="${event.HTHG}">
+                        <span th:case="null" th:text="|-- : --|"></span>
+                        <span th:case="${event.getHTHG()}" th:text="|(${event.getHTHG()} : ${event.HTAG})|"></span>
+                    </td>
+
+
+                    <td th:switch="${event.FTR}">
+                        <span th:case="null" th:text="--"></span>
+                        <span th:case="H" th:text="' 1, 1X, 12'"></span>
+                        <span th:case="D" th:text="' 1X, X, X2 '"></span>
+                        <span th:case="A" th:text="' 1X, X, X2 '"></span>
+                    </td>
+
+                    <!--<td th:if="${event.FTR.startsWith('H')}" th:text="' 1, 1X, 12'"></td>-->
+                    <!--<td th:if="${event.FTR.startsWith('D')}" th:text="' 1X, X, X2'"></td>-->
+                    <!--<td th:if="${event.FTR.startsWith('A')}" th:text="' 2, X2, 12'"></td>-->
+                </tr>
+
+            </table>
+        </div>
+    </div>
 </div>
+
+
+<div th:include="fragments/footer :: footer"></div>
+
 
 </body>
 </html>

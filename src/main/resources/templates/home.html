@@ -2,60 +2,39 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
-
-    <title>FootballBet</title>
-
-    <!-- Bootstrap core CSS-->
-    <link href="vendor/bootstrap/css/bootstrap.min.css"  rel="stylesheet"/>
-
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
-
-    <!-- Page level plugin CSS-->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet"/>
-
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin.css" rel="stylesheet"/>
+<head th:replace="fragments/header :: header">
 
 </head>
+
 <body id="page-top">
 
-<nav th:include="fragments/header :: header"></nav>
+<nav th:replace="fragments/topbar :: topbar"></nav>
 
 <div id="wrapper">
 
-    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
+    <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
 
-    <div id="content-wrapper">
+    <div id="content-wrapper" width="70%">
 
         <h1>Welcome to sport bets</h1>
 
         <table>
             <tr>
                 <td>
-                    <p sec:authorize="isAuthenticated()">
-                    <p>Logged as <span sec:authentication="name"/> </p>
-                    <!--<p>User role: <span sec:authentication="authorities"></span></p>-->
-                    </p>
+
                 </td>
 
 
                 <td>
-                    <a th:href="@{/results/active}">Active fixtures</a>
+                    <a th:href="@{/active}">Active fixtures</a>
                 </td>
 
 
                 <td>
-                    <a th:href="@{/results/finished}"> Past results </a>
+                    <a th:href="@{/fixture-finished}"> Past results </a>
                 </td>
 
                 <td>
@@ -63,9 +42,8 @@
                 </td>
 
                 <td>
-                    <a th:href="@{/results/new}"> Create Fixture </a>
+                    <a th:href="@{/new-fixture}"> Create Fixture </a>
                 </td>
-
 
 
                 <td>
@@ -80,63 +58,44 @@
                     <a th:href="@{/wallet}">My wallet</a>
                 </td>
 
+                <!--<td th:if="">-->
+                <!--</td>-->
+
 
                 <td>
-                    <a th:href="@{/results}">Results</a>
+                    <a th:href="@{/fixture-finished}">Results</a>
                 </td>
 
 
-                <td>
-                    <p sec:authorize="isAuthenticated()">
+                <td sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post">
                         <input type="submit" value="Logout"/>
                     </form>
-                    </p>
                 </td>
 
             </tr>
         </table>
 
 
-        <table>
-
+        <table width="100%">
             <tr>
 
-                <td>
-                    <div layout:fragment="active"></div>
+                <td width="70%">
+                    <div th:replace="results-active :: active"/>
                 </td>
 
-                <!--<td>-->
-                    <!--<div th:replace="table :: tab"/>-->
-                <!--</td>-->
-
-                <td>
-                    <!--<a th:href="@{/mycoupon}">Coupon Details</a>-->
-                    <!--<div th:include="coupon :: coupon"/>-->
+                <td width="110%">
+                    <div th:include="coupon::coupon"></div>
                 </td>
 
             </tr>
-
         </table>
-
-
 
 
     </div>
-
-    <div th:include="fragments/footer :: footer"></div>
-
 </div>
 
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin.min.js"></script>
+<div th:include="fragments/footer :: footer"></div>
 
 
 </body>

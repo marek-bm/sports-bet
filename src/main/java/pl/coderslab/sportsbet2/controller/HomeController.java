@@ -4,17 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.sportsbet2.model.Bet;
 import pl.coderslab.sportsbet2.model.Fixture;
 import pl.coderslab.sportsbet2.service.FixtureService;
 import pl.coderslab.sportsbet2.service.SeasonResultsService;
 import pl.coderslab.sportsbet2.service.SeasonService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 
 @Controller
+@SessionAttributes("sessionBets")
 public class HomeController {
 
     @Autowired
@@ -26,12 +29,18 @@ public class HomeController {
     @Autowired
     SeasonResultsService seasonResultsService;
 
+    @GetMapping("/home")
+    public String home(Model model) {
 
-    @RequestMapping("/")
-    public String home(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        return "blank";
+        model.addAttribute("username", username);
+        model.addAttribute("activeFixtures", activeFixtures());
+        model.addAttribute("bet");
+
+        return "home";
     }
+
 
     @RequestMapping("/admin")
     @ResponseBody
@@ -40,17 +49,28 @@ public class HomeController {
     }
 
 
-    @GetMapping("/home")
-    public String home(Model model) {
 
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        List<Fixture> activeFixtures=fixtureService.findAllByMatchStatus("active");
-
-        model.addAttribute("events", activeFixtures);
-
-        return "home";
+    @ModelAttribute("sessionBets")
+    public List<Bet> betsInSession(){
+        return new ArrayList<>();
     }
 
 
+    @ModelAttribute ("fixturesActive")
+    public Map<Integer, List<Fixture>> activeFixtures(){
+
+        List<Fixture> activeEvents=fixtureService.findAllByMatchStatus("active");
+
+        Map<Integer, List<Fixture>> activeFixtureMap=fixtureService.fixturesAsMapSortByMatchday(activeEvents);
+
+
+        return activeFixtureMap;
+    }
+
+    @ModelAttribute("bet")
+    public Bet createEmptyBet(Model model){
+        Bet bet=new Bet();
+        model.addAttribute("bet", bet);
+        return bet;
+    }
 }

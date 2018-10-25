@@ -8,7 +8,11 @@ import pl.coderslab.sportsbet2.model.sportEvent.Team;
 import pl.coderslab.sportsbet2.repository.FixtureRepository;
 import pl.coderslab.sportsbet2.service.FixtureService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class FixtureServiceImpl  implements FixtureService {
@@ -79,4 +83,37 @@ public class FixtureServiceImpl  implements FixtureService {
     public Fixture findById(int id) {
         return fixtureRepository.getOne(id);
     }
+
+
+    /*
+     *following method takes as an input fixtures from selected season and creates map of
+     * matchday vs. list of fixtures in a given matchday
+     */
+    public
+    Map<Integer, List<Fixture>> fixturesAsMapSortByMatchday(List<Fixture> currentSeasonGames) {
+        Map<Integer, List<Fixture>> fixtureMap=new HashMap<>();
+
+        Fixture f=currentSeasonGames.stream()
+                .collect(Collectors.minBy((x, y)-> x.getMatchday()-y.getMatchday()))
+                .get();
+
+        int counter=f.getMatchday();
+
+        fixtureMap.put(counter,new ArrayList<>());
+
+        for (Fixture fixture:currentSeasonGames){
+
+            int matchday=fixture.getMatchday();
+            if(counter==matchday){
+                fixtureMap.get(counter).add(fixture);
+            }
+            else{
+                counter++;
+                fixtureMap.put(counter, new ArrayList<>());
+                fixtureMap.get(counter).add(fixture);
+            }
+        }
+        return fixtureMap;
+    }
+
 }

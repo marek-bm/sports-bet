@@ -6,6 +6,7 @@ import pl.coderslab.sportsbet2.model.sportEvent.Season;
 import pl.coderslab.sportsbet2.model.sportEvent.Team;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface FixtureService {
@@ -32,4 +33,8 @@ public interface FixtureService {
     List<Fixture> findAllByMatchStatus(String status);
 
     Fixture findById(int id);
+
+    Map<Integer, List<Fixture>> fixturesAsMapSortByMatchday(List<Fixture> currentSeasonGames);
+
+
 }

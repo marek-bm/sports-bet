@@ -1,83 +1,135 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout">
+>
 
-<head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
+<head th:replace="fragments/header :: header">
+
 </head>
-<body>
+<body id="page-top">
 
-<div layout:fragment="active">
+<nav th:replace="fragments/topbar :: topbar"></nav>
 
-    <h2> Upcoming events </h2>
+<div id="wrapper">
+
+    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
+
+    <div id="content-wrapper"  th:fragment="active">
 
 
-    <div th:each="fixture : ${fixtures}">
+        <h2> Upcoming events </h2>
 
 
-        <ul th:text="|Matchday ${fixture.getKey()}|"></ul>
+        <!--/*@thymesVar id="activeFixtures" type="pl.coderslab.sportsbet2.model.Fixture"*/-->
+        <div class="table-responsive" th:each="fixture : ${activeFixtures}">
 
-        <table>
-            <thead>
-            <tr>
 
-                <th> Date</th>
-                <th> Teams</th>
-                <th> FT Result</th>
-                <th> HT Result</th>
-                <th width="50"> 1 </th>
-                <th width="50"> x </th>
-                <th width="50"> 2 </th>
-                <th width="50"> less2.5 </th>
-                <th width="50"> more2.5 </th>
-                <td width="50"> </td>
-            </tr>
-            </thead>
+            <ul class="list-group" th:text="|Matchday ${fixture.getKey()}|"></ul>
 
-            <tr th:each="event : ${fixture.getValue()}">
-                <td th:text="${event.getDate()}"></td>
-                <td th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
+            <table class="table-hover">
+                <thead>
+                <tr>
 
-                <!--<td th:text="|${event.getFTHG()} : ${event.FTAG}|"></td>-->
+                    <th> Date</th>
+                    <th> Teams</th>
+                    <th> FT Result</th>
+                    <th> HT Result</th>
+                    <th> 1</th>
+                    <th> x</th>
+                    <th> 2</th>
+                    <th> less2.5</th>
+                    <th> more2.5</th>
+                    <td></td>
+                </tr>
+                </thead>
 
-                <td th:switch="${event.FTHG}">
-                    <span th:case="null" th:text="|-- : --|"></span>
-                    <span th:case="${event.getFTHG()}" th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>
-                </td>
+                <tr th:each="event : ${fixture.getValue()}">
+                    <td th:text="${event.getDate()}"></td>
+                    <td th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
 
-                <!--<td th:text="|(${event.getHTHG()} : ${event.HTAG})|"></td>-->
-                <td th:switch="${event.HTHG}">
-                    <span th:case="null" th:text="|-- : --|"></span>
-                    <span th:case="${event.getHTHG()}" th:text="|(${event.getHTHG()} : ${event.HTAG})|"></span>
-                </td>
+                    <!--<td th:text="|${event.getFTHG()} : ${event.FTAG}|"></td>-->
 
-                <td th:text="${event.getHomeWinOdd()}"></td>
-                <td th:text="${event.getDrawOdd()}"></td>
-                <td th:text="${event.getAwayWinOdd()}"></td>
-                <td th:text="${event.getGoal_less_2_5()}"></td>
-                <td th:text="${event.getGoal_more_2_5()}"></td>
+                    <td th:switch="${event.FTHG}">
+                        <span th:case="null" th:text="|-- : --|"></span>
+                        <span th:case="${event.getFTHG()}" th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>
+                    </td>
+
+                    <!--<td th:text="|(${event.getHTHG()} : ${event.HTAG})|"></td>-->
+                    <td th:switch="${event.HTHG}">
+                        <span th:case="null" th:text="|-- : --|"></span>
+                        <span th:case="${event.getHTHG()}" th:text="|(${event.getHTHG()} : ${event.HTAG})|"></span>
+                    </td>
+
+                    <form th:action="@{/bet-new}" th:object="${singlBet}" method="post">
+
+                        <td>
+                            <input type="hidden" name="event" th:value="${event.id}"/>
+                            <input type="hidden" name="betPrice" th:value="${event.homeWinOdd}"/>
+                            <input type="hidden" name="placedBet" th:value="H"/>
+                            <input type="submit" th:value="${event.homeWinOdd}"/>
+
+                        </td>
+                    </form>
+
+
+                    <form th:action="@{/bet-new}" th:object="${bet}" method="post">
+                        <td>
+                            <input type="hidden" name="event" th:value="${event.id}"/>
+                            <input type="hidden" name="betPrice" th:value="${event.drawOdd}"/>
+                            <input type="hidden" name="placedBet" th:value="D"/>
+                            <input type="submit" th:value="${event.drawOdd}"/>
+                        </td>
+                    </form>
+
+                    <form th:action="@{/bet-new}" th:object="${bet}" method="post">
+                        <td>
+                            <input type="hidden" name="event" th:value="${event.id}"/>
+                            <input type="hidden" name="betPrice" th:value="${event.awayWinOdd}"/>
+                            <input type="hidden" name="placedBet" th:value="A"/>
+                            <input type="submit" th:value="${event.awayWinOdd}"/>
+                        </td>
+                    </form>
+
+                    <form th:action="@{/bet-new}" th:object="${bet}" method="post">
+                        <td>
+                            <input type="hidden" name="event" th:value="${event.id}"/>
+                            <input type="hidden" name="betPrice" th:value="${event.goal_less_2_5}"/>
+                            <input type="hidden" name="placedBet" th:value="LT2_5"/>
+                            <input type="submit" th:value="${event.goal_less_2_5}" />
+                        </td>
+                    </form>
+
+                    <form th:action="@{/bet-new}" th:object="${bet}" method="post">
+                        <td>
+                            <input type="hidden" name="event" th:value="${event.id}"/>
+                            <input type="hidden" name="betPrice" th:value="${event.goal_more_2_5}"/>
+                            <input type="hidden" name="placedBet" th:value="GT2_5"/>
+                            <input type="submit" th:value="${event.goal_more_2_5}"/>
+                        </td>
+                    </form>
+
 
                 <td>
-                    <form th:action="@{/fixture-edit/{id} (id=${event.getId()})}" th:object="${fixture}" method="get">
-                        <input type="submit" value="Edit"/>
-                    </form>
-                </td>
+                        <form th:action="@{/fixture-edit/{id} (id=${event.getId()})}" th:object="${fixture}"
+                              method="get">
+                            <input type="submit" value="Edit"/>
+                        </form>
+                    </td>
 
 
-                <td th:if="${event.getMatchStatus().equals('active')}">
-                <form th:action="@{/fixture-stats/{id} (id=${event.getId()})}" method="get">
-                    <input type="submit" value="Show stats"/>
-                </form>
-                </td>
+                    <td th:if="${event.getMatchStatus().equals('active')}">
+                        <form th:action="@{/fixture-stats/{id} (id=${event.id})}" method="get">
+                            <input type="submit" value="Show stats"/>
+                        </form>
+                    </td>
 
+                </tr>
 
-            </tr>
+            </table>
+        </div>
 
-        </table>
     </div>
-
 </div>
+
+<div th:include="fragments/footer :: footer"></div>
 </body>
 </html>

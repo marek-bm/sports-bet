@@ -1,14 +1,11 @@
 package pl.coderslab.sportsbet2.model;
 
-import org.hibernate.FetchMode;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import pl.coderslab.sportsbet2.validators.EmailUnique;
 import pl.coderslab.sportsbet2.validators.UsernameUnique;
-import pl.coderslab.sportsbet2.validators.UsernameUnique;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,16 +24,16 @@ public class User {
     @UsernameUnique
     private String username;
 
-    @NotEmpty
+    @NotNull
     private String password;
 
 //    @NotEmpty
     private String firstName;
 
-    @NotEmpty
+    @NotNull
     private String lastName;
 
-    @NotNull
+//    @NotNull
     private boolean adult;
 
     @EmailUnique
@@ -48,29 +45,29 @@ public class User {
     private Wallet wallet;
 
     @OneToMany (mappedBy = "user")
-    private List<BetCoupon> coupons = new ArrayList<>();
+    private List<Coupon> coupons = new ArrayList<>();
 
     private boolean enabled=false;
 
     @ManyToMany (fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @NotNull
+//    @NotNull
     private String street;
 
-    @NotNull
+//    @NotNull
     private String city;
 
-    @NotNull
+//    @NotNull
     private String zip;
 
     @OneToOne
     private Country country;
 
-    @NotNull
+//    @NotNull
     private boolean dataProcessingAcknowledgement = false;
 
-    @NotNull
+//    @NotNull
     private boolean active = true;
 
     public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
@@ -145,11 +142,11 @@ public class User {
         this.wallet = wallet;
     }
 
-    public List<BetCoupon> getCoupons() {
+    public List<Coupon> getCoupons() {
         return coupons;
     }
 
-    public void setCoupons(List<BetCoupon> coupons) {
+    public void setCoupons(List<Coupon> coupons) {
         this.coupons = coupons;
     }
 
