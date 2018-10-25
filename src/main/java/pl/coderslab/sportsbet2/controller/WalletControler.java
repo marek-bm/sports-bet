@@ -89,7 +89,7 @@ public class WalletControler {
           saveCoupon(sessionBets, charge, authentication, session);
           model.addAttribute("sessionBets", new ArrayList<>());
 
-          return "mock";
+          return "redirect:/mycoupons";
       }
 
     }

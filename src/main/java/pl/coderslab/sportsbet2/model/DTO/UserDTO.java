@@ -1,11 +1,11 @@
 package pl.coderslab.sportsbet2.model.DTO;
 
 
-import org.hibernate.validator.constraints.Email;
 import pl.coderslab.sportsbet2.model.Country;
 import pl.coderslab.sportsbet2.validators.EmailUnique;
 import pl.coderslab.sportsbet2.validators.UsernameUnique;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 public class UserDTO {

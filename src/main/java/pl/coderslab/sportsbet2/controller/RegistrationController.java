@@ -62,7 +62,7 @@ public class RegistrationController {
         user.getWallet().setBalance(BigDecimal.valueOf(0));
         userService.saveUser(user);
 
-        return "success";
+        return "redirect:/login";
 
         /* this was first verification before custom validators were introduced
 

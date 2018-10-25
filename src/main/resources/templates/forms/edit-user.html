@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<head th:replace="fragments/header :: header">
+
+</head>
+
+<body id="page-top">
+
+<nav th:replace="fragments/topbar :: topbar"></nav>
+
+<div id="wrapper">
+
+    <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
+    <div id="content-wrapper" width="70%">
+
+
+        <form th:action="@{/user-edit}" th:object="${user}" method="post">
+            <table>
+
+                <tr hidden>
+
+                    <td>
+                        <input type="hidden" th:field="*{id}"/>
+                    </td>
+
+                    <td> Password</td>
+                    <td><input type="password" th:field="*{password}"></td>
+
+
+
+                    <td> Username</td>
+                    <td>
+                        <input type="text" th:field="*{username}"/>
+                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">User error</p>
+                    </td>
+
+                    <td>
+                        <input th:field="*{roles}">
+                    </td>
+
+                    <td>
+                        <input th:field="*{coupons}">
+                    </td>
+
+                    <td><input th:field="*{wallet}"></td>
+
+
+                </tr>
+
+                <tr>
+                    <td> First Name:</td>
+                    <td><input type="text" th:field="*{firstName}" required="required" autofocus="autofocus"/></td>
+                </tr>
+
+                <tr>
+                    <td> Last Name:</td>
+                    <td><input type="text" th:field="*{lastName}" required="required" autofocus="autofocus"/></td>
+                </tr>
+
+
+                <tr hidden>
+                    <td> e-mail</td>
+                    <td>
+                        <input type="email" th:field="*{mail}" required="required" autofocus="autofocus"/>
+                        <p th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}">User error</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td> Street</td>
+                    <td><input type="text" th:field="*{street}" required="required" autofocus="autofocus"/></td>
+                </tr>
+
+                <tr>
+                    <td> City</td>
+                    <td><input type="text" th:field="*{city}" required="required" autofocus="autofocus"/></td>
+                </tr>
+
+                <tr>
+                    <td> Zip code</td>
+                    <td><input type="text" th:field="*{zip}" required="required" autofocus="autofocus"/></td>
+                </tr>
+
+
+                <tr>
+                    <td>Country</td>
+                    <td>
+                        <select th:field="*{country}" required="required" autofocus="autofocus">
+                            <option value="0">select country</option>
+                            <option th:each="country : ${countries}" th:value="${country.id}"
+                                    th:text="${country.countryName}"></option>
+                        </select>
+                    </td>
+                </tr>
+
+                <!--<tr>-->
+                    <!--<td> Bank Account</td>-->
+                    <!--<td><input type="number" th:field="*{bankAccount}" required="required" autofocus="autofocus"/></td>-->
+                <!--</tr>-->
+
+
+                <tr>
+                    <td>I confirm I am 18+</td>
+                    <td><input type="checkbox" th:field="*{adult}" th:value="${true}" required="required" autofocus="autofocus"/></td>
+                </tr>
+
+                <tr>
+                    <td>I agree to process my personal data</td>
+                    <td><input type="checkbox" th:field="*{dataProcessingAcknowledgement}" th:value="${true}" required="required" autofocus="autofocus"/></td>
+                </tr>
+
+            </table>
+
+            <input type="submit" value="Save changes"/>
+
+        </form>
+
+    </div>
+</div>
+
+
+<div th:include="fragments/footer :: footer"></div>
+
+</body>
+</html>

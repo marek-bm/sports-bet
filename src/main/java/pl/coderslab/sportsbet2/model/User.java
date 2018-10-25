@@ -21,13 +21,13 @@ public class User {
     private Integer id;
 
     @Column(nullable = false, unique = true)
-    @UsernameUnique
+//    @UsernameUnique
     private String username;
 
     @NotNull
     private String password;
 
-//    @NotEmpty
+    @NotNull
     private String firstName;
 
     @NotNull
@@ -36,7 +36,7 @@ public class User {
 //    @NotNull
     private boolean adult;
 
-    @EmailUnique
+//    @EmailUnique
     @Email
     @Column(nullable = false, unique = true)
     private String mail;

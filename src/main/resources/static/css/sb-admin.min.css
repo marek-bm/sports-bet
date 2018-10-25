@@ -369,3 +369,11 @@ body.sidebar-toggled footer.sticky-footer {
         width: calc(100% - 90px)
     }
 }
+
+/*style added by MJ*/
+.font1{
+    size: 12px;
+    font-family: "Arial Light", Arial;
+    line-height: 14px;
+    color: #ff253a;
+}

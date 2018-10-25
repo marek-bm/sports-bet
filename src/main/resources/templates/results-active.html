@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
->
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head th:replace="fragments/header :: header">
 
@@ -25,7 +25,7 @@
 
             <ul class="list-group" th:text="|Matchday ${fixture.getKey()}|"></ul>
 
-            <table class="table-hover">
+            <table class="table table-sm table-hover"  >
                 <thead>
                 <tr>
 
@@ -42,6 +42,7 @@
                 </tr>
                 </thead>
 
+                <tbody>
                 <tr th:each="event : ${fixture.getValue()}">
                     <td th:text="${event.getDate()}"></td>
                     <td th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
@@ -108,7 +109,7 @@
                     </form>
 
 
-                <td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')">
                         <form th:action="@{/fixture-edit/{id} (id=${event.getId()})}" th:object="${fixture}"
                               method="get">
                             <input type="submit" value="Edit"/>
@@ -123,6 +124,8 @@
                     </td>
 
                 </tr>
+
+                </tbody>
 
             </table>
         </div>

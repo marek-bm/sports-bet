@@ -29,7 +29,7 @@
 
         <div sec:authorize="isAuthenticated()">
 
-            <table>
+            <table class="table">
                 <tr>
                     <td>
                         <p sec:authorize="isAuthenticated()">
@@ -37,22 +37,20 @@
                         <!--<p>User role: <span sec:authentication="authorities"></span></p>-->
                         </p>
                     </td>
+                </tr>
+
+                <tr>
                     <td>
-                        <p sec:authorize="isAuthenticated()">
-                        <form th:action="@{/logout}" method="post">
-                            <input type="submit" value="Logout"/>
+                        <form th:action="@{/user-edit/{id} (id=${user.getId()})}" th:object="${user}" method="get">
+                            <input type="submit" value="Edit"/>
                         </form>
-                        </p>
                     </td>
 
-                    <td>
-                        <a th:href="@{/home}">Home</a>
-                    </td>
                 </tr>
             </table>
 
 
-            <table>
+            <table class="table table-sm">
                 <tr>
                     <td>
                         <!--<form th:action="@{/register}" th:object="${userDTO}" method="post"></br>-->

@@ -38,7 +38,7 @@
                     <div th:if="${coupons.isEmpty()}"> No coupons are available</div>
                     <div th:if="${!coupons.isEmpty()}">
 
-                        <table>
+                        <table class="table">
                             <thead>
                             <tr>
 
@@ -59,8 +59,8 @@
                                 <td th:text="${item.dateCreated}"></td>
                                 <td th:text="${item.betValue}"></td>
                                 <td th:text="${item.winValue}"></td>
-                                <td th:if="${item.isWon}==false"> Active</td>
-                                <td th:if="${item.isWon}==true"> Completed</td>
+                                <td th:if="${item.won}==false"> Active</td>
+                                <td th:if="${item.won}==true"> Completed</td>
 
                                 <td>
                                     <form th:action="@{/coupondetails}" th:object="${item}" method="post">

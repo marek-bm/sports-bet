@@ -31,7 +31,11 @@ public class AppConfig extends WebMvcConfigurerAdapter  {
                 "/js/**",
                 "/vendor/**",
                 "/fixture-stats/vendor/**",
-                "/fixture-stats/css/**")
+                "/fixture-stats/css/**",
+                "/user-edit/vendor/**",
+                "/user-edit/**",
+                "/user-edit/css/**",
+                "/user-edit/js/**")
                 .addResourceLocations(
                         "classpath:/static/img/",
                         "classpath:/static/css/",

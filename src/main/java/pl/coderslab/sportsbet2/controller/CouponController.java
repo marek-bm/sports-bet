@@ -43,10 +43,10 @@ public class CouponController {
         String userName= null;
         try {
             userName = authentication.getName();
+            List<Coupon> coupons=couponService.findAllByUserUsername(userName);
+            model.addAttribute("coupons", coupons); ;
         } catch (NullPointerException e) {
-            if (userName!=null){
-                List<Coupon> coupons=couponService.findAllByUserUsername(userName);
-                model.addAttribute("coupons", coupons); }
+
         }
 
         return "mybets";

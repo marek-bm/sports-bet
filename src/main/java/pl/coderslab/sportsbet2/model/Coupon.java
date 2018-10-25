@@ -18,7 +18,7 @@ public class Coupon {
     private Integer id;
 
     @NotNull
-    @OneToMany (mappedBy = "coupon")
+    @OneToMany (mappedBy = "coupon", cascade = CascadeType.MERGE)
     @Getter @Setter
     private List<Bet> bets;
 
@@ -29,6 +29,7 @@ public class Coupon {
     @Getter @Setter
     private BigDecimal winValue;
 
+    @Getter @Setter
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
 
@@ -37,10 +38,12 @@ public class Coupon {
     private User user;
 
     @Getter @Setter
-    private boolean isWon=false;
+    @Column (name = "is_won")
+    private boolean won=false;
 
     @Getter @Setter
-    private boolean isActive=true;
+    @Column (name = "is_active")
+    private boolean active=true;
 
 
     //constructor

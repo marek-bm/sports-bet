@@ -16,7 +16,7 @@
 
     <div th:if="${!sessionBets.isEmpty()}">
 
-        <table>
+        <table class="table table-sm table-hover">
 
             <!--/*@thymesVar id="sessionBets" type="pl.coderslab.sport_book.model.betting.SingleBet"*/-->
             <tr th:each="bet: ${sessionBets}">

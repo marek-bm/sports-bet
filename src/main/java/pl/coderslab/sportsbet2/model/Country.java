@@ -3,6 +3,7 @@ package pl.coderslab.sportsbet2.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 
 @Entity
@@ -11,7 +12,7 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer Id;
 
-    @NotEmpty
+    @NotNull
     private String countryName;
 
     public Integer getId() {

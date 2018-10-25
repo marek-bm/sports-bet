@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:th="http://www.w3.org/1999/xhtml">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -17,11 +16,11 @@
 </table>
 
 
-<table>
+<table class="table">
 
     <tr>
         <td>Category: </td>
-        <td>Country:</td>
+        <!--<td>Country:</td>-->
         <td>League:</td>
         <td>Teams:</td>
         <td>Matchday:</td>
@@ -34,8 +33,8 @@
 
 
     <tr th:each="bet: ${bets}">
-        <td th:text="${bet.event.category.categoryName}"></td>
-        <td th:text="${bet.event.country.countryName}"></td>
+        <td th:text="${bet.event.category.name}"></td>
+        <!--<td th:text="${bet.event.country.countryName}"></td>-->
         <td th:text="${bet.event.league.name}"></td>
         <td th:text="|${bet.event.homeTeam.name} v ${bet.event.awayTeam.name}|" ></td>
         <td th:text="|Nr: ${bet.event.matchday} played on: ${bet.event.Date}|"></td>
@@ -50,15 +49,20 @@
         <td th:if="${bet.placedBet.startsWith('GT2_5')}" th:text="'>2.5'"></td>
 
 
-        <td th:if="${bet.event.FTR.contains('pedning')}" th:text="'pedning'"></td>
-        <td th:if="${bet.event.FTR.startsWith('H')}" th:text="'1'"></td>
-        <td th:if="${bet.event.FTR.startsWith('D')}" th:text="'X'"></td>
-        <td th:if="${bet.event.FTR.startsWith('A')}" th:text="'2'"></td>
-        <td th:if="${bet.event.FTR.startsWith('LT2_5')}" th:text="'<2.5'"></td>
-        <td th:if="${bet.event.FTR.startsWith('GT2_5')}" th:text="'>2.5'"></td>
+        <div th:switch="${bet.event.FTR}">
+            <td th:case='null' th:text="'active'"> </td>
+            <td th:case="H" th:text="'1'"></td>
+            <td th:case="${bet.event.FTR.startsWith('D')}" th:text="'X'"></td>
+            <td th:case="${bet.event.FTR.startsWith('A')}" th:text="'2'"></td>
+            <td th:case="${bet.event.FTR.startsWith('LT2_5')}" th:text="'<2.5'"></td>
+            <td th:case="${bet.event.FTR.startsWith('GT2_5')}" th:text="'>2.5'"></td>
+        </div>
 
-        <td th:if="${bet.won==false}" th:text="' bet lost'"></td>
-        <td th:if="${bet.won==true}" th:text="' bet won'"></td>
+        <div th:switch="${bet.event.FTR}">
+            <td th:case='null' th:text="'active'"> </td>
+            <td th:case='!null' th:if="${bet.won==true}" th:text="'won'"> </td>
+            <td th:case='!null' th:if="${bet.won==false}" th:text="'won'"> </td>
+        </div>
 
    </tr>
 
