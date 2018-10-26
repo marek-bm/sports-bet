@@ -11,6 +11,7 @@ import pl.coderslab.sportsbet2.model.Country;
 import pl.coderslab.sportsbet2.model.DTO.UserDTO;
 import pl.coderslab.sportsbet2.model.User;
 import pl.coderslab.sportsbet2.model.Wallet;
+import pl.coderslab.sportsbet2.repository.WalletRepository;
 import pl.coderslab.sportsbet2.service.CountryService;
 import pl.coderslab.sportsbet2.service.UserService;
 
@@ -25,6 +26,9 @@ public class RegistrationController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    WalletRepository walletRepository;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registrationInit(Model model){
@@ -56,10 +60,20 @@ public class RegistrationController {
         user.setStreet(userDTO.getStreet());
         user.setCity(userDTO.getCity());
         user.setCountry(userDTO.getCountry());
-        user.setDataProcessingAcknowledgement(userDTO.getDataProcessingAcknowledgement());
-        user.setWallet(new Wallet());
-        user.getWallet().setBankAccount(userDTO.getBankAccount());
-        user.getWallet().setBalance(BigDecimal.valueOf(0));
+        user.setDataProcessingAcknowledgement(true);
+
+        userService.saveUser(user);
+
+
+        Wallet wallet=new Wallet();
+        wallet.setBankAccount(Float.valueOf("1111000011110000"));
+        wallet.setBalance(BigDecimal.valueOf(0));
+        wallet.setOwner(user);
+        walletRepository.save(wallet);
+        user.setWallet(wallet);
+
+//        user.getWallet().setBankAccount(userDTO.getBankAccount());
+
         userService.saveUser(user);
 
         return "redirect:/login";

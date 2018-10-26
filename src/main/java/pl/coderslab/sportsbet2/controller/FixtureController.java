@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pl.coderslab.sportsbet2.API_Odds.Odds;
 import pl.coderslab.sportsbet2.BatchConverter.FixtureProcessor;
 import pl.coderslab.sportsbet2.model.Bet;
+import pl.coderslab.sportsbet2.model.Coupon;
 import pl.coderslab.sportsbet2.model.Fixture;
 import pl.coderslab.sportsbet2.model.sportEvent.League;
 import pl.coderslab.sportsbet2.model.sportEvent.Season;
 import pl.coderslab.sportsbet2.model.sportEvent.SportCategory;
 import pl.coderslab.sportsbet2.model.sportEvent.Team;
 import pl.coderslab.sportsbet2.repository.LeagueRepository;
-import pl.coderslab.sportsbet2.service.FixtureService;
-import pl.coderslab.sportsbet2.service.SportCategoryService;
-import pl.coderslab.sportsbet2.service.TeamService;
+import pl.coderslab.sportsbet2.service.*;
 import pl.coderslab.sportsbet2.service.impl.SeasonServiceImpl;
 
 import javax.validation.Valid;
@@ -51,6 +50,12 @@ public class FixtureController {
 
     @Autowired
     Odds odds;
+
+    @Autowired
+    BetService betService;
+
+    @Autowired
+    CouponService couponService;
 
     @RequestMapping ("/fixture-finished")
     public String resultsDisplay(Model model){
@@ -100,8 +105,15 @@ public class FixtureController {
             return "forms/fixture-edit";
         }
 
-        FixtureProcessor.resultSolver(fixture);
         fixtureService.saveFixture(fixture);
+
+        FixtureProcessor.resultSolver(fixture);
+        betService.updateBets(fixture);
+
+        List<Bet> bets=betService.findAllByEvent(fixture);
+        List<Coupon> coupons=couponService.findAllByBetsIn(bets);
+        couponService.resolveCoupons(coupons);
+
 
         return "redirect:/active";
     }

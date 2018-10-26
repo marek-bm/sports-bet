@@ -1,8 +1,8 @@
 package pl.coderslab.sportsbet2.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import pl.coderslab.sportsbet2.validators.EmailUnique;
-import pl.coderslab.sportsbet2.validators.UsernameUnique;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -20,21 +20,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+
     @Column(nullable = false, unique = true)
 //    @UsernameUnique
     private String username;
 
+
     @NotNull
     private String password;
+
 
     @NotNull
     private String firstName;
 
+
     @NotNull
     private String lastName;
 
+
 //    @NotNull
     private boolean adult;
+
 
 //    @EmailUnique
     @Email
@@ -44,28 +50,36 @@ public class User {
     @OneToOne (cascade = CascadeType.ALL)
     private Wallet wallet;
 
+
     @OneToMany (mappedBy = "user")
     private List<Coupon> coupons = new ArrayList<>();
 
+
     private boolean enabled=false;
+
 
     @ManyToMany (fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+
 //    @NotNull
     private String street;
+
 
 //    @NotNull
     private String city;
 
+
 //    @NotNull
     private String zip;
+
 
     @OneToOne
     private Country country;
 
 //    @NotNull
     private boolean dataProcessingAcknowledgement = false;
+
 
 //    @NotNull
     private boolean active = true;

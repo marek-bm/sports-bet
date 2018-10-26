@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -68,6 +69,10 @@ public class WalletControler {
     public String chargeWalletProcessing(@ModelAttribute("wallet") Wallet wallet, @RequestParam BigDecimal charge ){
         BigDecimal updatedBalance=wallet.getBalance().add(charge);
         wallet.setBalance(updatedBalance);
+
+        Date date=new Date();
+        wallet.getTransactions().add(date+ " you charged your account by "+charge +" PLN");
+
         walletService.saveWallet(wallet);
         return "redirect:/wallet";
     }
@@ -87,6 +92,8 @@ public class WalletControler {
           wallet.setBalance(wallet.getBalance().subtract(charge));
           HttpSession session = request.getSession();
           saveCoupon(sessionBets, charge, authentication, session);
+          Date date=new Date();
+          wallet.getTransactions().add(date+ " you placed  "+charge + " PLN on betting coupon");
           model.addAttribute("sessionBets", new ArrayList<>());
 
           return "redirect:/mycoupons";

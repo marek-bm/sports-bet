@@ -15,212 +15,188 @@
 
     <div id="content-wrapper" width="70%">
 
-<h2> Fixture editor</h2>
+        <h2> Fixture editor</h2>
 
-<form th:action="@{/result/edit}" th:object="${fixture}" method="post">
+        <form th:action="@{/fixture-edit}" th:object="${fixture}" method="post">
 
+            <table>
 
-    <!--private SportCategory category;-->
-    <!--private League league;-->
-    <!--private Season season;-->
-    <!--private int matchday;-->
-    <!--private java.util.Date Date;-->
-    <!--private String matchStatus;-->
-    <!--private Team homeTeam;-->
-    <!--private Team awayTeam;-->
-    <!--private Integer FTHG;-->
-    <!--private Integer FTAG;-->
-    <!--private Integer HTHG;-->
-    <!--private Integer HTAG;-->
-    <!--//final result (H-HomeTeam, A- AwayTeam, D-draw)-->
-    <!--private String FTR;-->
-    <!--private String HTR;-->
+                <tr>
 
+                    <td>
+                        <input type="hidden" th:field="*{id}"/>
+                    </td>
+                </tr>
 
-    <!--private BigDecimal homeWinOdd;-->
-    <!--private BigDecimal drawOdd;-->
-    <!--private BigDecimal awayWinOdd;-->
-    <!--private BigDecimal goal_more_2_5;-->
-    <!--private BigDecimal goal_less_2_5;-->
+                <tr>
+                    <td> Sport category:</td>
+                    <!--<td th:text="${fixture.getCategory().getName()}"> </td>-->
+                    <td>
+                        <select th:field="*{category}">
+                            <option
+                                    th:each="sport: ${sports}"
+                                    th:value="${sport.getId()}"
+                                    th:text="${sport.getName()}">
+                            </option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Error</p>
+                    </td>
+                </tr>
 
-    <table>
+                <tr>
+                    <td> League:</td>
+                    <td>
+                        <select th:field="*{league}">
+                            <option
+                                    th:each="l : ${leagues}"
+                                    th:value="${l.getId()}"
+                                    th:text="${l.getName()}">
+                            </option>
+                            <p th:if="${#fields.hasErrors('league')}" th:errors="*{league}">Error</p>
+                        </select>
+                    </td>
+                </tr>
 
-        <tr>
+                <tr>
+                    <td> Season:</td>
+                    <td>
+                        <select th:field="*{season}">
+                            <option
+                                    th:each="s : ${seasons}"
+                                    th:value="${s.getId()}"
+                                    th:text="${s.getSeasonYear()}">
+                            </option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('season')}" th:errors="*{season}">Error</p>
+                    </td>
+                </tr>
 
-            <td>
-                <input type="hidden" th:field="*{id}"/>
-            </td>
-        </tr>
+                <tr>
+                    <td> Matchday:</td>
+                    <td>
+                        <input type="number" min="1" max="38" th:field="*{matchday}"/>
+                        <p th:if="${#fields.hasErrors('matchday')}" th:errors="*{matchday}">Error</p>
+                    </td>
+                </tr>
 
-        <tr>
-            <td> Sport category: </td>
-            <!--<td th:text="${fixture.getCategory().getName()}"> </td>-->
-            <td>
-                <select th:field="*{category}">
-                    <option
-                        th:each="sport: ${sports}"
-                        th:value="${sport.getId()}"
-                        th:text="${sport.getName()}">
-                    </option>
-                </select>
-                <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Error</p>
-            </td>
-        </tr>
+                <tr>
+                    <td> Date:</td>
+                    <td>
+                        <input type="date" th:field="*{Date}"/>
+                        <!--<p th:if="${#fields.hasErrors('Date')}" th:errors="*{Date}">Error</p>-->
+                    </td>
+                </tr>
 
-        <tr>
-            <td> League: </td>
-            <td>
-                <select th:field="*{league}">
-                    <option
-                            th:each="l : ${leagues}"
-                            th:value="${l.getId()}"
-                            th:text="${l.getName()}">
-                    </option>
-                    <p th:if="${#fields.hasErrors('league')}" th:errors="*{league}">Error</p>
-                </select>
-            </td>
-        </tr>
+                <tr>
+                    <td> Match status:</td>
+                    <td>
+                        <select th:field="*{matchStatus}">
+                            <option th:value="finished">Finished</option>
+                            <option th:value="active">Active</option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('matchStatus')}" th:errors="*{matchStatus}">Error</p>
+                    </td>
 
-        <tr>
-            <td> Season: </td>
-            <td>
-                <select th:field="*{season}">
-                    <option
-                            th:each="s : ${seasons}"
-                            th:value="${s.getId()}"
-                            th:text="${s.getSeasonYear()}">
-                    </option>
-                </select>
-                <p th:if="${#fields.hasErrors('season')}" th:errors="*{season}">Error</p>
-            </td>
-        </tr>
-
-        <tr>
-            <td> Matchday: </td>
-            <td>
-                <input type="number" min="1" max="38" th:field="*{matchday}"/>
-                <p th:if="${#fields.hasErrors('matchday')}" th:errors="*{matchday}">Error</p>
-            </td>
-        </tr>
-
-        <tr>
-            <td> Date: </td>
-            <td>
-                <input type="date" th:field="*{Date}"/>
-                <!--<p th:if="${#fields.hasErrors('Date')}" th:errors="*{Date}">Error</p>-->
-            </td>
-        </tr>
-
-        <tr>
-            <td> Match status: </td>
-            <td>
-                <select th:field="*{matchStatus}">
-                    <option th:value="finished">Finished</option>
-                    <option th:value="active">Active</option>
-                </select>
-                <p th:if="${#fields.hasErrors('matchStatus')}" th:errors="*{matchStatus}">Error</p>
-            </td>
-
-        </tr>
+                </tr>
 
 
-        <tr>
-            <td> Home team: </td>
-            <td>
-                <select th:field="*{homeTeam}">
-                    <option
-                            th:each="team : ${teams}"
-                            th:value="${team.getId()}"
-                            th:text="${team.getName()}">
-                    </option>
-                </select>
-                <p th:if="${#fields.hasErrors('homeTeam')}" th:errors="*{homeTeam}">Error</p>
-            </td>
-        </tr>
+                <tr>
+                    <td> Home team:</td>
+                    <td>
+                        <select th:field="*{homeTeam}">
+                            <option
+                                    th:each="team : ${teams}"
+                                    th:value="${team.getId()}"
+                                    th:text="${team.getName()}">
+                            </option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('homeTeam')}" th:errors="*{homeTeam}">Error</p>
+                    </td>
+                </tr>
 
-        <tr>
-            <td> Away team: </td>
-            <td>
-                <select th:field="*{awayTeam}">
-                    <option
-                            th:each="team : ${teams}"
-                            th:value="${team.getId()}"
-                            th:text="${team.getName()}">
-                    </option>
-                </select>
-                <p th:if="${#fields.hasErrors('awayTeam')}" th:errors="*{awayTeam}">Error</p>
-            </td>
-        </tr>
-
-
-        <tr>
-            <td> FT home team score: </td>
-            <td>
-                <input type="number" min="0"  th:field="*{FTHG}"/>
-            </td>
-        </tr>
+                <tr>
+                    <td> Away team:</td>
+                    <td>
+                        <select th:field="*{awayTeam}">
+                            <option
+                                    th:each="team : ${teams}"
+                                    th:value="${team.getId()}"
+                                    th:text="${team.getName()}">
+                            </option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('awayTeam')}" th:errors="*{awayTeam}">Error</p>
+                    </td>
+                </tr>
 
 
-        <tr>
-            <td> FT away team score: </td>
-            <td>
-                <input type="number" min="0"  th:field="*{FTAG}"/>
-                <p th:if="${#fields.hasErrors('FTAG')}" th:errors="*{FTAG}">Error</p>
-            </td>
-        </tr>
+                <tr>
+                    <td> FT home team score:</td>
+                    <td>
+                        <input type="number" min="0" th:field="*{FTHG}"/>
+                    </td>
+                </tr>
 
 
-        <tr>
-            <td> HT home team score: </td>
-            <td>
-                <input type="number" min="0"  th:field="*{HTHG}"/>
-                <p th:if="${#fields.hasErrors('HTHG')}" th:errors="*{HTHG}">Error</p>
-            </td>
-        </tr>
+                <tr>
+                    <td> FT away team score:</td>
+                    <td>
+                        <input type="number" min="0" th:field="*{FTAG}"/>
+                        <p th:if="${#fields.hasErrors('FTAG')}" th:errors="*{FTAG}">Error</p>
+                    </td>
+                </tr>
 
 
-        <tr>
-            <td> HT away team score: </td>
-            <td>
-                <input type="number" min="0"  th:field="*{HTAG}"/>
-                <p th:if="${#fields.hasErrors('HTAG')}" th:errors="*{HTAG}">Error</p>
-            </td>
-        </tr>
-
-        <tr>
-            <td> Final Time Result: </td>
-            <td>
-                <select th:field="*{FTR}">
-                    <option th:value="H"> Home team win</option>
-                    <option th:value="D"> Draw </option>
-                    <option th:value="A"> Away team win </option>
-                </select>
-                <p th:if="${#fields.hasErrors('FTR')}" th:errors="*{FTR}">Error</p>
-            </td>
-
-        </tr>
+                <tr>
+                    <td> HT home team score:</td>
+                    <td>
+                        <input type="number" min="0" th:field="*{HTHG}"/>
+                        <p th:if="${#fields.hasErrors('HTHG')}" th:errors="*{HTHG}">Error</p>
+                    </td>
+                </tr>
 
 
-        <tr>
-            <td> Half Time Result: </td>
-            <td>
-                <select th:field="*{HTR}">
-                    <option th:value="H"> Home team win</option>
-                    <option th:value="D"> Draw </option>
-                    <option th:value="A"> Away team win </option>
-                </select>
-                <p th:if="${#fields.hasErrors('HTR')}" th:errors="*{HTR}">Error</p>
-            </td>
+                <tr>
+                    <td> HT away team score:</td>
+                    <td>
+                        <input type="number" min="0" th:field="*{HTAG}"/>
+                        <p th:if="${#fields.hasErrors('HTAG')}" th:errors="*{HTAG}">Error</p>
+                    </td>
+                </tr>
 
-        </tr>
-    </table>
+                <tr>
+                    <td> Final Time Result:</td>
+                    <td>
+                        <select th:field="*{FTR}">
+                            <option th:value="H"> Home team win</option>
+                            <option th:value="D"> Draw</option>
+                            <option th:value="A"> Away team win</option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('FTR')}" th:errors="*{FTR}">Error</p>
+                    </td>
 
-    <input type="submit" value="Save"/>
+                </tr>
 
-</form>
+
+                <tr>
+                    <td> Half Time Result:</td>
+                    <td>
+                        <select th:field="*{HTR}">
+                            <option th:value="H"> Home team win</option>
+                            <option th:value="D"> Draw</option>
+                            <option th:value="A"> Away team win</option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('HTR')}" th:errors="*{HTR}">Error</p>
+                    </td>
+
+                </tr>
+            </table>
+
+            <input type="submit" value="Save"/>
+
+        </form>
     </div>
 </div>
-        <div th:include="fragments/footer :: footer"></div>
+<div th:include="fragments/footer :: footer"></div>
 
 </body>
 </html>

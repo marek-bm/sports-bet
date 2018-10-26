@@ -26,7 +26,7 @@ public class Coupon {
     @Getter @Setter
     private BigDecimal betValue;
 
-    @Getter @Setter
+    @Getter
     private BigDecimal winValue;
 
     @Getter @Setter

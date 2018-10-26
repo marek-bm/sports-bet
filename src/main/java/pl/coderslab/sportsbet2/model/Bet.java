@@ -29,7 +29,7 @@ public class Bet {
     @Getter @Setter
     private Date dateCreated;
 
-    @Getter @Setter
+    @Setter
     private boolean won;
 
     @Getter @Setter
@@ -48,6 +48,9 @@ public class Bet {
         this.dateCreated = date;
     }
 
+    public boolean getWon() {
+        return won;
+    }
 
     @Override
     public boolean equals(Object o) {

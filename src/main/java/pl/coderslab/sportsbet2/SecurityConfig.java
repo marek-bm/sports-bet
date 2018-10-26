@@ -13,7 +13,7 @@ import pl.coderslab.sportsbet2.service.impl.CustomUserDetaisService;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/", "/vendor/**").permitAll()
+                .antMatchers("/", "/").permitAll()
                 .antMatchers("/admin").authenticated()
                 .and().formLogin().defaultSuccessUrl("/home")
                 .loginPage("/login");

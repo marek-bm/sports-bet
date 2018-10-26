@@ -2,6 +2,7 @@ package pl.coderslab.sportsbet2.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.coderslab.sportsbet2.model.Bet;
+import pl.coderslab.sportsbet2.model.Fixture;
 
 import java.util.List;
 
@@ -13,6 +14,5 @@ public interface BetRepository extends JpaRepository<Bet, Integer> {
     List<Bet> findAllByEventMatchday(int id);
 
 
-
-
+    List<Bet> findAllByEvent(Fixture fixture);
 }
