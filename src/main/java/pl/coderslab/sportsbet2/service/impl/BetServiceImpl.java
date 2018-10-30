@@ -51,13 +51,14 @@ public class BetServiceImpl implements BetService {
 
             bets=betRepository.findAllByEvent(fixture);
 
+            resolveBets(bets,fixture);
+
+            betRepository.saveAll(bets);
+
         } catch (BetNotFoundException e) {
             e.printStackTrace();
         }
 
-        resolveBets(bets,fixture);
-
-        betRepository.saveAll(bets);
 
     }
 
@@ -87,7 +88,7 @@ public class BetServiceImpl implements BetService {
                         bet.setWon(true);
 
                     }
-                    if(fixtureGoals>2.5 && userBet.equals("GT2_5")){
+                    else if(fixtureGoals>2.5 && userBet.equals("GT2_5")){
                         bet.setWon(true);
                                             }
                     else {

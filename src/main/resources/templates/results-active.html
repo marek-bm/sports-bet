@@ -19,8 +19,10 @@
         <h2> Upcoming events </h2>
 
 
+        <div class="table-responsive" th:if="${activeFixtures} ==null"> No betting events available at the moment</div>
+
         <!--/*@thymesVar id="activeFixtures" type="pl.coderslab.sportsbet2.model.Fixture"*/-->
-        <div class="table-responsive" th:each="fixture : ${activeFixtures}">
+        <div class="table-responsive" th:if="${activeFixtures}!=null" th:each="fixture : ${activeFixtures}">
 
 
             <ul class="list-group" th:text="|Matchday ${fixture.getKey()}|"></ul>

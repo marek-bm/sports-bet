@@ -91,29 +91,31 @@ public class FixtureServiceImpl  implements FixtureService {
      */
     public
     Map<Integer, List<Fixture>> fixturesAsMapSortByMatchday(List<Fixture> currentSeasonGames) {
-        Map<Integer, List<Fixture>> fixtureMap=new HashMap<>();
 
-        Fixture f=currentSeasonGames.stream()
-                .collect(Collectors.minBy((x, y)-> x.getMatchday()-y.getMatchday()))
-                .get();
+        if (currentSeasonGames.size()>0) {
+            Map<Integer, List<Fixture>> fixtureMap = new HashMap<>();
 
-        int counter=f.getMatchday();
+            Fixture f = currentSeasonGames.stream().collect(Collectors.minBy((x, y) -> x.getMatchday() - y.getMatchday())).get();
 
-        fixtureMap.put(counter,new ArrayList<>());
+            int counter = f.getMatchday();
 
-        for (Fixture fixture:currentSeasonGames){
+            fixtureMap.put(counter, new ArrayList<>());
 
-            int matchday=fixture.getMatchday();
-            if(counter==matchday){
-                fixtureMap.get(counter).add(fixture);
+            for (Fixture fixture : currentSeasonGames) {
+
+                int matchday = fixture.getMatchday();
+                if (counter == matchday) {
+                    fixtureMap.get(counter).add(fixture);
+                } else {
+                    counter++;
+                    fixtureMap.put(counter, new ArrayList<>());
+                    fixtureMap.get(counter).add(fixture);
+                }
             }
-            else{
-                counter++;
-                fixtureMap.put(counter, new ArrayList<>());
-                fixtureMap.get(counter).add(fixture);
-            }
-        }
-        return fixtureMap;
+            return fixtureMap;
+        }else {return null;}
+
     }
+
 
 }

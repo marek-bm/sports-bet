@@ -25,6 +25,11 @@
 
                     <td>
                         <input type="hidden" th:field="*{id}"/>
+                        <input type="hidden" th:field="*{homeWinOdd}"/>
+                        <input type="hidden" th:field="*{drawOdd}"></input>
+                        <input type="hidden" th:field="*{awayWinOdd}"></input>
+                        <input type="hidden" th:field="*{goal_more_2_5}"></input>
+                        <input type="hidden" th:field="*{goal_less_2_5}"></input>
                     </td>
                 </tr>
 
@@ -85,18 +90,6 @@
                         <input type="date" th:field="*{Date}"/>
                         <!--<p th:if="${#fields.hasErrors('Date')}" th:errors="*{Date}">Error</p>-->
                     </td>
-                </tr>
-
-                <tr>
-                    <td> Match status:</td>
-                    <td>
-                        <select th:field="*{matchStatus}">
-                            <option th:value="finished">Finished</option>
-                            <option th:value="active">Active</option>
-                        </select>
-                        <p th:if="${#fields.hasErrors('matchStatus')}" th:errors="*{matchStatus}">Error</p>
-                    </td>
-
                 </tr>
 
 
@@ -189,6 +182,21 @@
                     </td>
 
                 </tr>
+
+
+                <tr>
+                    <td> Match status:</td>
+                    <td>
+                        <select th:field="*{matchStatus}">
+                            <option selected="selected" th:value="null" th:text="--">--</option>
+                            <option th:value="finished" th:text="Finished">Finished</option>
+                            <option th:value="active" th:text="Active">Active</option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('matchStatus')}" th:errors="*{matchStatus}">Error</p>
+                    </td>
+
+                </tr>
+
             </table>
 
             <input type="submit" value="Save"/>
