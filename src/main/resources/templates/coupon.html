@@ -11,12 +11,13 @@
 
 
 <div th:fragment="coupon">
+    <h2> Coupon </h2>
 
     <div th:if="${sessionBets.isEmpty()}"> No bets are placed so far</div>
 
     <div th:if="${!sessionBets.isEmpty()}">
 
-        <table class="table table-sm table-hover">
+        <table class="table table-responsive-sm table-hover">
 
             <!--/*@thymesVar id="sessionBets" type="pl.coderslab.sport_book.model.betting.SingleBet"*/-->
             <tr th:each="bet: ${sessionBets}">

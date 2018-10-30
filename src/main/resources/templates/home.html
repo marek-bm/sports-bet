@@ -21,63 +21,8 @@
 
         <h1>Welcome to sport bets</h1>
 
-        <table>
-            <tr>
-                <td>
 
-                </td>
-
-
-                <td>
-                    <a th:href="@{/active}">Active fixtures</a>
-                </td>
-
-
-                <td>
-                    <a th:href="@{/fixture-finished}"> Past results </a>
-                </td>
-
-                <td>
-                    <a th:href="@{/table}"> Table </a>
-                </td>
-
-                <td>
-                    <a th:href="@{/new-fixture}"> Create Fixture </a>
-                </td>
-
-
-                <td>
-                    <a th:href="@{/account}">User Account</a>
-                </td>
-
-                <td>
-                    <a th:href="@{/mycoupons}">My bets</a>
-                </td>
-
-                <td>
-                    <a th:href="@{/wallet}">My wallet</a>
-                </td>
-
-                <!--<td th:if="">-->
-                <!--</td>-->
-
-
-                <td>
-                    <a th:href="@{/fixture-finished}">Results</a>
-                </td>
-
-
-                <td sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" method="post">
-                        <input type="submit" value="Logout"/>
-                    </form>
-                </td>
-
-            </tr>
-        </table>
-
-
-        <table width="100%">
+        <table class="table-responsive-sm" width="100%">
             <tr>
 
                 <td width="70%">
