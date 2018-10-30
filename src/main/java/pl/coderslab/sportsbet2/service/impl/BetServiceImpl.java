@@ -2,11 +2,13 @@ package pl.coderslab.sportsbet2.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.coderslab.sportsbet2.error.BetNotFoundException;
 import pl.coderslab.sportsbet2.model.Bet;
 import pl.coderslab.sportsbet2.model.Fixture;
 import pl.coderslab.sportsbet2.repository.BetRepository;
 import pl.coderslab.sportsbet2.service.BetService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,11 +45,20 @@ public class BetServiceImpl implements BetService {
     @Override
     public void updateBets(Fixture fixture) {
 
-        List<Bet> bets=betRepository.findAllByEvent(fixture);
+        List<Bet> bets=new ArrayList<>();
+
+        try {
+
+            bets=betRepository.findAllByEvent(fixture);
+
+        } catch (BetNotFoundException e) {
+            e.printStackTrace();
+        }
 
         resolveBets(bets,fixture);
 
         betRepository.saveAll(bets);
+
     }
 
 

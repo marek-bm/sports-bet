@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<head th:replace="fragments/header :: header">
+
+</head>
+
+<body id="page-top">
+
+<nav th:replace="fragments/topbar :: topbar"></nav>
+
+<div id="wrapper">
+
+  <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
+
+  <div id="content-wrapper" width="70%">
+
+
+
+    <div class="container-fluid">
+
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/home">Home</a>
+        </li>
+        <li class="breadcrumb-item active">404 Error</li>
+      </ol>
+
+      <!-- Page Content -->
+      <h1 class="display-1">404</h1>
+      <p class="lead">Page not found. You can
+        <a href="javascript:history.back()">go back</a>
+        to the previous page, or
+        <a href="/home">return home</a>.</p>
+
+    </div>
+
+
+  </div>
+</div>
+
+<div th:include="fragments/footer :: footer"></div>
+
+
+</body>
+</html>

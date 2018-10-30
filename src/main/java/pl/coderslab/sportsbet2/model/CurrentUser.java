@@ -2,11 +2,10 @@ package pl.coderslab.sportsbet2.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class CurrentUser extends User implements UserDetails {
+public class CurrentUser extends User {
     private final pl.coderslab.sportsbet2.model.User user;
 
     public CurrentUser(String username,

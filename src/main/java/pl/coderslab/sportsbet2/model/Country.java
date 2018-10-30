@@ -1,5 +1,7 @@
 package pl.coderslab.sportsbet2.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
 package pl.coderslab.sportsbet2.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -12,219 +13,96 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter @Setter
     private Integer id;
 
 
     @Column(nullable = false, unique = true)
 //    @UsernameUnique
+    @Getter @Setter
     private String username;
 
 
     @NotNull
+    @Getter @Setter
     private String password;
 
 
     @NotNull
+    @Getter @Setter
     private String firstName;
 
 
     @NotNull
+    @Getter @Setter
     private String lastName;
 
 
 //    @NotNull
+@Getter @Setter
     private boolean adult;
 
 
 //    @EmailUnique
     @Email
     @Column(nullable = false, unique = true)
+    @Getter @Setter
     private String mail;
 
     @OneToOne (cascade = CascadeType.ALL)
+    @Getter @Setter
     private Wallet wallet;
 
 
     @OneToMany (mappedBy = "user")
+    @Getter @Setter
     private List<Coupon> coupons = new ArrayList<>();
 
-
+    @Getter @Setter
     private boolean enabled=false;
 
 
     @ManyToMany (fetch = FetchType.EAGER)
+    @Getter @Setter
     private Set<Role> roles;
 
 
 //    @NotNull
+    @Getter @Setter
     private String street;
 
 
 //    @NotNull
+    @Getter @Setter
     private String city;
 
 
 //    @NotNull
+    @Getter @Setter
     private String zip;
 
 
     @OneToOne
+    @Getter @Setter
     private Country country;
 
 //    @NotNull
+    @Getter @Setter
     private boolean dataProcessingAcknowledgement = false;
 
 
 //    @NotNull
+    @Getter @Setter
     private boolean active = true;
 
     public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
     }
 
-
-    //getters
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public boolean getAdult() {
-        return adult;
-    }
-
-    public void setAdult(boolean adult) {
-        this.adult = adult;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public Wallet getWallet() {
-        return wallet;
-    }
-
-    public User() {
-    }
-
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
-    }
-
-    public List<Coupon> getCoupons() {
-        return coupons;
-    }
-
-    public void setCoupons(List<Coupon> coupons) {
-        this.coupons = coupons;
-    }
-
-    public boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public boolean getDataProcessingAcknowledgement() {
-        return dataProcessingAcknowledgement;
-    }
-
-    public void setDataProcessingAcknowledgement(boolean dataProcessingAcknowledgement) {
-        this.dataProcessingAcknowledgement = dataProcessingAcknowledgement;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 }

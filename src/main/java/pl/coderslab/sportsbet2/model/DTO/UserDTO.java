@@ -30,7 +30,7 @@ public class UserDTO {
     private String mail;
 
 //    @NotNull
-    private Float bankAccount;
+    private String bankAccount;
 
 //    @NotNull
     private String street;
@@ -94,11 +94,11 @@ public class UserDTO {
         this.mail = mail;
     }
 
-    public Float getBankAccount() {
+    public String getBankAccount() {
         return bankAccount;
     }
 
-    public void setBankAccount(Float bankAccount) {
+    public void setBankAccount(String bankAccount) {
         this.bankAccount = bankAccount;
     }
 

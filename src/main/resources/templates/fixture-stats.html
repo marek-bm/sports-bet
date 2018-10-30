@@ -10,7 +10,7 @@
 
 <nav th:replace="fragments/topbar :: topbar"></nav>
 
-<div id="wrapper">
+<div id="wrapper" width="50%">
 
     <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
 
@@ -20,7 +20,7 @@
             <li><h3>Probabilitties for 1/x/2 market </h3></li>
         </ul>
 
-        <table class="table table-responsive-sm">
+        <table class="table table-responsive-sm" width="50%">
 
             <tr>
                 <td>Home Team:</td>
@@ -62,7 +62,7 @@
         </ul>
 
 
-        <table class="table table-responsive-sm">
+        <table class="table table-responsive-sm" width="50%">
 
             <!--<thead>-->
             <!--<th colspan="3" > Probability of scoring given amount of goals,%</th>-->
@@ -86,7 +86,7 @@
         </ul>
 
 
-        <table class="table table-responsive-sm">
+        <table class="table table-responsive-sm" width="50%">
             <tr>
                 <td rowspan="2" colspan="2"></td>
                 <th colspan="6" th:text="|Away team: ${at.getName()}|"></th>

@@ -46,7 +46,7 @@
 
 
     <form th:action="@{/payfromaccount}" method="post">
-        <p> Bet->  <input type="number" name="charge"> PLN </p>
+        <p> Bet->  <input type="number" min=1 name="charge"> PLN </p>
         <p><input type="submit" value="Submit" /></p>
     </form>
 

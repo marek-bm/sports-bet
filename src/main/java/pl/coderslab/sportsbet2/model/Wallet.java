@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,17 +17,17 @@ public class Wallet {
     @Getter @Setter
     private Integer id;
 
-    @Min(value = 0)
     @Getter @Setter
+    @Min(value = 0)
     private BigDecimal balance;
 
-    @OneToOne
     @Getter @Setter
+    @OneToOne
     private User owner;
 
-
+    @NotNull
     @Getter @Setter
-    private Float bankAccount;
+    private String bankAccount;
 
     @ElementCollection( targetClass = String.class )
     @Getter @Setter

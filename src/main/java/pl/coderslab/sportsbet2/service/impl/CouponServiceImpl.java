@@ -68,7 +68,7 @@ public class CouponServiceImpl implements CouponService {
 
 
             for(Bet b:bets){
-                betStatus.add(b.getWon());
+                betStatus.add(b.isWon());
 
                 if(b.getEvent().getMatchStatus().equals("active")){
                     activeBets++;

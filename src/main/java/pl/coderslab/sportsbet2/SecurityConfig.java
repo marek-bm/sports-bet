@@ -8,7 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.coderslab.sportsbet2.service.impl.CustomUserDetaisService;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import pl.coderslab.sportsbet2.service.impl.CustomUserDetailsService;
 
 import javax.sql.DataSource;
 
@@ -25,8 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public CustomUserDetaisService customUserDetailsService() {
-        return new CustomUserDetaisService();
+    public CustomUserDetailsService customUserDetailsService() {
+        return new CustomUserDetailsService();
     }
 
     @Override
@@ -37,12 +38,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+//                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/", "/").permitAll()
-                .antMatchers("/admin").authenticated()
-                .and().formLogin().defaultSuccessUrl("/home")
-                .loginPage("/login");
+                .antMatchers("/").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/fixture-edit/").hasRole("ADMIN")
+                .and()
+                .formLogin().loginPage("/login").defaultSuccessUrl("/home")
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login").deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true);
+
     }
 
 
@@ -52,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        auth.jdbcAuthentication()
 //                .usersByUsernameQuery("Select username, password, enabled from users where username = ?")
 //                .authoritiesByUsernameQuery("Select u.username, r.role from users u join users_roles ur on u.id=ur.user_id join role r on r.role_id=ur.roles_role_id where u.username=?")
+//                .dataSource(dataSource)
 //                .passwordEncoder(passwordEncoder());
 ////                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN","USER");
 //

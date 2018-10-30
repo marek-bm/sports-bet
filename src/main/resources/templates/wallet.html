@@ -68,15 +68,47 @@
 
             </table>
 
+<br></div>
+
             <h3>Operations history:</h3>
-            <p>TODO:</p>
-            <p> add a class operation (type: withdraw/recharge) with relation to wallet </p>
 
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Recent operations
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div>
+                            <label>Show entries <select name="dataTable_length" aria-controls="dataTable"
+                                                class="custom-select custom-select-sm form-control form-control-sm">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> </label>
+                        </div>
+
+                        <table class="table table-responsive-md">
+
+                            <tr th:each="operation : ${wallet.transactions}">
+                                <td th:text="${operation}">
+                                </td>
+                            </tr>
+
+                        </table>
+
+
+                    </div>
+
+                </div>
+            </div>
         </div>
-
     </div>
+</div>
 
-    <div th:include="fragments/footer :: footer"></div>
+
+<div th:include="fragments/footer :: footer"></div>
 </div>
 </body>
 </html>
