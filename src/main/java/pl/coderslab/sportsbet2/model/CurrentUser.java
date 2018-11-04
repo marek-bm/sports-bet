@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
+
 public class CurrentUser extends User {
     private final pl.coderslab.sportsbet2.model.User user;
 

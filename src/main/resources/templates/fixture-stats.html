@@ -10,7 +10,7 @@
 
 <nav th:replace="fragments/topbar :: topbar"></nav>
 
-<div id="wrapper" width="50%">
+<div id="wrapper">
 
     <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
 
@@ -20,7 +20,7 @@
             <li><h3>Probabilitties for 1/x/2 market </h3></li>
         </ul>
 
-        <table class="table table-responsive-sm" width="50%">
+        <table class="table table-responsive-sm">
 
             <tr>
                 <td>Home Team:</td>
@@ -62,7 +62,7 @@
         </ul>
 
 
-        <table class="table table-responsive-sm" width="50%">
+        <table class="table table-responsive-sm">
 
             <!--<thead>-->
             <!--<th colspan="3" > Probability of scoring given amount of goals,%</th>-->
@@ -75,8 +75,8 @@
 
             <tr th:each="g, iteration: ${#numbers.sequence(0,5)}">
                 <td th:text="${iteration.index}"></td>
-                <td th:text="${#numbers.formatDecimal(homeGoals[g],1,2)}*100"></td>
-                <td th:text="${#numbers.formatDecimal(awayGoals[g],1,2)}*100"></td>
+                <td th:text="${#numbers.formatDecimal(homeGoals[g],1,2)}"></td>
+                <td th:text="${#numbers.formatDecimal(awayGoals[g],1,2)}"></td>
             </tr>
         </table>
 
@@ -86,7 +86,7 @@
         </ul>
 
 
-        <table class="table table-responsive-sm" width="50%">
+        <table class="table table-responsive-sm">
             <tr>
                 <td rowspan="2" colspan="2"></td>
                 <th colspan="6" th:text="|Away team: ${at.getName()}|"></th>
@@ -103,7 +103,7 @@
             <tr th:each="i, iter: ${#numbers.sequence(0,5)}">
                 <th width="100px" th:text="${iter.index}"></th>
                 <td th:each="j: ${#numbers.sequence(0,5)}"
-                    th:text="${#numbers.formatDecimal(result[i][j],1,3)}*100"></td>
+                    th:text="${#numbers.formatDecimal(result[i][j],1,3)}"></td>
             </tr>
         </table>
 

@@ -1,35 +1,212 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+  <head>
+    <title> Premier League Bets </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<head th:replace="templates/fragments/header :: header">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700"> 
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
 
-</head>
-
-<body id="page-top" >
-
-<nav th:replace="templates/fragments/topbar :: topbar"></nav>
-
-<div id="wrapper">
-
-    <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
-
-    <div id="content-wrapper" width="70%">
-
-        <h1>Welcome to sport bets</h1>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
 
 
+    <link rel="stylesheet" href="css/aos.css">
 
+    <link rel="stylesheet" href="css/style.css">
+    
+  </head>
+  <body>
+  
+  <div class="site-wrap">
 
-
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-logo">
+          <a href="#"><img src="img/icons8-the-premier-league-500.png" alt="Image"></a>
+        </div>
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
     </div>
-</div>
 
-<div th:include="templates/fragments/footer :: footer"></div>
+    <header class="site-navbar absolute transparent" role="banner">
+      <div class="py-3">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-6 col-md-3">
+              <a href="/home"><img src="img/icons8-the-premier-league-500.png" style="height:100px" alt="" ></a>
+              <a href="https://www.linkedin.com/in/marek-jastrzebski-6a90399a/" class="text-secondary px-2"><span class="icon-linkedin"></span></a>
+              <a href="https://github.com/marek-bm" class="text-secondary px-2"><span class="icon-github"></span></a>
+            </div>
+            <div class="col-6 col-md-9 text-right">
+              <div class="d-inline-block"><a href="#" class="text-secondary p-2 d-flex align-items-center"><span class="icon-envelope mr-3"></span> <span class="d-none d-md-block">marek.jastrzebski@outlook.com</span></a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="site-navigation position-relative text-right bg-black text-md-right" role="navigation">
+        <div class="container position-relative">
+
+          <div class="d-inline-block d-md-none ml-md-0 mr-auto py-3">
+            <a href="#" class="site-menu-toggle js-menu-toggle text-white">
+              <span class="icon-menu h3"></span></a></div>
+
+          <ul class="site-menu js-clone-nav d-none d-md-block">
 
 
-</body>
+            <li><a href="/">Welcome</a></li>
+            <li class="has-children active">
+              <a href="/account">User</a>
+
+              <ul class="dropdown arrow-top" sec:authorize="isAuthenticated()">
+                <li><a th:href="@{/account}">Profile</a></li>
+                <li><a th:href="@{/mycoupons}">Bets</a></li>
+                <li><a th:href="@{/wallet}">Wallet</a></li>
+                <li><a th:href="@{/logout}">Logout</a></li>
+              </ul>
+
+
+              <ul class="dropdown arrow-top" sec:authorize="isAnonymous()">
+                <li><a th:href="@{/login}">Login</a></li>
+                <li><a th:href="@{/register}">Register</a></li>
+                <li><a th:href="@{/forgot-password}">Forgot Password</a></li>
+              </ul>
+
+            </li>
+
+            <li class="has-children">
+              <a href="#">Events</a>
+              <ul class="dropdown arrow-top">
+                <li><a href="/active">Active</a></li>
+                <li><a href="/fixture-finished">Finished</a></li>
+              </ul>
+            </li>
+
+            <li><a href="/table">Table</a></li>
+            <li><a href="/instruction">How to bet?</a></li>
+            <li><a href="/about-me">About me</a></li>
+            <li><a href="/contact">Contact</a></li>
+
+          </ul>
+        </div>
+      </nav>
+    </header>
+    
+
+
+    <div class="slide-one-item home-slider owl-carousel">
+      <div class="site-blocks-cover overlay" style="background-image: url(img/liv1.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
+        <div class="container">
+          <div class="row align-items-center justify-content-start">
+            <div class="col-md-6 text-center text-md-left" data-aos="fade-up" data-aos-delay="400">
+              <h1 class="bg-text-line">This is web site of education project intended to simulate football betting site </h1>
+              <p><a href="#" class="btn btn-primary btn-sm rounded-0 py-3 px-5">About</a></p>
+            </div>
+          </div>
+        </div>
+      </div>  
+
+      <div class="site-blocks-cover overlay" style="background-image: url(img/match.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
+        <div class="container">
+          <div class="row align-items-center justify-content-start">
+            <div class="col-md-6 text-center text-md-left" data-aos="fade-up" data-aos-delay="400">
+              <h1 class="bg-text-line">For you conveniencve, there is short instruction how to navigate through service </h1>
+              <p><a href="/instruction" class="btn btn-primary btn-sm rounded-0 py-3 px-5">Instruction</a></p>
+            </div>
+          </div>
+        </div>
+      </div>  
+
+      <div class="site-blocks-cover overlay" style="background-image: url(img/stadium.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
+        <div class="container">
+          <div class="row align-items-center justify-content-start">
+            <div class="col-md-6 text-center text-md-left" data-aos="fade-up" data-aos-delay="400">
+              <h1 class="bg-text-line">Register your own account to discover full functionality or continue as a guest </h1>
+              <p><a href="/register" class="btn btn-primary btn-sm rounded-0 py-3 px-5">Register</a></p>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+    
+
+    <div class="site-section pt-0 feature-blocks-1" data-aos="fade" data-aos-delay="100">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-lg-4" >
+            <div class="p-3 p-md-5 feature-block-1 mb-5 mb-lg-0 bg" style="background-image: url('images/img_1.jpg');">
+              <div class="text">
+                <h2 class="h5 text-white">Already have an account?</h2>
+                <p>Go to the login page. Remeber to charge your account and enjoy betting on you favourite team </p>
+                <p class="mb-0"><a href="/login" class="btn btn-primary btn-sm px-4 py-2 rounded-0">Login</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="p-3 p-md-5 feature-block-1 mb-5 mb-lg-0 bg" style="background-image: url('images/img_2.jpg');">
+              <div class="text">
+                <h2 class="h5 text-white">Not registered?</h2>
+                <p>Not a problem. Got through quick and easy registration process to begin</p>
+                <p class="mb-0"><a href="/register" class="btn btn-primary btn-sm px-4 py-2 rounded-0">Register</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="p-3 p-md-5 feature-block-1 mb-5 mb-lg-0 bg" style="background-image: url('images/img_3.jpg');">
+              <div class="text">
+                <h2 class="h5 text-white">Want to have a look around?</h2>
+                <p>No worries. If you are only visitor, you can directly access home page and see what we have to offer</p>
+                <p class="mb-0"><a href="/home" class="btn btn-primary btn-sm px-4 py-2 rounded-0">Home</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="site-section block-13 bg-primary fixed overlay-primary bg-image" style="background-image: url('images/hero_bg_3.jpg');"  data-stellar-background-ratio="0.5"> </div>
+
+
+
+    
+    
+    <footer class="site-footer border-top">
+      <div class="container">
+        <div class="row"></div>
+        <div class="row text-center">
+          <div class="col-md-12">
+            <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+          </div>
+          
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/jquery.countdown.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+
+  <script src="js/main.js"></script>
+    
+  </body>
 </html>

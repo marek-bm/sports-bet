@@ -6,18 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.sportsbet2.model.Bet;
+import pl.coderslab.sportsbet2.model.Coupon;
 import pl.coderslab.sportsbet2.model.Fixture;
 import pl.coderslab.sportsbet2.service.FixtureService;
 import pl.coderslab.sportsbet2.service.SeasonResultsService;
 import pl.coderslab.sportsbet2.service.SeasonService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
 @Controller
-@SessionAttributes("sessionBets")
+@SessionAttributes("coupon")
 public class HomeController {
 
     @Autowired
@@ -49,10 +49,10 @@ public class HomeController {
     }
 
 
-
-    @ModelAttribute("sessionBets")
-    public List<Bet> betsInSession(){
-        return new ArrayList<>();
+    @ModelAttribute("coupon")
+    public Coupon betsInSession(Model model){
+        Coupon coupon=new Coupon();
+        return coupon;
     }
 
 

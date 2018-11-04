@@ -5,18 +5,26 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import pl.coderslab.sportsbet2.model.Bet;
 import pl.coderslab.sportsbet2.model.Coupon;
+import pl.coderslab.sportsbet2.model.User;
+import pl.coderslab.sportsbet2.model.Wallet;
 import pl.coderslab.sportsbet2.repository.BetRepository;
 import pl.coderslab.sportsbet2.service.CouponService;
 import pl.coderslab.sportsbet2.service.FixtureService;
+import pl.coderslab.sportsbet2.service.UserService;
+import pl.coderslab.sportsbet2.service.WalletService;
 
+import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Controller
-@SessionAttributes("sessionBets")
+@SessionAttributes("coupon")
 public class CouponController {
 
     @Autowired
@@ -28,10 +36,16 @@ public class CouponController {
     @Autowired
     BetRepository betRepository;
 
-    protected List<Bet> sessionBets;
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    WalletService walletService;
+
+
 
     @RequestMapping("/mycoupon")
-    public String showMyCoupon() {
+    public String showMyCoupon(Model model) {
 
         return "coupon";
     }
@@ -65,6 +79,40 @@ public class CouponController {
     }
 
 
+    @RequestMapping(value = "/make-bet", method = RequestMethod.POST)
+    public String payTheCoupon(@RequestParam (name = "charge") BigDecimal charge,
+                               HttpSession session,
+                               Authentication authentication,
+                               Model model){
+
+        if(authentication==null){
+            model.addAttribute("error", "You have to login");
+            return "error/login-required";
+        }
+        else{
+            String userName=authentication.getName();
+            User user=userService.findByUserName(userName);
+            Wallet wallet=user.getWallet();
+
+            if( wallet.getBalance().compareTo(charge) < 0){
+                return "error/moneyalert";
+            }
+            else {
+                wallet.setBalance(wallet.getBalance().subtract(charge));
+                Coupon coupon= (Coupon) session.getAttribute("coupon");
+                couponService.saveCoupon(coupon, charge, user);
+                wallet.getTransactions().add(new Date()+ " you placed  "+charge + " PLN on betting coupon");
+                userService.saveUser(user);
+                walletService.saveWallet(wallet);
+
+                model.addAttribute("coupon", new Coupon());
+            }
+
+        }
+
+        return "redirect:/mycoupons";
+
+    }
 
 }
 

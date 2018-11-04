@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <table>
     <tr>
@@ -13,26 +12,28 @@
 <div th:fragment="coupon">
     <h2> Coupon </h2>
 
-    <div th:if="${sessionBets.isEmpty()}"> No bets are placed so far</div>
 
-    <div th:if="${!sessionBets.isEmpty()}">
+    <div th:if="${coupon.getBets().isEmpty()}"> No bets are placed so far</div>
 
-        <table class="table table-responsive-sm table-hover">
+    <div th:if="${!coupon.getBets().isEmpty()}">
 
-            <!--/*@thymesVar id="sessionBets" type="pl.coderslab.sport_book.model.betting.SingleBet"*/-->
-            <tr th:each="bet: ${sessionBets}">
-                <td th:text="|${bet.event.homeTeam.name} v|"></td>
-                <td th:text="${bet.event.awayTeam.name}"></td>
-                <td th:text="${bet.betPrice}"></td>
+            <!--/*@thymesVar id="coupon" type="pl.coderslab.sportsbet2.model.Coupon"*/-->
+            <div>
+                <table class="table table-responsive-sm table-hover">
 
-                <!--/*@thymesVar id="userBetOnResult" type="pl.coderslab.sport_book.model.betting.SingleBet"*/-->
-                <td th:if="${bet.placedBet}==H" th:text="'Bet:Home 1'"></td>
-                <td th:if="${bet.placedBet}==D" th:text="'Bet:Draw X'"></td>
-                <td th:if="${bet.placedBet}==A" th:text="'Bet:Away 2'"></td>
+                    <tr th:each="bet: ${coupon.getBets()}">
+                        <td th:text="|${bet.event.homeTeam.name} v|"></td>
+                        <td th:text="${bet.event.awayTeam.name}"></td>
+                        <td th:text="${bet.betPrice}"></td>
+
+                        <!--/*@thymesVar id="userBetOnResult" type="pl.coderslab.sport_book.model.betting.SingleBet"*/-->
+                        <td th:if="${bet.placedBet}==H" th:text="'Bet:Home 1'"></td>
+                        <td th:if="${bet.placedBet}==D" th:text="'Bet:Draw X'"></td>
+                        <td th:if="${bet.placedBet}==A" th:text="'Bet:Away 2'"></td>
 
 
-                <td th:if="${bet.placedBet}==LT2_5" th:text="'Bet:Goals less 2.5'"></td>
-                <td th:if="${bet.placedBet}==GT2_5" th:text="'Bet:Goals more 2.5'"></td>
+                        <td th:if="${bet.placedBet}==LT2_5" th:text="'Bet:Goals less 2.5'"></td>
+                        <td th:if="${bet.placedBet}==GT2_5" th:text="'Bet:Goals more 2.5'"></td>
 
                 <td>
                     <form th:action="@{/delbet}" method="post">
@@ -45,11 +46,12 @@
     </div>
 
 
-    <form th:action="@{/payfromaccount}" method="post">
-        <p> Bet->  <input type="number" min=1 name="charge"> PLN </p>
-        <p><input type="submit" value="Submit" /></p>
+    <form th:action="@{/make-bet}" method="post">
+        <p> Bet->  <input type="number" min="1.00" name="charge" value="0.00" step="0.01" placeholder='0.00'> PLN </p>
+        <p><input class="btn btn-primary btn-round" type="submit" value="Submit" /></p>
     </form>
 
+    </div>
 
 
 </div>

@@ -16,37 +16,98 @@
 
 
         <div class="card-body">
+            <div class="row">
+                <div class="col-lg-8 col-md-12 col-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4> Premier League table </h4>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="statistic-details mt-sm-4">
+                                <div class="statistic-details-item">
+                                    <small>
+                                        <table class="table table-responsive-sm table-hover table-striped" cellspacing="0">
+
+                                            <thead>
+                                            <tr>
+                                                <th> #</th>
+                                                <th> Team</th>
+                                                <th> P</th>
+                                                <th> Pts</th>
+                                                <th> GD</th>
+                                                <th> W</th>
+                                                <th> D</th>
+                                                <th> L</th>
+
+                                            </tr>
+                                            </thead>
+
+                                            <tr th:each="result, iterationStatus: ${seasonResults}">
+                                                <td th:text="${iterationStatus.count}"></td>
+                                                <td th:text="${result.team.name}"></td>
+                                                <td th:text="${result.getPlayedGames()}"></td>
+                                                <td th:text="${result.points}"></td>
+                                                <td th:text="${result.goalsScoredAway+ result.getGoalsScoredHome()-result.getGoalsLostAway()-result.getGoalsLostHome()}"></td>
+                                                <td th:text="${result.getWins()}"></td>
+                                                <td th:text="${result.getDraws()}"></td>
+                                                <td th:text="${result.getLost()}"></td>
+
+                                            </tr>
+
+                                        </table>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-12 col-sm-12">
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+            <!--#####################################################################################################3-->
             <!--<div class="table-responsive-sm">-->
-                <table class="table table-responsive-sm table-hover table-striped"   width="50%" cellspacing="0">
+                <!--<table class="table table-responsive-sm table-hover table-striped"   width="50%" cellspacing="0">-->
 
-                    <thead>
-                    <tr>
-                        <th> #</th>
-                        <th> Team</th>
-                        <th> P</th>
-                        <th> Pts</th>
-                        <th> GD</th>
-                        <th> W</th>
-                        <th> D</th>
-                        <th> L</th>
+                    <!--<thead>-->
+                    <!--<tr>-->
+                        <!--<th> #</th>-->
+                        <!--<th> Team</th>-->
+                        <!--<th> P</th>-->
+                        <!--<th> Pts</th>-->
+                        <!--<th> GD</th>-->
+                        <!--<th> W</th>-->
+                        <!--<th> D</th>-->
+                        <!--<th> L</th>-->
 
-                    </tr>
-                    </thead>
+                    <!--</tr>-->
+                    <!--</thead>-->
 
-                    <tr th:each="result, iterationStatus: ${seasonResults}">
-                        <td th:text="${iterationStatus.count}"></td>
-                        <td th:text="${result.team.name}"></td>
-                        <td th:text="${result.getPlayedGames()}"></td>
-                        <td th:text="${result.points}"></td>
-                        <td th:text="${result.goalsScoredAway+ result.getGoalsScoredHome()-result.getGoalsLostAway()-result.getGoalsLostHome()}"></td>
-                        <td th:text="${result.getWins()}"></td>
-                        <td th:text="${result.getDraws()}"></td>
-                        <td th:text="${result.getLost()}"></td>
+                    <!--<tr th:each="result, iterationStatus: ${seasonResults}">-->
+                        <!--<td th:text="${iterationStatus.count}"></td>-->
+                        <!--<td th:text="${result.team.name}"></td>-->
+                        <!--<td th:text="${result.getPlayedGames()}"></td>-->
+                        <!--<td th:text="${result.points}"></td>-->
+                        <!--<td th:text="${result.goalsScoredAway+ result.getGoalsScoredHome()-result.getGoalsLostAway()-result.getGoalsLostHome()}"></td>-->
+                        <!--<td th:text="${result.getWins()}"></td>-->
+                        <!--<td th:text="${result.getDraws()}"></td>-->
+                        <!--<td th:text="${result.getLost()}"></td>-->
 
-                    </tr>
+                    <!--</tr>-->
 
-                </table>
-            <!--</div>-->
+                <!--</table>-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
         </div>
 
     </div>

@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<head th:replace="fragments/header :: header">
+
 </head>
 <body>
 
+
+<nav th:replace="fragments/topbar :: topbar"></nav>
 
 <table>
     <tr>
@@ -15,6 +20,7 @@
         </td>
 </table>
 
+    <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
 
 <table class="table">
 

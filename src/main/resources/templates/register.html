@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Register</title>
+    <title>Register</title>
 
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -57,8 +57,8 @@
               <div class="form-row">
                 <div class="col-md-6">
                   <div class="form-label-group">
-                    <input type="text" th:field="*{username}" class="form-control" placeholder="Username" required="required">
-                    <label >User Name</label>
+                    <input type="text" id="lastName" th:field="*{username}" class="form-control" placeholder="Username" required="required" autofocus="autofocus">
+                    <label for ="lastName" >User Name</label>
                     <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">User error</p>
                   </div>
                 </div>

@@ -66,6 +66,10 @@ public class RegistrationController {
         user.getWallet().setBalance(BigDecimal.valueOf(0));
         userService.saveUser(user);
 
+        Wallet wallet=user.getWallet();
+        wallet.setOwner(user);
+        walletRepository.save(wallet);
+
         return "redirect:/login";
 
         /* this was first verification before custom validators were introduced

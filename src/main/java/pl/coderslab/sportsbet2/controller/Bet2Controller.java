@@ -3,11 +3,10 @@ package pl.coderslab.sportsbet2.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import pl.coderslab.sportsbet2.model.Bet;
+import pl.coderslab.sportsbet2.model.Coupon;
 import pl.coderslab.sportsbet2.service.BetService;
 import pl.coderslab.sportsbet2.service.CouponService;
 import pl.coderslab.sportsbet2.service.FixtureService;
@@ -20,7 +19,7 @@ import java.util.List;
 
 
 @Controller
-@SessionAttributes("sessionBets")
+
 public class Bet2Controller {
 
     @Autowired
@@ -38,8 +37,9 @@ public class Bet2Controller {
         if (result.hasErrors()){
             return "redirect:/active";
         }
+        Coupon coupon=(Coupon) session.getAttribute("coupon");
 
-        List<Bet> betsInSession= (List<Bet>) session.getAttribute("sessionBets");
+        List<Bet> betsInSession= coupon.getBets();
 
         if (bet.checkIfUniqe(betsInSession)==false){
             return "redirect:/home";
@@ -51,8 +51,11 @@ public class Bet2Controller {
     }
 
     @PostMapping("/delbet")
-    public String deleteBetFromCoupon(@RequestParam Integer eventId,
-                                      @ModelAttribute("sessionBets") List<Bet> sessionBets){
+    public String deleteBetFromCoupon(@RequestParam Integer eventId, HttpSession session){
+
+        Coupon coupon= (Coupon) session.getAttribute("coupon");
+
+        List<Bet> sessionBets=coupon.getBets();
 
         removeBetFromSession(eventId, sessionBets);
 
@@ -61,7 +64,7 @@ public class Bet2Controller {
 
 
 
-    private void removeBetFromSession(Integer eventId, @ModelAttribute("sessionBets") List<Bet> sessionBets) {
+    private void removeBetFromSession(Integer eventId, List<Bet> sessionBets) {
         Iterator<Bet> iterator=sessionBets.listIterator();
         while (iterator.hasNext()){
             int idFromIterator= iterator.next().getEvent().getId();
@@ -71,7 +74,7 @@ public class Bet2Controller {
         }
     }
 
-    public static boolean checkIfBetsAreActive(@ModelAttribute("sessionBets") List<Bet> sessionBets){
+    public static boolean checkIfBetsAreActive( List<Bet> sessionBets){
         Iterator<Bet> iterator=sessionBets.listIterator();
         while (iterator.hasNext()){
             if (iterator.next().getEvent().getMatchStatus().equals("finished"))

@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class Coupon {
     private List<Bet> bets;
 
     @NotNull
+    @Min(value = 1)
     @Getter @Setter
     private BigDecimal betValue;
 
@@ -49,7 +52,8 @@ public class Coupon {
     //constructor
     public Coupon() {
         setDateCreated();
-//        this.bets=new ArrayList<>();
+        setActive(true);
+        this.bets=new ArrayList<>();
     }
 
 

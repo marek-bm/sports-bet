@@ -2,107 +2,107 @@ package pl.coderslab.sportsbet2.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.coderslab.sportsbet2.model.Bet;
-import pl.coderslab.sportsbet2.model.Coupon;
-import pl.coderslab.sportsbet2.model.Fixture;
-import pl.coderslab.sportsbet2.model.Wallet;
+import pl.coderslab.sportsbet2.model.*;
 import pl.coderslab.sportsbet2.repository.CouponRepository;
+import pl.coderslab.sportsbet2.service.BetService;
 import pl.coderslab.sportsbet2.service.CouponService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CouponServiceImpl implements CouponService {
     @Autowired
-    CouponRepository betCouponRepository;
+    CouponRepository couponRepository;
+
+    @Autowired
+    BetService betService;
+
 
     @Override
     public Coupon save(Coupon coupon) {
-        return betCouponRepository.save(coupon);
+        return couponRepository.save(coupon);
     }
 
     @Override
     public List<Coupon> findAllByUser(String userName) {
 
-        List<Coupon> coupons=new ArrayList<>();
+        List<Coupon> coupons = new ArrayList<>();
 
         try {
-            coupons= betCouponRepository.findAllByUser(userName);
+            coupons = couponRepository.findAllByUser(userName);
         } catch (Exception e) {
 
         }
 
-        return  coupons;
+        return coupons;
     }
 
     @Override
     public List<Coupon> findAllByUserUsername(String userName) {
-        return betCouponRepository.findAllByUserUsername(userName);
+        return couponRepository.findAllByUserUsername(userName);
     }
 
     @Override
     public Coupon findById(int id) {
-        return betCouponRepository.findById(id);
+        return couponRepository.findById(id);
     }
 
     @Override
     public List<Coupon> findAllByBetsIn(List<Bet> bets) {
-        return betCouponRepository.findAllByBetsIn(bets);
+        return couponRepository.findAllByBetsIn(bets);
     }
 
     @Override
     public void resolveCoupons(List<Coupon> coupons) {
 
-        for(Coupon coupon:coupons){
-            Boolean active=coupon.isActive();
-            Boolean won=coupon.isWon();
-            List<Bet> bets=coupon.getBets();
+        for (Coupon coupon : coupons) {
+            Boolean active = coupon.isActive();
+            Boolean won = coupon.isWon();
+            List<Bet> bets = coupon.getBets();
 
             resolveBets(bets);
 
-            int totalBets=bets.size();
-            int activeBets=0;
-            int finishedBets=0;
-            List<Boolean> betStatus=new ArrayList<>();
+            int totalBets = bets.size();
+            int activeBets = 0;
+            int finishedBets = 0;
+            List<Boolean> betStatus = new ArrayList<>();
 
 
-            for(Bet b:bets){
+            for (Bet b : bets) {
                 betStatus.add(b.isWon());
 
-                if(b.getEvent().getMatchStatus().equals("active")){
+                if (b.getEvent().getMatchStatus().equals("active")) {
                     activeBets++;
-                }
-                else {
+                } else {
                     finishedBets++;
                 }
             }
 
-            if (activeBets==0){
+            if (activeBets == 0) {
                 coupon.setActive(false);
             }
 
-            if(betStatus.contains(false)){
+            if (betStatus.contains(false)) {
                 coupon.setWon(false);
-                Wallet wallet=coupon.getUser().getWallet();
-            }
-
-            else {
+                Wallet wallet = coupon.getUser().getWallet();
+            } else {
                 coupon.setWon(true);
-                Wallet wallet=coupon.getUser().getWallet();
+                Wallet wallet = coupon.getUser().getWallet();
                 wallet.setBalance(wallet.getBalance().add(coupon.getBetValue()));
                 wallet.getTransactions().add("You won " + coupon.getBetValue() + "PLN on coupon id " + coupon.getId());
             }
 
-            betCouponRepository.save(coupon);
+            couponRepository.save(coupon);
         }
 
     }
 
 
-    public List<Bet> resolveBets(List<Bet> bets){
+    public List<Bet> resolveBets(List<Bet> bets) {
 
-        for(Bet bet:bets) {
+        for (Bet bet : bets) {
             Fixture fixture = bet.getEvent();
             String fixtureStatus = fixture.getMatchStatus();
 
@@ -133,5 +133,45 @@ public class CouponServiceImpl implements CouponService {
 
         return bets;
     }
+
+
+    public void saveCoupon(Coupon coupon, BigDecimal charge, User user) {
+
+        //saving coupon to generate Id
+        couponRepository.save(coupon);
+        couponRepository.flush();
+
+        int id=coupon.getId();
+
+
+
+        //saving coupon to fill other data
+        coupon.setBetValue(charge);
+        coupon.setUser(user);
+        List<Bet> betsOnCoupon=coupon.getBets();
+        BigDecimal winValue = calculateWinValue(betsOnCoupon, charge);
+        coupon.setWinValue(winValue);
+        couponRepository.save(coupon);
+
+
+        //saving bets, cascade saving was not warking
+        for(Bet b:betsOnCoupon){
+            b.setCoupon(coupon);
+            betService.save(b);
+        }
+
+    }
+
+    private static BigDecimal calculateWinValue(List<Bet> bets, BigDecimal charge) {
+
+        BigDecimal win = charge;
+
+        for (Bet bet : bets) {
+            win = win.multiply(bet.getBetPrice());
+        }
+
+        return win;
+    }
+
 
 }

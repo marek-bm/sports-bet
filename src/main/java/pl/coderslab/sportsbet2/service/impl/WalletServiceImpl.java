@@ -5,12 +5,16 @@ import org.springframework.stereotype.Service;
 import pl.coderslab.sportsbet2.model.User;
 import pl.coderslab.sportsbet2.model.Wallet;
 import pl.coderslab.sportsbet2.repository.WalletRepository;
+import pl.coderslab.sportsbet2.service.UserService;
 import pl.coderslab.sportsbet2.service.WalletService;
 
 @Service
 public class WalletServiceImpl implements WalletService {
     @Autowired
     WalletRepository walletRepository;
+
+    @Autowired
+    UserService userService;
 
     public  void saveWallet(Wallet wallet){
         walletRepository.save(wallet);
@@ -20,4 +24,11 @@ public class WalletServiceImpl implements WalletService {
     public Wallet findByOwner(User user) {
         return walletRepository.findByOwner(user);
     }
+
+    @Override
+    public Wallet findByOwner(String userName) {
+        User user=userService.findByUserName(userName);
+        return walletRepository.findByOwner(user);
+    }
+
 }

@@ -10,6 +10,11 @@
 <!--<div id="wrapper" th:fragment="sidebar">-->
 <!-- Sidebar -->
 <ul class="sidebar navbar-nav" th:fragment="sidebar">
+    <li>
+        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+            <i class="fas fa-arrow-circle-o-right"></i>
+        </button>
+    </li>
 
     <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
         <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
@@ -23,7 +28,7 @@
             <a class="dropdown-item" th:href="@{/mycoupons}">Bets</a>
             <a class="dropdown-item" th:href="@{/wallet}">Wallet</a>
             <a class="dropdown-item" th:href="@{/logout}">Logout</a>
-            <div class="dropdown-divider"></div>
+
         </div>
     </li>
 
@@ -39,7 +44,6 @@
             <a class="dropdown-item" th:href="@{/login}">Login</a>
             <a class="dropdown-item" th:href="@{/register}">Register</a>
             <a class="dropdown-item" th:href="@{/forgot-password}">Forgot Password</a>
-            <div class="dropdown-divider"></div>
         </div>
     </li>
 

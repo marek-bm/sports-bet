@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head th:replace="fragments/header :: header">
+
+</head>
+
+<body id="page-top">
+
+<nav th:replace="fragments/topbar :: topbar"></nav>
+
+<div id="wrapper">
+
+    <!--<div id="wrapper">-->
+
+    <div class="main-sidebar">
+        <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
+    </div>
+
+    <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+            <section class="section">
+
+                <div class="row">
+
+
+                    <div class="col-lg-8 col-md-12 col-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Instruction</h4>
+                            </div>
+                            <div class="card-body">
+                                <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
+                                     class="chartjs-size-monitor">
+                                    <div class="chartjs-size-monitor-expand"
+                                         style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink"
+                                         style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                    </div>
+                                </div>
+                                <div class="statistic-details mt-sm-4">
+                                    <ol>
+                                        <li>
+                                            This site is demo representation of Spring MVC project simulating betting
+                                            site.
+                                            It was developed as a final project of bootcamp which I took part in.
+                                            For more details please visit page about me.
+                                        </li>
+
+                                        <li>
+                                            In order to experience full functionality, it is recommended to register own
+                                            user account,
+                                            however visiting as a guest is also possible, but lower functionality will be
+                                            provided
+                                        </li>
+
+                                        <li>
+                                            In case you decide to register, recommended option is th create account
+                                            using fake personal data.
+                                            I don't process any information.
+                                            As mentioned, service is deployed for education purposes only, to
+                                            demonstrate functionality.
+                                        </li>
+
+                                        <li>
+                                            After getting logged into service, go to user account and charge your
+                                            wallet.
+                                            Of course again it is only demo and you can assing as much money as you want
+                                            without eroding your real bank account  :-)
+                                        </li>
+
+
+                                        <li>
+                                            Betting itself is easy. You just have to select on the bet that seems to be
+                                            attractive.
+                                            You can choose based on th odds, statistics provided or your own intuition.
+                                            In the offer there is 5 type of markets:
+                                            <ul>
+                                                <li>home team win - 1</li>
+                                                <li>draw - x</li>
+                                                <li>away team win - 2</li>
+                                                <li> goals less or more than 2.5</li>
+                                            </ul>
+                                        </li>
+
+                                        <li>
+                                            When you finish selecting betts, simply put specific amount of money you want
+                                            to bet and submit. Enojy :-)
+                                        </li>
+
+
+                                    </ol>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-4 col-md-12 col-12 col-sm-12">
+                        <!--empty space-->
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+</div>
+
+
+<div th:include="fragments/footer :: footer"></div>
+
+
+</body>
+</html>

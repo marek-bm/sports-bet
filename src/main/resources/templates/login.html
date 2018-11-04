@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Login</title>
+    <title>Login</title>
 
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -26,21 +26,25 @@
 
     <div class="container">
       <div class="card card-login mx-auto mt-5">
+
+        <form th:action="@{/login}" method="post">
         <div class="card-header">Login</div>
         <div class="card-body">
-          <form th:action="@{/login}" method="post">
+
+
             <div class="form-group">
               <div class="form-label-group">
-                <input type="text" name="username" id="firstName" class="form-control" placeholder="Username" required="required" autofocus="autofocus">
-                <label> Username</label>
+                <input type="text" id="inputEmail" name="username" class="form-control" placeholder="Username" required="required" autofocus="autofocus">
+                <label for="inputEmail">Username</label><br>
               </div>
-            </div>
+
             <div class="form-group">
               <div class="form-label-group">
                 <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
                 <label for="inputPassword">Password</label>
               </div>
             </div>
+
             <div class="form-group">
               <div class="checkbox">
                 <label>
@@ -49,8 +53,10 @@
                 </label>
               </div>
             </div>
-            <!--<input type="hidden" th:name="${_csrf.parameterName}"  th:value="${_csrf.token}"/>-->
-            <input class="btn btn-primary btn-block" type="submit" value="Login">Login</input>
+            </div>
+        </div>
+
+            <input type="submit" class="btn btn-primary btn-block"  value="Login" href="/login"></input>
           </form>
           <div class="text-center">
             <a class="d-block small mt-3" th:href="@{/register}">Register an Account</a>
@@ -58,7 +64,6 @@
           </div>
         </div>
       </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

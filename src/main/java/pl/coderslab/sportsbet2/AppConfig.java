@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import pl.coderslab.sportsbet2.converter.DateConverter;
 
@@ -15,13 +14,6 @@ public class AppConfig extends WebMvcConfigurerAdapter  {
     @Bean
     public DateConverter getDateConverter() {
         return new DateConverter();
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/403").setViewName("error/403");
-        registry.addViewController("/500").setViewName("error/500");
-        registry.addViewController("/login").setViewName("login");
     }
 
     @Override
@@ -38,9 +30,12 @@ public class AppConfig extends WebMvcConfigurerAdapter  {
                 "/js/**",
                 "/vendor/**",
                 "/static/img/**",
+                "/static/vendor/scss/mixins/**",
                 "/fixture-stats/vendor/**",
                 "/fixture-stats/css/**",
                 "/fixture-stats/static/img/**",
+                "/fixture-stats/fonts/icomoon/**",
+                "/fixture-stats/img/**",
                 "/user-edit/vendor/**",
                 "/user-edit/**",
                 "/user-edit/css/**",
@@ -53,7 +48,8 @@ public class AppConfig extends WebMvcConfigurerAdapter  {
                         "classpath:/static/img/",
                         "classpath:/static/css/",
                         "classpath:/static/js/",
-                        "classpath:/static/vendor/");
+                        "classpath:/static/vendor/",
+                        "classpath:/static/vendor/scss/mixins/");
     }
 
 }
