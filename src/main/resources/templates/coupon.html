@@ -38,7 +38,7 @@
                 <td>
                     <form th:action="@{/delbet}" method="post">
                         <input type="hidden" name="eventId" th:value="${bet.event.id}"/>
-                        <input type="submit" th:value="x"/>
+                        <input type="submit" class="btn btn-dark" th:value="x"/>
                     </form>
                 </td>
             </tr>
@@ -47,8 +47,8 @@
 
 
     <form th:action="@{/make-bet}" method="post">
-        <p> Bet->  <input type="number" min="1.00" name="charge" value="0.00" step="0.01" placeholder='0.00'> PLN </p>
-        <p><input class="btn btn-primary btn-round" type="submit" value="Submit" /></p>
+        <p> Bet->  <input type="number" class="btn btn-dark" min="1.00" name="charge" value="0.00" step="0.01" placeholder='0.00'> PLN </p>
+        <p><input class="btn btn-primary btn-round" type="submit"  value="Submit" /></p>
     </form>
 
     </div>
