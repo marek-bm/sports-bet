@@ -1,33 +1,21 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
->
-
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-
+    <title>About me</title>
 </head>
-
 <body id="page-top">
-
 <nav th:replace="fragments/topbar :: topbar"></nav>
-
 <div id="wrapper">
-
     <!--<div id="wrapper">-->
-
     <div class="main-sidebar">
         <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
     </div>
-
     <div id="content-wrapper">
-
         <div class="container-fluid">
-
             <section class="section">
-
                 <div class="row">
-
                     <div class="col-lg-8 col-md-12 col-12 col-sm-12">
                         <div class="card">
                             <div class="card-header">
@@ -46,64 +34,28 @@
                                     </div>
                                 </div>
                                 <div class="statistic-details mt-sm-4" style="text-justify: auto">
-                                    <p>Betting service which I'm presenting you is a result of effort made to submit
-                                        final project of CodersLab bootcamp.
-                                        I learned technological aspect which were implemented in this work. The idea was
-                                        to design it in REST API concept, but as a novice I realize it may not be
-                                        perfect.
-                                        List of the covered subjects is at the same time list of my competencies as a
-                                        Java developer</p>
-
-                                    <ul>Key technology and tools I used in my work included:
+                                    <p>
+                                    <ul>Key technology and tools I used in project:
                                         <li>Spring Boot framework (in particular Security for authentication, Data,
                                             Batch to feed database from csv,
-                                            Hibernate to represent ORM of my model, and MVC)
-                                        </li>
+                                            Data JPA, and MVC)</li>
                                         <li>MySQL database design (managed mainly through MyWorkbench)</li>
-                                        <li>In some service there is unit testing, but I still work to expand a bit this
-                                            scope
-                                        </li>
+                                        <li>Junit testing</li>
                                         <li>Front-end is combination of Bootstrap templates modified to my needs and
-                                            vision
-                                        </li>
-                                        <li>There are also potentially good places to introduce multi-threading,
-                                            which I'm going to do as a part of further improvements and self-development
-                                        </li>
+                                            vision</li>
                                     </ul>
-
-                                    <p>To get more details about source code, I encourage you to visit github repository
-                                        referced in the navigation bar. </p>
-
-                                    <p>As mentioned I'm newby as Java developer, but past 4 months is almost 7
-                                        day-a-week full time activity. I graduated from full time IT boot-camp intended
-                                        to prepare for Java Backend developer. Possible to verify at CodersLab</p>
-                                    <p> If my competencies interested you, I would be happy to get in touch with
-                                        you. </p>
-
-                                    <p>Best Regards</p>
-                                    <p>Marek</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="col-lg-4 col-md-12 col-12 col-sm-12">
-                        <!--empty space-->
+                        <div class="col-lg-4 col-md-12 col-12 col-sm-12">
+                            <!--empty space-->
+                        </div>
                     </div>
                 </div>
-
             </section>
-
         </div>
-
     </div>
-
 </div>
-
-
 <div th:include="fragments/footer :: footer"></div>
-
-
 </body>
 </html>
