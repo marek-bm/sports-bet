@@ -1,4 +1,4 @@
-# sports-bet
+# sports-bet simulator
 Technology stack:
 <ul>
 	<li>Spring Framework including modules:
