@@ -19,7 +19,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public Bet save(Bet bet) {
-       return betRepository.save(bet);
+        return betRepository.save(bet);
     }
 
     @Override
@@ -44,65 +44,43 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public void updateBets(Fixture fixture) {
-
-        List<Bet> bets=new ArrayList<>();
-
+        List<Bet> bets = new ArrayList<>();
         try {
-
-            bets=betRepository.findAllByEvent(fixture);
-
-            resolveBets(bets,fixture);
-
+            bets = betRepository.findAllByEvent(fixture);
+            resolveBets(bets, fixture);
             betRepository.saveAll(bets);
-
         } catch (BetNotFoundException e) {
             e.printStackTrace();
         }
-
-
     }
 
-
-
     private List<Bet> resolveBets(List<Bet> bets, Fixture fixture) {
-
-        for (Bet bet:bets){
-            String userBet=bet.getPlacedBet();
-            String actualResult=fixture.getFTR();
-            int fixtureGoals=fixture.getFTHG()+fixture.getFTAG();
+        for (Bet bet : bets) {
+            String userBet = bet.getPlacedBet();
+            String actualResult = fixture.getFTR();
+            int fixtureGoals = fixture.getFTHG() + fixture.getFTAG();
 
             try {
-                if(userBet.equals("H") || userBet.equals("A") || userBet.equals("D")){
-                    if(userBet.equals(actualResult)){
+                if (userBet.equals("H") || userBet.equals("A") || userBet.equals("D")) {
+                    if (userBet.equals(actualResult)) {
                         bet.setWon(true);
-
-                    }
-                    else {
+                    } else {
                         bet.setWon(false);
-
                     }
-                }
-
-                else{
-                    if(fixtureGoals<2.5 && userBet.equals("LT2_5")){
+                } else {
+                    if (fixtureGoals < 2.5 && userBet.equals("LT2_5")) {
                         bet.setWon(true);
-
-                    }
-                    else if(fixtureGoals>2.5 && userBet.equals("GT2_5")){
+                    } else if (fixtureGoals > 2.5 && userBet.equals("GT2_5")) {
                         bet.setWon(true);
-                                            }
-                    else {
+                    } else {
                         bet.setWon(false);
-
                     }
                 }
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
-
         return bets;
-
     }
 
 //
@@ -116,6 +94,4 @@ public class BetServiceImpl implements BetService {
 //        return bet;
 //    }
 //
-
-
 }

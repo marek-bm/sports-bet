@@ -10,11 +10,8 @@ public interface BetService {
 
     Bet save(Bet bet);
     Bet findById(Integer betId);
-
     List<Bet> findAllByCouponId(int id);
     List<Bet> findAllByEventMatchday(int id);
-
     List<Bet> findAllByEvent(Fixture fixture);
-
     void updateBets(Fixture fixture);
 }

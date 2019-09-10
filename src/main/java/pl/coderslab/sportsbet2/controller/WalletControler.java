@@ -30,49 +30,41 @@ public class WalletControler {
     FixtureService fixtureService;
 
     @ModelAttribute("wallet")
-    public Wallet walletInSession(Authentication authentication){
-
-        User current=null;
-
-        try{
-            current=userService.findByUserName(authentication.getName());
-            Wallet wallet=current.getWallet();
+    public Wallet walletInSession(Authentication authentication) {
+        User current = null;
+        try {
+            current = userService.findByUserName(authentication.getName());
+            Wallet wallet = current.getWallet();
             return wallet;
 
-        }catch (NullPointerException e){ }
-
+        } catch (NullPointerException e) {
+        }
         return null;
     }
 
-
     @RequestMapping("/wallet")
-    public String showUsersWallet(@ModelAttribute("wallet") Wallet wallet){
+    public String showUsersWallet(@ModelAttribute("wallet") Wallet wallet) {
         return "wallet";
     }
 
-
     @RequestMapping(value = "/chargeaccount", method = RequestMethod.GET)
-    public String chargeWalletRequest(@ModelAttribute("wallet") Wallet wallet){
+    public String chargeWalletRequest(@ModelAttribute("wallet") Wallet wallet) {
         return "wallet-charge";
-
     }
 
     @RequestMapping(value = "/chargeaccount", method = RequestMethod.POST)
-    public String chargeWalletProcessing(@ModelAttribute("wallet") Wallet wallet, @RequestParam BigDecimal charge ){
-        BigDecimal updatedBalance=wallet.getBalance().add(charge);
+    public String chargeWalletProcessing(@ModelAttribute("wallet") Wallet wallet, @RequestParam BigDecimal charge) {
+        BigDecimal updatedBalance = wallet.getBalance().add(charge);
         wallet.setBalance(updatedBalance);
-
-        Date date=new Date();
-        wallet.getTransactions().add(date+ " you charged your account by "+charge +" PLN");
-
+        Date date = new Date();
+        wallet.getTransactions().add(date + " you charged your account by " + charge + " PLN");
         walletService.saveWallet(wallet);
         return "redirect:/wallet";
     }
 
-    @RequestMapping ("/withdraw}")
-    public String withdrawCash(){
+    @RequestMapping("/withdraw}")
+    public String withdrawCash() {
         return "withdraw";
     }
-
 
 }

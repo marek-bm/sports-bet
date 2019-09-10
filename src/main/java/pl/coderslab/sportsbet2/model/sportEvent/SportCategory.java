@@ -13,11 +13,11 @@ public class SportCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Integer id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String name;
-
-
 }

@@ -13,16 +13,14 @@ public class UsernameValidator implements ConstraintValidator<UsernameUnique, St
     @Autowired
     UserService userService;
 
-   public void initialize(UsernameUnique constraint) {
-   }
+    public void initialize(UsernameUnique constraint) {
+    }
 
-   public boolean isValid(String username, ConstraintValidatorContext context) {
-
-       User user=userService.findUsersByUsername(username);
-       if (user==null){
-           return true;
-       }
-
-      return false;
-   }
+    public boolean isValid(String username, ConstraintValidatorContext context) {
+        User user = userService.findUsersByUsername(username);
+        if (user == null) {
+            return true;
+        }
+        return false;
+    }
 }

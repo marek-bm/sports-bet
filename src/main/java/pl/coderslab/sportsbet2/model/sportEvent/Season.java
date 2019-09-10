@@ -14,23 +14,27 @@ public class Season {
     @Getter
     private Integer id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String seasonYear;
 
-    @Getter @Setter
-    @ManyToMany (cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Team> teams;
 
-    @Getter @Setter
-    @OneToMany (mappedBy = "seasons", cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "seasons", cascade = CascadeType.ALL)
     private List<League> leagues;
 
-    @Getter @Setter
-    @OneToMany (mappedBy = "season", cascade = CascadeType.ALL)
-    private  List<Fixture> fixtures;
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "season", cascade = CascadeType.ALL)
+    private List<Fixture> fixtures;
 
-    @OneToMany (mappedBy = "season")
-    @Getter @Setter
+    @OneToMany(mappedBy = "season")
+    @Getter
+    @Setter
     List<SeasonResult> seasonResults;
-
 }

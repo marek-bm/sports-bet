@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface SeasonResultsService {
 
-//    List<SeasonResult> findAllBySeasonAndSort(Season season, Sort sort);
-
     List<SeasonResult> findAllBySeasonOrderByPointsDesc(Season season);
 }

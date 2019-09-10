@@ -48,7 +48,6 @@ public class Coupon {
     @Column (name = "is_active")
     private boolean active=true;
 
-
     //constructor
     public Coupon() {
         setDateCreated();
@@ -56,17 +55,13 @@ public class Coupon {
         this.bets=new ArrayList<>();
     }
 
-
 //    public List<SingleBet> getBets() {
 //        return bets;
 //    }
 
-
 //    public void setBets(List<SingleBet> bets) {
 //        this.bets = bets;
 //    }
-
-
 
     public void setWinValue(BigDecimal winValue) {
         this.winValue = winValue;
@@ -76,5 +71,4 @@ public class Coupon {
         Date date=new Date();
         this.dateCreated = date;
     }
-
 }

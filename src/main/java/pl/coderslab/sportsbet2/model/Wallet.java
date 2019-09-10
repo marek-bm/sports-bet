@@ -34,5 +34,4 @@ public class Wallet {
     @ElementCollection( targetClass = String.class )
     @Getter @Setter
     private List<String> transactions=new ArrayList<>();
-
 }

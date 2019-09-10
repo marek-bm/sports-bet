@@ -16,7 +16,6 @@ public class InfoController {
         return "about-me";
     }
 
-
     @RequestMapping ("/contact")
     public String contactDetails(){
         return "contact";

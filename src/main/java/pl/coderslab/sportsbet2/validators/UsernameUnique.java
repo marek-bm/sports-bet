@@ -16,8 +16,6 @@ import java.lang.annotation.Target;
 public @interface UsernameUnique {
 
     String message() default "Username already exists";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

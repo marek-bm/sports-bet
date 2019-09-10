@@ -17,15 +17,12 @@ public class DateConverter implements Converter<String, Date> {
     public Date convert(String dateString) {
         try {
             DateFormat format = new SimpleDateFormat("yy-MM-dd");
-            Date date=null;
-
-            java.util.Date dateConverted=format.parse(dateString);
-            return date=dateConverted;
+            Date date = null;
+            java.util.Date dateConverted = format.parse(dateString);
+            return date = dateConverted;
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return null;
     }
-
 }

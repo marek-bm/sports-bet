@@ -31,25 +31,18 @@ public class RegistrationController {
     WalletRepository walletRepository;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String registrationInit(Model model){
-
-
-        UserDTO userDTO=new UserDTO();
-
+    public String registrationInit(Model model) {
+        UserDTO userDTO = new UserDTO();
         model.addAttribute("userDTO", userDTO);
-
         return "register";
     }
 
-
-    @RequestMapping (value = "/register", method = RequestMethod.POST)
-    public String registrationFinish(@Valid UserDTO userDTO, BindingResult result, Model model){
-
-        if (result.hasErrors()){
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String registrationFinish(@Valid UserDTO userDTO, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             return "register";
         }
-
-        User user=new User();
+        User user = new User();
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setUsername(userDTO.getUsername());
@@ -66,14 +59,12 @@ public class RegistrationController {
         user.getWallet().setBalance(BigDecimal.valueOf(0));
         userService.saveUser(user);
 
-        Wallet wallet=user.getWallet();
+        Wallet wallet = user.getWallet();
         wallet.setOwner(user);
         walletRepository.save(wallet);
-
         return "redirect:/login";
 
         /* this was first verification before custom validators were introduced
-
         verification if username exists in DB
         if(userExists(userName)==true){
             return "registration";
@@ -85,22 +76,19 @@ public class RegistrationController {
             return "registration";
         }
          */
-
-
     }
 
     @ModelAttribute
-    public void showCountires(Model model){
-        List<Country> countries=countryService.findAll();
+    public void showCountires(Model model) {
+        List<Country> countries = countryService.findAll();
         model.addAttribute("countries", countries);
 
     }
 
     //private method to check verify if username given in form is free to use
-    private boolean userExists(String userName){
-        if(userService.findByUserName(userName)==null){
+    private boolean userExists(String userName) {
+        if (userService.findByUserName(userName) == null) {
             return false;
-        }
-        else return true;
+        } else return true;
     }
 }

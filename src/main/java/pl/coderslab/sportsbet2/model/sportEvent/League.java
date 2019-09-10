@@ -11,28 +11,31 @@ import java.util.List;
 @Entity
 public class League {
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
-    @Getter @Setter
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
+    @Setter
     private Integer id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String name;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private int division;
 
-    @OneToMany (cascade = CascadeType.ALL)
-    @Getter @Setter
+    @OneToMany(cascade = CascadeType.ALL)
+    @Getter
+    @Setter
     private List<Season> seasons;
 
     @OneToOne
-    @Getter @Setter
+    @Getter
+    @Setter
     private Country country;
 
-    @OneToMany (mappedBy = "league")
-    @Getter @Setter
+    @OneToMany(mappedBy = "league")
+    @Getter
+    @Setter
     private List<Fixture> fixtures;
-
-
-
 }

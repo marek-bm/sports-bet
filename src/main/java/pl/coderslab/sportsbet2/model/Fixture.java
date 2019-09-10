@@ -116,5 +116,4 @@ Getters, setters and constructor replaced with lombok annotation
             e.printStackTrace();
         }
     }
-
 }

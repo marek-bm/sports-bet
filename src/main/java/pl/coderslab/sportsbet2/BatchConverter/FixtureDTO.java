@@ -13,20 +13,24 @@ import java.text.SimpleDateFormat;
 @NoArgsConstructor
 public class FixtureDTO {
 
-
-    @Getter @Setter
+    @Getter
+    @Setter
     private Integer Id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private int category_id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private int league_id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private int season_id;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private int matchday;
 
     private java.util.Date Date;
@@ -35,64 +39,75 @@ public class FixtureDTO {
         return Date;
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String matchStatus;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String homeTeam;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String awayTeam;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     //final time home team goals
     private Integer FTHG;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     //final time away team goals
     private Integer FTAG;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     //final result (H-HomeTeam, A- AwayTeam, D-draw)
     private String FTR;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     //home team half-time goal
     private Integer HTHG;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     //away team half-time goal
     private Integer HTAG;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     //half time result (H-HomeTeam, A- AwayTeam, D-draw)
     private String HTR;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private BigDecimal homeWinOdd;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private BigDecimal drawOdd;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private BigDecimal awayWinOdd;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private BigDecimal goal_more_2_5;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private BigDecimal goal_less_2_5;
-
 
     public void setDate(String date) {
         DateFormat format = new SimpleDateFormat("dd/MM/yy");
         try {
-            java.util.Date dateConverted=format.parse(date);
-            this.Date=dateConverted;
+            java.util.Date dateConverted = format.parse(date);
+            this.Date = dateConverted;
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
-
-
 }

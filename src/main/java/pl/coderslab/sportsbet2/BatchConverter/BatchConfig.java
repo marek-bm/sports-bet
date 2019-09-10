@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import pl.coderslab.sportsbet2.model.Fixture;
 
-
 @Configuration
 @EnableBatchProcessing
 public class BatchConfig {
@@ -30,33 +29,32 @@ public class BatchConfig {
         return new FixtureProcessor();
     }
 
-
     //based on https://www.youtube.com/watch?v=1XEX-u12i0A
     @Bean
     public Job job(JobBuilderFactory jobBuilderFactory,
                    StepBuilderFactory stepBuilderFactory,
                    ItemReader<FixtureDTO> fileItemReader,
                    ItemProcessor<FixtureDTO, Fixture> itemProcessor,
-                   ItemWriter<Fixture> itemWriter){
+                   ItemWriter<Fixture> itemWriter) {
 
-        Step step=stepBuilderFactory.get("file-load")
-                        .<FixtureDTO, Fixture>chunk(100)
-                        .reader(fileItemReader)
-                        .processor(itemProcessor)
-                        .writer(itemWriter)
-                        .build();
+        Step step = stepBuilderFactory.get("file-load")
+                .<FixtureDTO, Fixture>chunk(100)
+                .reader(fileItemReader)
+                .processor(itemProcessor)
+                .writer(itemWriter)
+                .build();
 
-        Job job=jobBuilderFactory.get("factory")
+        Job job = jobBuilderFactory.get("factory")
                 .incrementer(new RunIdIncrementer())
                 .start(step)
                 .build();
-        return  job;
+        return job;
     }
 
     //implementation of itemReader
     @Bean
-    public FlatFileItemReader<FixtureDTO> fileItemReader(@Value("${inputFile}") Resource resource){
-        FlatFileItemReader<FixtureDTO> flatFileItemReader=new FlatFileItemReader<>();
+    public FlatFileItemReader<FixtureDTO> fileItemReader(@Value("${inputFile}") Resource resource) {
+        FlatFileItemReader<FixtureDTO> flatFileItemReader = new FlatFileItemReader<>();
         flatFileItemReader.setResource(resource);
         flatFileItemReader.setName("CSV-reader");
         flatFileItemReader.setLinesToSkip(1); //first row with header will be skipped
@@ -64,25 +62,20 @@ public class BatchConfig {
         return flatFileItemReader;
     }
 
-
-
-
     @Bean
     public LineMapper<FixtureDTO> lineMapper() {
-        DefaultLineMapper<FixtureDTO> defaultLineMapper=new DefaultLineMapper<>();
-        DelimitedLineTokenizer lineTokenizer=new DelimitedLineTokenizer();
+        DefaultLineMapper<FixtureDTO> defaultLineMapper = new DefaultLineMapper<>();
+        DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(",");
         lineTokenizer.setStrict(false);
         lineTokenizer.setNames(new String[]{"date", "ftag", "fthg", "ftr", "htag", "hthg", "htr", "match_status",
                 "matchday", "away_team_id", "category_id", "home_team_id", "league_id", "season_id",
-                "homeWinOdd",	"drawOdd",	"awayWinOdd",	"goal_more_2_5",	"goal_less_2_5"});
+                "homeWinOdd", "drawOdd", "awayWinOdd", "goal_more_2_5", "goal_less_2_5"});
 
-        BeanWrapperFieldSetMapper<FixtureDTO> fieldSetMapper= new BeanWrapperFieldSetMapper<>();
+        BeanWrapperFieldSetMapper<FixtureDTO> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(FixtureDTO.class);
-
         defaultLineMapper.setLineTokenizer(lineTokenizer);
         defaultLineMapper.setFieldSetMapper(fieldSetMapper);
-
         return defaultLineMapper;
     }
 }

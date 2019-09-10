@@ -25,27 +25,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user=userService.getByUsername(username);
-        if(user==null){
+        User user = userService.getByUsername(username);
+        if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-
-        Set<GrantedAuthority> grantedAuthorities=new HashSet<>();
-        for (Role role:user.getRoles()){
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-
         return new CurrentUser(user.getUsername(), user.getPassword(), grantedAuthorities, user);
     }
 
-
-    public boolean findEmailAndUsername(String username, String email){
-
+    public boolean findEmailAndUsername(String username, String email) {
         try {
-            if (userService.getByUsername(username)==null && userService.findByMail(email)==null){
+            if (userService.getByUsername(username) == null && userService.findByMail(email) == null) {
                 return true;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

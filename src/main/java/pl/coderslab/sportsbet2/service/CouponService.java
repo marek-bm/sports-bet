@@ -13,11 +13,8 @@ public interface CouponService {
     List<Coupon> findAllByUser(String userName);
     List<Coupon> findAllByUserUsername(String userName);
     Coupon findById(int id);
-    
     List<Coupon> findAllByBetsIn(List<Bet> bets);
-
     void resolveCoupons(List<Coupon> coupons);
-
     void saveCoupon(Coupon coupon, BigDecimal charge, User user);
 
 

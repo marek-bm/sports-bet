@@ -15,7 +15,6 @@ public class SeasonResultsServiceImpl implements SeasonResultsService {
     @Autowired
     SeasonResultsRepository seasonResultsRepository;
 
-
     @Override
     public List<SeasonResult> findAllBySeasonOrderByPointsDesc(Season season) {
         return seasonResultsRepository.findAllBySeasonOrderByPointsDesc(season);

@@ -16,8 +16,6 @@ import javax.validation.Valid;
 import java.util.Iterator;
 import java.util.List;
 
-
-
 @Controller
 
 public class Bet2Controller {
@@ -33,55 +31,42 @@ public class Bet2Controller {
 
     @PostMapping("/bet-new")
     public String addBetToCoupon(@Valid Bet bet, BindingResult result, HttpSession session) {
-
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             return "redirect:/active";
         }
-        Coupon coupon=(Coupon) session.getAttribute("coupon");
-
-        List<Bet> betsInSession= coupon.getBets();
-
-        if (bet.checkIfUniqe(betsInSession)==false){
+        Coupon coupon = (Coupon) session.getAttribute("coupon");
+        List<Bet> betsInSession = coupon.getBets();
+        if (bet.checkIfUniqe(betsInSession) == false) {
             return "redirect:/home";
         }
-
         betsInSession.add(bet);
         return "redirect:/home";
-
     }
 
     @PostMapping("/delbet")
-    public String deleteBetFromCoupon(@RequestParam Integer eventId, HttpSession session){
-
-        Coupon coupon= (Coupon) session.getAttribute("coupon");
-
-        List<Bet> sessionBets=coupon.getBets();
-
+    public String deleteBetFromCoupon(@RequestParam Integer eventId, HttpSession session) {
+        Coupon coupon = (Coupon) session.getAttribute("coupon");
+        List<Bet> sessionBets = coupon.getBets();
         removeBetFromSession(eventId, sessionBets);
-
         return "redirect:/home";
     }
 
-
-
     private void removeBetFromSession(Integer eventId, List<Bet> sessionBets) {
-        Iterator<Bet> iterator=sessionBets.listIterator();
-        while (iterator.hasNext()){
-            int idFromIterator= iterator.next().getEvent().getId();
-            if (idFromIterator == eventId){
+        Iterator<Bet> iterator = sessionBets.listIterator();
+        while (iterator.hasNext()) {
+            int idFromIterator = iterator.next().getEvent().getId();
+            if (idFromIterator == eventId) {
                 iterator.remove();
             }
         }
     }
 
-    public static boolean checkIfBetsAreActive( List<Bet> sessionBets){
-        Iterator<Bet> iterator=sessionBets.listIterator();
-        while (iterator.hasNext()){
+    public static boolean checkIfBetsAreActive(List<Bet> sessionBets) {
+        Iterator<Bet> iterator = sessionBets.listIterator();
+        while (iterator.hasNext()) {
             if (iterator.next().getEvent().getMatchStatus().equals("finished"))
                 return false;
         }
-
         return true;
     }
-
 }

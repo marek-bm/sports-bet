@@ -8,8 +8,7 @@ import java.util.List;
 
 @Repository
 public interface SportCategoryRepository extends JpaRepository<SportCategory, Integer> {
-    SportCategory findSportCategoryById(int id);
 
-    @Override
+    SportCategory findSportCategoryById(int id);
     List<SportCategory> findAll();
 }

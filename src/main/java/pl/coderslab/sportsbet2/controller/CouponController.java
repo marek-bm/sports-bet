@@ -42,78 +42,58 @@ public class CouponController {
     @Autowired
     WalletService walletService;
 
-
-
     @RequestMapping("/mycoupon")
     public String showMyCoupon(Model model) {
-
         return "coupon";
     }
 
-
     @RequestMapping("/mycoupons")
-    public String myBets(Model model, Authentication authentication){
-
-        String userName= null;
+    public String myBets(Model model, Authentication authentication) {
+        String userName = null;
         try {
             userName = authentication.getName();
-            List<Coupon> coupons=couponService.findAllByUserUsername(userName);
-            model.addAttribute("coupons", coupons); ;
+            List<Coupon> coupons = couponService.findAllByUserUsername(userName);
+            model.addAttribute("coupons", coupons);
+            ;
         } catch (NullPointerException e) {
 
         }
-
         return "mybets";
     }
 
-
     @RequestMapping("/coupondetails")
-    public  String showCouponDetails(@RequestParam Integer id, Model model){
-
-        List<Bet> bets=betRepository.findAllByCouponId(id);
-
+    public String showCouponDetails(@RequestParam Integer id, Model model) {
+        List<Bet> bets = betRepository.findAllByCouponId(id);
         model.addAttribute("bets", bets);
-
         return "coupon-details";
-
     }
-
 
     @RequestMapping(value = "/make-bet", method = RequestMethod.POST)
-    public String payTheCoupon(@RequestParam (name = "charge") BigDecimal charge,
+    public String payTheCoupon(@RequestParam(name = "charge") BigDecimal charge,
                                HttpSession session,
                                Authentication authentication,
-                               Model model){
+                               Model model) {
 
-        if(authentication==null){
+        if (authentication == null) {
             model.addAttribute("error", "You have to login");
             return "error/login-required";
-        }
-        else{
-            String userName=authentication.getName();
-            User user=userService.findByUserName(userName);
-            Wallet wallet=user.getWallet();
+        } else {
+            String userName = authentication.getName();
+            User user = userService.findByUserName(userName);
+            Wallet wallet = user.getWallet();
 
-            if( wallet.getBalance().compareTo(charge) < 0){
+            if (wallet.getBalance().compareTo(charge) < 0) {
                 return "error/moneyalert";
-            }
-            else {
+            } else {
                 wallet.setBalance(wallet.getBalance().subtract(charge));
-                Coupon coupon= (Coupon) session.getAttribute("coupon");
+                Coupon coupon = (Coupon) session.getAttribute("coupon");
                 couponService.saveCoupon(coupon, charge, user);
-                wallet.getTransactions().add(new Date()+ " you placed  "+charge + " PLN on betting coupon");
+                wallet.getTransactions().add(new Date() + " you placed  " + charge + " PLN on betting coupon");
                 userService.saveUser(user);
                 walletService.saveWallet(wallet);
-
                 model.addAttribute("coupon", new Coupon());
             }
-
         }
-
         return "redirect:/mycoupons";
-
     }
-
 }
-
-

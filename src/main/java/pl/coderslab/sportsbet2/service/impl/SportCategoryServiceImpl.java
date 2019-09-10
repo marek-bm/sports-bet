@@ -10,9 +10,9 @@ import java.util.List;
 
 @Service
 public class SportCategoryServiceImpl implements SportCategoryService {
+
     @Autowired
     SportCategoryRepository sportCategoryRepository;
-
 
     @Override
     public SportCategory findSportCategoryById(int id) {

@@ -22,28 +22,28 @@ public class UserDTO {
     @NotNull
     private String lastName;
 
-//    @NotNull
+    //    @NotNull
     private boolean adult;
 
     @EmailUnique
     @Email
     private String mail;
 
-//    @NotNull
+    //    @NotNull
     private String bankAccount;
 
-//    @NotNull
+    //    @NotNull
     private String street;
 
-//    @NotNull
+    //    @NotNull
     private String city;
 
-//    @NotNull
+    //    @NotNull
     private String zip;
 
     private Country country;
 
-//    @NotNull
+    //    @NotNull
     private boolean dataProcessingAcknowledgement = false;
 
     public String getUsername() {

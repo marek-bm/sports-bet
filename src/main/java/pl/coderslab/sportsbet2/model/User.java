@@ -20,89 +20,92 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Integer id;
-
 
     @Column(nullable = false, unique = true)
 //    @UsernameUnique
-    @Getter @Setter
+    @Getter
+    @Setter
     private String username;
 
-
     @NotNull
-    @Getter @Setter
+    @Getter
+    @Setter
     private String password;
 
-
     @NotNull
-    @Getter @Setter
+    @Getter
+    @Setter
     private String firstName;
 
-
     @NotNull
-    @Getter @Setter
+    @Getter
+    @Setter
     private String lastName;
 
-
-//    @NotNull
-@Getter @Setter
+    //    @NotNull
+    @Getter
+    @Setter
     private boolean adult;
 
-
-//    @EmailUnique
+    //    @EmailUnique
     @Email
     @Column(nullable = false, unique = true)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String mail;
 
-    @OneToOne (cascade = CascadeType.ALL)
-    @Getter @Setter
+    @OneToOne(cascade = CascadeType.ALL)
+    @Getter
+    @Setter
     private Wallet wallet;
 
-
-    @OneToMany (mappedBy = "user")
-    @Getter @Setter
+    @OneToMany(mappedBy = "user")
+    @Getter
+    @Setter
     private List<Coupon> coupons = new ArrayList<>();
 
-    @Getter @Setter
-    private boolean enabled=false;
+    @Getter
+    @Setter
+    private boolean enabled = false;
 
-
-    @ManyToMany (fetch = FetchType.EAGER)
-    @Getter @Setter
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Getter
+    @Setter
     private Set<Role> roles;
 
-
-//    @NotNull
-    @Getter @Setter
+    //    @NotNull
+    @Getter
+    @Setter
     private String street;
 
-
-//    @NotNull
-    @Getter @Setter
+    //    @NotNull
+    @Getter
+    @Setter
     private String city;
 
-
-//    @NotNull
-    @Getter @Setter
+    //    @NotNull
+    @Getter
+    @Setter
     private String zip;
 
-
     @OneToOne
-    @Getter @Setter
+    @Getter
+    @Setter
     private Country country;
 
-//    @NotNull
-    @Getter @Setter
+    //    @NotNull
+    @Getter
+    @Setter
     private boolean dataProcessingAcknowledgement = false;
 
-
-//    @NotNull
-    @Getter @Setter
+    //    @NotNull
+    @Getter
+    @Setter
     private boolean active = true;
 
     public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
     }
-
 }

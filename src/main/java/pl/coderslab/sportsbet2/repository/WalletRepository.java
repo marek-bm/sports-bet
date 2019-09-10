@@ -8,5 +8,4 @@ import pl.coderslab.sportsbet2.model.Wallet;
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, Integer> {
     Wallet findByOwner(User user);
-    Wallet findByOwner(String userName);
 }

@@ -8,8 +8,5 @@ import org.springframework.stereotype.Service;
 public interface UserDetailsService {
 
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
-
     public boolean findEmailAndUsername(String username, String email) throws UsernameNotFoundException;
-
-
 }

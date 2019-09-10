@@ -18,7 +18,6 @@ public class EmailUniqueValidator implements ConstraintValidator<EmailUnique, St
 
    public boolean isValid(String email, ConstraintValidatorContext context) {
         User user=userService.findUserByMail(email);
-
         if (user==null){
             return true;
         }

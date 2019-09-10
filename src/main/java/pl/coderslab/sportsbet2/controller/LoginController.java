@@ -7,15 +7,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class LoginController {
 
-
-
     @Autowired
     UserDetailsService userDetailsService;
-
 
 //    @RequestMapping(value = "/login", method = RequestMethod.GET)
 //    public String loginRequest(Model model) {
 //        return "login";
 //    }
-
 }

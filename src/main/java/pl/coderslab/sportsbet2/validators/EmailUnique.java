@@ -15,9 +15,8 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EmailUnique {
+
     String message() default "E-mail address already exists";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

@@ -11,11 +11,8 @@ import java.util.List;
 public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
     List<Coupon> findAllByUser(String userName);
-
     List<Coupon> findAllByUserUsername(String userName);
-
     Coupon findById(int id);
-
     List<Coupon> findAllByBetsIn(List<Bet> bets);
 
 

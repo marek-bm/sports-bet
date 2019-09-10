@@ -26,19 +26,15 @@ public class UserController {
     @Autowired
     CountryService countryService;
 
-
     @RequestMapping("/account")
-    public String userAccountDetails(Model model, Authentication authentication){
-
-
-        User currentUser= null;
+    public String userAccountDetails(Model model, Authentication authentication) {
+        User currentUser = null;
         try {
             currentUser = userService.findUsersByUsername(authentication.getName());
             model.addAttribute("user", currentUser);
         } catch (NullPointerException e) {
-
-            if (currentUser==null){
-                String warning="Only logged users can assess account panel";
+            if (currentUser == null) {
+                String warning = "Only logged users can assess account panel";
                 model.addAttribute("text", warning);
             }
         }
@@ -46,27 +42,23 @@ public class UserController {
         return "user-account";
     }
 
-
-    @RequestMapping ("/forgot-password")
-    public String forgottenPassword(){
+    @RequestMapping("/forgot-password")
+    public String forgottenPassword() {
         return "forgot-password";
     }
 
-
-    @RequestMapping ("/user-edit/{id}")
-    public String editUser(@PathVariable int id, Model model){
-        User user=userService.findById(id);
+    @RequestMapping("/user-edit/{id}")
+    public String editUser(@PathVariable int id, Model model) {
+        User user = userService.findById(id);
         model.addAttribute("user", user);
         return "forms/edit-user";
     }
 
-
     @RequestMapping("/user-edit")
-    public  String editUser( @Valid User user, BindingResult result){
-        if(result.hasErrors()){
+    public String editUser(@Valid User user, BindingResult result) {
+        if (result.hasErrors()) {
             return "forms/edit-user";
         }
-
         userService.saveUser(user);
         return "user-account";
     }
@@ -76,14 +68,13 @@ public class UserController {
     public String changeUserPassword(@RequestParam("id") int userId, Model model) {
         model.addAttribute("id", userId);
         return "forms/updatePassword";
-
     }
 
     @RequestMapping(value = "/user-updatePassword", method = RequestMethod.POST)
     @PreAuthorize("hasRole('READ_PRIVILEGE')")
     public String changeUserPassword(Locale locale,
-                                              @RequestParam("password") String password,
-                                              @RequestParam("oldpassword") String oldPassword,
+                                     @RequestParam("password") String password,
+                                     @RequestParam("oldpassword") String oldPassword,
                                      Model model) {
 
         User user = userService.findUsersByUsername(
@@ -96,16 +87,11 @@ public class UserController {
         }
         userService.changeUserPassword(user, password);
         return "pass-success";
-
     }
-
 
     @ModelAttribute
-    public void showCountires(Model model){
-        List<Country> countries=countryService.findAll();
+    public void showCountires(Model model) {
+        List<Country> countries = countryService.findAll();
         model.addAttribute("countries", countries);
-
     }
-
-
 }
