@@ -1,34 +1,20 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
->
-
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-
 </head>
-
 <body id="page-top">
-
 <nav th:replace="fragments/topbar :: topbar"></nav>
-
 <div id="wrapper">
-
     <!--<div id="wrapper">-->
-
     <div class="main-sidebar">
         <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
     </div>
-
     <div id="content-wrapper">
-
         <div class="container-fluid">
-
             <section class="section">
-
                 <div class="row">
-
-
                     <div class="col-lg-8 col-md-12 col-12 col-sm-12">
                         <div class="card">
                             <div class="card-header">
@@ -49,35 +35,17 @@
                                 <div class="statistic-details mt-sm-4 text-justify">
                                     <ol>
                                         <li>
-                                            This site is demo representation of Spring MVC project simulating betting
-                                            site.
-                                            It was developed as a final project of bootcamp which I took part in.
-                                            For more details please visit page about me.
+                                            In order to experience full functionality, register fake account or continue
+                                            as a guest
+                                        </li>
+                                        <li>
+                                            Project is deployed for education purposes only, and don't send any cookies
                                         </li>
 
                                         <li>
-                                            In order to experience full functionality, it is recommended to register own
-                                            user account,
-                                            however visiting as a guest is also possible, but lower functionality will be
-                                            provided
+                                            After registration and login go to user account and charge your
+                                            wallet with mock money.
                                         </li>
-
-                                        <li>
-                                            In case you decide to register, recommended option is th create account
-                                            using fake personal data.
-                                            I don't process any information.
-                                            As mentioned, service is deployed for education purposes only, to
-                                            demonstrate functionality.
-                                        </li>
-
-                                        <li>
-                                            After getting logged into service, go to user account and charge your
-                                            wallet.
-                                            Of course again it is only demo and you can assing as much money as you want
-                                            without eroding your real bank account  :-)
-                                        </li>
-
-
                                         <li>
                                             Betting itself is easy. You just have to select on the bet that seems to be
                                             attractive.
@@ -90,41 +58,25 @@
                                                 <li> goals less or more than 2.5</li>
                                             </ul>
                                         </li>
-
                                         <li>
-                                            When you finish selecting betts, simply put specific amount of money you want
+                                            When you finish selecting betts, simply put specific amount of money you
+                                            want
                                             to bet and submit. Enojy :-)
                                         </li>
-
-
                                     </ol>
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
                     <div class="col-lg-4 col-md-12 col-12 col-sm-12">
                         <!--empty space-->
                     </div>
                 </div>
-
             </section>
-
         </div>
-
     </div>
-
-
 </div>
-
 </div>
-
-
 <div th:include="fragments/footer :: footer"></div>
-
-
 </body>
 </html>
