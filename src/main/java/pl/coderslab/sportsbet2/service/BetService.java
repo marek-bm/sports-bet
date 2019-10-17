@@ -5,7 +5,6 @@ import pl.coderslab.sportsbet2.model.Fixture;
 
 import java.util.List;
 
-
 public interface BetService {
 
     Bet save(Bet bet);

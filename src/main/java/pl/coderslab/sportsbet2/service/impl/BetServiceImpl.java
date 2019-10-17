@@ -10,6 +10,7 @@ import pl.coderslab.sportsbet2.service.BetService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BetServiceImpl implements BetService {
@@ -83,7 +84,7 @@ public class BetServiceImpl implements BetService {
         return bets;
     }
 
-//
+
 //    public static Bet getBet(@RequestParam Integer event, @RequestParam BigDecimal betPrice, @RequestParam String placedBet, FixtureService fixtureService) {
 //        Bet bet=new Bet();
 //        Fixture fixture=fixtureService.findById(event);
@@ -93,5 +94,5 @@ public class BetServiceImpl implements BetService {
 //
 //        return bet;
 //    }
-//
+
 }
