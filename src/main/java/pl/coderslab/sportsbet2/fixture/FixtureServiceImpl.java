@@ -92,15 +92,17 @@ public class FixtureServiceImpl  implements FixtureService {
         if (currentSeasonGames.size()>0) {
             Map<Integer, List<Fixture>> fixtureMap = new HashMap<>();
 
-            Fixture f = currentSeasonGames.stream().collect(Collectors.minBy((x, y) -> x.getMatchday() - y.getMatchday())).get();
+            Fixture f = currentSeasonGames.stream()
+                    .collect(Collectors.minBy((x, y) -> x.getMatchday() - y.getMatchday()))
+                    .get();
 
             int counter = f.getMatchday();
 
             fixtureMap.put(counter, new ArrayList<>());
 
             for (Fixture fixture : currentSeasonGames) {
-
                 int matchday = fixture.getMatchday();
+
                 if (counter == matchday) {
                     fixtureMap.get(counter).add(fixture);
                 } else {
@@ -111,8 +113,5 @@ public class FixtureServiceImpl  implements FixtureService {
             }
             return fixtureMap;
         }else {return null;}
-
     }
-
-
 }
