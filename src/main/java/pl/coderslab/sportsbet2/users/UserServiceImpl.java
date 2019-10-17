@@ -2,11 +2,7 @@ package pl.coderslab.sportsbet2.users;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.coderslab.sportsbet2.model.Role;
-import pl.coderslab.sportsbet2.users.User;
-import pl.coderslab.sportsbet2.repository.RoleRepository;
-import pl.coderslab.sportsbet2.users.UserRepository;
-import pl.coderslab.sportsbet2.users.UserService;
+import pl.coderslab.sportsbet2.fixture.eventData.RoleRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;

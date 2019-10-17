@@ -1,9 +1,9 @@
 package pl.coderslab.sportsbet2.users;
 
 
-import pl.coderslab.sportsbet2.model.Country;
-import pl.coderslab.sportsbet2.validators.EmailUnique;
-import pl.coderslab.sportsbet2.validators.UsernameUnique;
+import pl.coderslab.sportsbet2.fixture.eventData.Country;
+import pl.coderslab.sportsbet2.users.validators.EmailUnique;
+import pl.coderslab.sportsbet2.users.validators.UsernameUnique;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;

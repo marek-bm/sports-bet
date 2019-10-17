@@ -5,11 +5,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.sportsbet2.users.User;
-import pl.coderslab.sportsbet2.wallet.Wallet;
-import pl.coderslab.sportsbet2.service.CouponService;
-import pl.coderslab.sportsbet2.service.FixtureService;
+import pl.coderslab.sportsbet2.betting.coupon.CouponService;
+import pl.coderslab.sportsbet2.fixture.FixtureService;
 import pl.coderslab.sportsbet2.users.UserService;
-import pl.coderslab.sportsbet2.wallet.WalletService;
 
 import java.math.BigDecimal;
 import java.util.Date;

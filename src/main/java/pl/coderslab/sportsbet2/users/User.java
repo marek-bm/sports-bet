@@ -3,11 +3,10 @@ package pl.coderslab.sportsbet2.users;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import pl.coderslab.sportsbet2.model.Country;
-import pl.coderslab.sportsbet2.model.Coupon;
-import pl.coderslab.sportsbet2.model.Role;
+import pl.coderslab.sportsbet2.fixture.eventData.Country;
+import pl.coderslab.sportsbet2.betting.coupon.Coupon;
 import pl.coderslab.sportsbet2.wallet.Wallet;
-import pl.coderslab.sportsbet2.validators.UsernameUnique;
+import pl.coderslab.sportsbet2.users.validators.UsernameUnique;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
