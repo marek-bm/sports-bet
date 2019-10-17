@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.sportsbet2.model.Country;
-import pl.coderslab.sportsbet2.model.User;
+import pl.coderslab.sportsbet2.users.User;
 import pl.coderslab.sportsbet2.service.CountryService;
 import pl.coderslab.sportsbet2.service.UserService;
 
