@@ -16,6 +16,8 @@ import pl.coderslab.sportsbet2.repository.BetRepository;
 import pl.coderslab.sportsbet2.repository.CouponRepository;
 import pl.coderslab.sportsbet2.service.BetService;
 import pl.coderslab.sportsbet2.service.CouponService;
+import pl.coderslab.sportsbet2.users.User;
+import pl.coderslab.sportsbet2.wallet.Wallet;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
-package pl.coderslab.sportsbet2.service;
+package pl.coderslab.sportsbet2.users;
 
-import pl.coderslab.sportsbet2.model.User;
+import pl.coderslab.sportsbet2.users.User;
 
 import java.util.List;
 

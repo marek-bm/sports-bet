@@ -1,8 +1,9 @@
-package pl.coderslab.sportsbet2.model;
+package pl.coderslab.sportsbet2.wallet;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.coderslab.sportsbet2.users.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;

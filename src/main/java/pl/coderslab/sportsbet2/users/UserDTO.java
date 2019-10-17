@@ -1,4 +1,4 @@
-package pl.coderslab.sportsbet2.model.DTO;
+package pl.coderslab.sportsbet2.users;
 
 
 import pl.coderslab.sportsbet2.model.Country;

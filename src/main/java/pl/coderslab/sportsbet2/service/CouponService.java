@@ -2,7 +2,7 @@ package pl.coderslab.sportsbet2.service;
 
 import pl.coderslab.sportsbet2.model.Bet;
 import pl.coderslab.sportsbet2.model.Coupon;
-import pl.coderslab.sportsbet2.model.User;
+import pl.coderslab.sportsbet2.users.User;
 
 import java.math.BigDecimal;
 import java.util.List;

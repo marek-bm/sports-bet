@@ -1,12 +1,12 @@
-package pl.coderslab.sportsbet2.service.impl;
+package pl.coderslab.sportsbet2.wallet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.coderslab.sportsbet2.model.User;
-import pl.coderslab.sportsbet2.model.Wallet;
-import pl.coderslab.sportsbet2.repository.WalletRepository;
-import pl.coderslab.sportsbet2.service.UserService;
-import pl.coderslab.sportsbet2.service.WalletService;
+import pl.coderslab.sportsbet2.users.User;
+import pl.coderslab.sportsbet2.wallet.Wallet;
+import pl.coderslab.sportsbet2.wallet.WalletRepository;
+import pl.coderslab.sportsbet2.users.UserService;
+import pl.coderslab.sportsbet2.wallet.WalletService;
 
 @Service
 public class WalletServiceImpl implements WalletService {

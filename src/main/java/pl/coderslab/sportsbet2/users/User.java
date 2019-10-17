@@ -1,10 +1,12 @@
-package pl.coderslab.sportsbet2.model;
+package pl.coderslab.sportsbet2.users;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import pl.coderslab.sportsbet2.model.Country;
+import pl.coderslab.sportsbet2.model.Coupon;
+import pl.coderslab.sportsbet2.model.Role;
+import pl.coderslab.sportsbet2.wallet.Wallet;
 import pl.coderslab.sportsbet2.validators.UsernameUnique;
 
 import javax.persistence.*;

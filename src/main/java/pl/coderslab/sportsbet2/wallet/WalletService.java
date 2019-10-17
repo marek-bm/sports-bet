@@ -1,7 +1,7 @@
-package pl.coderslab.sportsbet2.service;
+package pl.coderslab.sportsbet2.wallet;
 
-import pl.coderslab.sportsbet2.model.User;
-import pl.coderslab.sportsbet2.model.Wallet;
+import pl.coderslab.sportsbet2.users.User;
+import pl.coderslab.sportsbet2.wallet.Wallet;
 
 public interface WalletService {
 

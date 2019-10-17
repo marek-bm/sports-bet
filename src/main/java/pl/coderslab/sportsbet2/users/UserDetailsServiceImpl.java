@@ -1,4 +1,4 @@
-package pl.coderslab.sportsbet2.service.impl;
+package pl.coderslab.sportsbet2.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -8,10 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.coderslab.sportsbet2.model.CurrentUser;
+import pl.coderslab.sportsbet2.users.CurrentUser;
 import pl.coderslab.sportsbet2.model.Role;
-import pl.coderslab.sportsbet2.model.User;
-import pl.coderslab.sportsbet2.service.UserService;
+import pl.coderslab.sportsbet2.users.User;
+import pl.coderslab.sportsbet2.users.UserService;
 
 import java.util.HashSet;
 import java.util.Set;

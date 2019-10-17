@@ -1,15 +1,15 @@
-package pl.coderslab.sportsbet2.controller;
+package pl.coderslab.sportsbet2.wallet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.sportsbet2.model.User;
-import pl.coderslab.sportsbet2.model.Wallet;
+import pl.coderslab.sportsbet2.users.User;
+import pl.coderslab.sportsbet2.wallet.Wallet;
 import pl.coderslab.sportsbet2.service.CouponService;
 import pl.coderslab.sportsbet2.service.FixtureService;
-import pl.coderslab.sportsbet2.service.UserService;
-import pl.coderslab.sportsbet2.service.WalletService;
+import pl.coderslab.sportsbet2.users.UserService;
+import pl.coderslab.sportsbet2.wallet.WalletService;
 
 import java.math.BigDecimal;
 import java.util.Date;

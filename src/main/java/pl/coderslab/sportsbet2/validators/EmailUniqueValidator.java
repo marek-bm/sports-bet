@@ -2,8 +2,8 @@ package pl.coderslab.sportsbet2.validators;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.coderslab.sportsbet2.model.User;
-import pl.coderslab.sportsbet2.service.UserService;
+import pl.coderslab.sportsbet2.users.User;
+import pl.coderslab.sportsbet2.users.UserService;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

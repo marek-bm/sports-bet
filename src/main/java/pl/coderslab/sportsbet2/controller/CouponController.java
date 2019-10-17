@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import pl.coderslab.sportsbet2.model.Bet;
 import pl.coderslab.sportsbet2.model.Coupon;
-import pl.coderslab.sportsbet2.model.User;
-import pl.coderslab.sportsbet2.model.Wallet;
+import pl.coderslab.sportsbet2.users.User;
+import pl.coderslab.sportsbet2.wallet.Wallet;
 import pl.coderslab.sportsbet2.repository.BetRepository;
 import pl.coderslab.sportsbet2.service.CouponService;
 import pl.coderslab.sportsbet2.service.FixtureService;
-import pl.coderslab.sportsbet2.service.UserService;
-import pl.coderslab.sportsbet2.service.WalletService;
+import pl.coderslab.sportsbet2.users.UserService;
+import pl.coderslab.sportsbet2.wallet.WalletService;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;

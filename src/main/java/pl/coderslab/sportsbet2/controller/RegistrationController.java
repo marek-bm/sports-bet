@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.coderslab.sportsbet2.model.Country;
-import pl.coderslab.sportsbet2.model.DTO.UserDTO;
-import pl.coderslab.sportsbet2.model.User;
-import pl.coderslab.sportsbet2.model.Wallet;
-import pl.coderslab.sportsbet2.repository.WalletRepository;
+import pl.coderslab.sportsbet2.users.UserDTO;
+import pl.coderslab.sportsbet2.users.User;
+import pl.coderslab.sportsbet2.wallet.Wallet;
+import pl.coderslab.sportsbet2.wallet.WalletRepository;
 import pl.coderslab.sportsbet2.service.CountryService;
-import pl.coderslab.sportsbet2.service.UserService;
+import pl.coderslab.sportsbet2.users.UserService;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;

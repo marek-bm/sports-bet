@@ -1,4 +1,4 @@
-package pl.coderslab.sportsbet2.controller;
+package pl.coderslab.sportsbet2.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,9 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.sportsbet2.model.Country;
-import pl.coderslab.sportsbet2.users.User;
 import pl.coderslab.sportsbet2.service.CountryService;
-import pl.coderslab.sportsbet2.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
