@@ -77,7 +77,7 @@ public class CouponController {
             return "error/login-required";
         } else {
             String userName = authentication.getName();
-            User user = userService.findByUserName(userName);
+            User user = userService.findByUsername(userName);
             Wallet wallet = user.getWallet();
 
             if (wallet.getBalance().compareTo(charge) < 0) {

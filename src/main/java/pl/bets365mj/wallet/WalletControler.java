@@ -31,7 +31,7 @@ public class WalletControler {
     public Wallet walletInSession(Authentication authentication) {
         User current = null;
         try {
-            current = userService.findByUserName(authentication.getName());
+            current = userService.findByUsername(authentication.getName());
             Wallet wallet = current.getWallet();
             return wallet;
 

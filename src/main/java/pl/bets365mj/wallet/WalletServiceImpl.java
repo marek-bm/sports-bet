@@ -24,7 +24,7 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Wallet findByOwner(String userName) {
-        User user=userService.findByUserName(userName);
+        User user=userService.findByUsername(userName);
         return walletRepository.findByOwner(user);
     }
 

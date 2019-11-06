@@ -15,7 +15,6 @@ import pl.bets365mj.coupon.Coupon;
 import pl.bets365mj.coupon.CouponService;
 import pl.bets365mj.fixtureMisc.*;
 import pl.bets365mj.odd.Odds;
-import pl.coderslab.bets365mj.fixtureMisc.*;
 import pl.bets365mj.fixtureMisc.LeagueRepository;
 import pl.bets365mj.fixtureMisc.SeasonServiceImpl;
 

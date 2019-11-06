@@ -16,7 +16,6 @@ import pl.bets365mj.coupon.Coupon;
 import pl.bets365mj.bet.Bet;
 import pl.bets365mj.coupon.CouponServiceImpl;
 import pl.bets365mj.fixture.Fixture;
-import pl.coderslab.bets365mj.fixture.*;
 import pl.bets365mj.bet.BetRepository;
 import pl.bets365mj.coupon.CouponRepository;
 import pl.bets365mj.bet.BetService;

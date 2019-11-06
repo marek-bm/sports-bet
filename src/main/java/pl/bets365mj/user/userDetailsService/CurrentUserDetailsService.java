@@ -24,7 +24,7 @@ public class CurrentUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user= Optional
-                .ofNullable(userService.findByUserName(username))
+                .ofNullable(userService.findByUsername(username))
                 .orElseThrow(()-> new UsernameNotFoundException(username));
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
