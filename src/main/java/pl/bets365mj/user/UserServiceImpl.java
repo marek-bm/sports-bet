@@ -1,7 +1,9 @@
-package pl.bets365mj.users;
+package pl.bets365mj.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.bets365mj.role.Role;
+import pl.bets365mj.role.RoleRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,15 +23,6 @@ public class UserServiceImpl implements UserService {
         this.roleRepository = roleRepository;
     }
 
-    @Override
-    public User findByUserName(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    @Override
-    public User findByMail(String email) {
-        return userRepository.findByMail(email);
-    }
 
     @Override
     public void saveUser(User user) {
@@ -46,23 +39,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByMail(String emial) {
-        return userRepository.findUserByMail(emial);
+    public User findByMail(String email) {
+        return userRepository.findByMail(email);
     }
 
     @Override
-    public User findUsersByUsername(String username) {
-        return userRepository.findUsersByUsername(username);
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
-
 
     public User save(User user) {
         return userRepository.saveAndFlush(user);
-    }
-
-    @Override
-    public User getByUsername(String username) {
-        return userRepository.findByUsername(username);
     }
 
     @Override
@@ -71,12 +58,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean checkIfValidOldPassword(User user, String oldPassword) {
+    public boolean isOldPasswordValid(User user, String oldPassword) {
         return passwordEncoder.matches(oldPassword, user.getPassword());
     }
 
     @Override
-    public void changeUserPassword(User user, String password) {
+    public void changePassword(User user, String password) {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }

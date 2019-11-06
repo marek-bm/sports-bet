@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.bets365mj.fixtureMisc.Country;
 import pl.bets365mj.fixtureMisc.CountryService;
-import pl.bets365mj.users.UserDTO;
-import pl.bets365mj.users.User;
+import pl.bets365mj.user.UserDTO;
+import pl.bets365mj.user.User;
 import pl.bets365mj.wallet.Wallet;
 import pl.bets365mj.wallet.WalletRepository;
-import pl.bets365mj.users.UserService;
+import pl.bets365mj.user.UserService;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -49,11 +49,11 @@ public class RegistrationController {
         user.setMail(userDTO.getMail());
         user.setPassword(userDTO.getPassword());
         user.setEnabled(true);
-        user.setAdult(userDTO.getAdult());
+        user.setAdult(userDTO.isAdult());
         user.setStreet(userDTO.getStreet());
         user.setCity(userDTO.getCity());
         user.setCountry(userDTO.getCountry());
-        user.setDataProcessingAcknowledgement(userDTO.getDataProcessingAcknowledgement());
+        user.setDataProcessingAcknowledgement(userDTO.allowsDataProcessing());
         user.setWallet(new Wallet());
         user.getWallet().setBankAccount(userDTO.getBankAccount());
         user.getWallet().setBalance(BigDecimal.valueOf(0));
@@ -83,12 +83,5 @@ public class RegistrationController {
         List<Country> countries = countryService.findAll();
         model.addAttribute("countries", countries);
 
-    }
-
-    //private method to check verify if username given in form is free to use
-    private boolean userExists(String userName) {
-        if (userService.findByUserName(userName) == null) {
-            return false;
-        } else return true;
     }
 }

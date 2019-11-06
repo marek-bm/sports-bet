@@ -21,7 +21,7 @@ import pl.bets365mj.bet.BetRepository;
 import pl.bets365mj.coupon.CouponRepository;
 import pl.bets365mj.bet.BetService;
 import pl.bets365mj.coupon.CouponService;
-import pl.bets365mj.users.User;
+import pl.bets365mj.user.User;
 import pl.bets365mj.wallet.Wallet;
 
 import java.math.BigDecimal;

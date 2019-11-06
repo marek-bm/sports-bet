@@ -1,4 +1,4 @@
-package pl.bets365mj.odds;
+package pl.bets365mj.odd;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

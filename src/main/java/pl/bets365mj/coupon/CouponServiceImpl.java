@@ -6,7 +6,7 @@ import pl.bets365mj.bet.Bet;
 import pl.bets365mj.fixture.Fixture;
 import pl.coderslab.bets365mj.fixture.*;
 import pl.bets365mj.bet.BetService;
-import pl.bets365mj.users.User;
+import pl.bets365mj.user.User;
 import pl.bets365mj.wallet.Wallet;
 
 import java.math.BigDecimal;

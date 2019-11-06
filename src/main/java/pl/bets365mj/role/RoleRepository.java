@@ -1,4 +1,4 @@
-package pl.bets365mj.users;
+package pl.bets365mj.role;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,4 +1,4 @@
-package pl.bets365mj.users.userDetailsService;
+package pl.bets365mj.user.userDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,9 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.bets365mj.users.Role;
-import pl.bets365mj.users.User;
-import pl.bets365mj.users.UserService;
+import pl.bets365mj.role.Role;
+import pl.bets365mj.user.User;
+import pl.bets365mj.user.UserService;
 
 import java.util.HashSet;
 import java.util.Optional;

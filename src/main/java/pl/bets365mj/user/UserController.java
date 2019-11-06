@@ -1,4 +1,4 @@
-package pl.bets365mj.users;
+package pl.bets365mj.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,7 +28,7 @@ public class UserController {
     public String userAccountDetails(Model model, Authentication authentication) {
         User currentUser = null;
         try {
-            currentUser = userService.findUsersByUsername(authentication.getName());
+            currentUser = userService.findByUsername(authentication.getName());
             model.addAttribute("user", currentUser);
         } catch (NullPointerException e) {
             if (currentUser == null) {
@@ -75,15 +75,15 @@ public class UserController {
                                      @RequestParam("oldpassword") String oldPassword,
                                      Model model) {
 
-        User user = userService.findUsersByUsername(
+        User user = userService.findByUsername(
                 SecurityContextHolder.getContext().getAuthentication().getName());
 
-        if (!userService.checkIfValidOldPassword(user, oldPassword)) {
+        if (!userService.isOldPasswordValid(user, oldPassword)) {
             model.addAttribute("warning", "Invalid password");
             return "forms/updatePassword";
 //            throw new InvalidOldPasswordException();
         }
-        userService.changeUserPassword(user, password);
+        userService.changePassword(user, password);
         return "pass-success";
     }
 

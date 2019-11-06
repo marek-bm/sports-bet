@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import pl.bets365mj.users.userDetailsService.CurrentUserDetailsService;
+import pl.bets365mj.user.userDetailsService.CurrentUserDetailsService;
 
 import javax.sql.DataSource;
 

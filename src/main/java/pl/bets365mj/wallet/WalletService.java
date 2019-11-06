@@ -1,6 +1,6 @@
 package pl.bets365mj.wallet;
 
-import pl.bets365mj.users.User;
+import pl.bets365mj.user.User;
 
 public interface WalletService {
 

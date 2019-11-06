@@ -1,7 +1,7 @@
 package pl.bets365mj.coupon;
 
 import pl.bets365mj.bet.Bet;
-import pl.bets365mj.users.User;
+import pl.bets365mj.user.User;
 
 import java.math.BigDecimal;
 import java.util.List;

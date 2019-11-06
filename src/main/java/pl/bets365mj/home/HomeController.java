@@ -1,4 +1,4 @@
-package pl.bets365mj;
+package pl.bets365mj.home;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

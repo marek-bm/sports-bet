@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import pl.bets365mj.bet.Bet;
-import pl.bets365mj.users.User;
+import pl.bets365mj.user.User;
 import pl.bets365mj.wallet.Wallet;
 import pl.bets365mj.bet.BetRepository;
 import pl.bets365mj.fixture.FixtureService;
-import pl.bets365mj.users.UserService;
+import pl.bets365mj.user.UserService;
 import pl.bets365mj.wallet.WalletService;
 
 import javax.servlet.http.HttpSession;

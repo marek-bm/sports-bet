@@ -1,11 +1,12 @@
-package pl.bets365mj.users;
+package pl.bets365mj.user;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import pl.bets365mj.coupon.Coupon;
 import pl.bets365mj.fixtureMisc.Country;
-import pl.bets365mj.users.validators.UsernameUnique;
+import pl.bets365mj.role.Role;
+import pl.bets365mj.user.validators.UsernameUnique;
 import pl.bets365mj.wallet.Wallet;
 
 import javax.persistence.*;
@@ -39,10 +40,9 @@ public class User {
     @NotNull
     private String lastName;
 
-        @NotNull
+    @NotNull
     private boolean adult;
 
-    //    @EmailUnique
     @Email
     @Column(nullable = false, unique = true)
     private String mail;
@@ -58,22 +58,17 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    //    @NotNull
     private String street;
 
-    //    @NotNull
     private String city;
 
-    //    @NotNull
     private String zip;
 
     @OneToOne
     private Country country;
 
-    //    @NotNull
     private boolean dataProcessingAcknowledgement = false;
 
-    //    @NotNull
     private boolean active = true;
 
     public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {

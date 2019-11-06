@@ -9,7 +9,7 @@ import pl.bets365mj.fixture.FixtureRepository;
 import java.util.List;
 
 @Component
-public class BDWriter implements ItemWriter<Fixture> {
+public class DataBaseWriter implements ItemWriter<Fixture> {
 
     @Autowired
     FixtureRepository fixtureRepository;

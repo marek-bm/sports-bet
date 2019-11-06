@@ -2,8 +2,8 @@ package pl.bets365mj.wallet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.bets365mj.users.User;
-import pl.bets365mj.users.UserService;
+import pl.bets365mj.user.User;
+import pl.bets365mj.user.UserService;
 
 @Service
 public class WalletServiceImpl implements WalletService {

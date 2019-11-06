@@ -1,9 +1,9 @@
-package pl.bets365mj.users.validators;
+package pl.bets365mj.user.validators;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.bets365mj.users.User;
-import pl.bets365mj.users.UserService;
+import pl.bets365mj.user.User;
+import pl.bets365mj.user.UserService;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -17,7 +17,7 @@ public class UsernameValidator implements ConstraintValidator<UsernameUnique, St
     }
 
     public boolean isValid(String username, ConstraintValidatorContext context) {
-        User user = userService.findUsersByUsername(username);
+        User user = userService.findByUsername(username);
         if (user == null) {
             return true;
         }

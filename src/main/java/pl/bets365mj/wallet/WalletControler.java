@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.bets365mj.coupon.CouponService;
 import pl.bets365mj.fixture.FixtureService;
-import pl.bets365mj.users.User;
-import pl.bets365mj.users.UserService;
+import pl.bets365mj.user.User;
+import pl.bets365mj.user.UserService;
 
 import java.math.BigDecimal;
 import java.util.Date;

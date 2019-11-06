@@ -3,7 +3,7 @@ package pl.bets365mj.wallet;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.bets365mj.users.User;
+import pl.bets365mj.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;

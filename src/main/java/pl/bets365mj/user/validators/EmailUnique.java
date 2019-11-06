@@ -1,4 +1,5 @@
-package pl.bets365mj.users.validators;
+package pl.bets365mj.user.validators;
+
 
 import org.springframework.stereotype.Component;
 
@@ -10,12 +11,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Component
-@Constraint(validatedBy = UsernameValidator.class)
+@Constraint(validatedBy = EmailUniqueValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UsernameUnique {
+public @interface EmailUnique {
 
-    String message() default "Username already exists";
+    String message() default "E-mail address already exists";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
