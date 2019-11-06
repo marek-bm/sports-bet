@@ -5,12 +5,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.sportsbet2.betting.bet.Bet;
-import pl.coderslab.sportsbet2.betting.coupon.Coupon;
+import pl.coderslab.sportsbet2.bet.Bet;
+import pl.coderslab.sportsbet2.coupon.Coupon;
 import pl.coderslab.sportsbet2.fixture.Fixture;
 import pl.coderslab.sportsbet2.fixture.FixtureService;
-import pl.coderslab.sportsbet2.fixture.eventData.SeasonResultsService;
-import pl.coderslab.sportsbet2.fixture.eventData.SeasonService;
+import pl.coderslab.sportsbet2.fixtureMisc.SeasonResultsService;
+import pl.coderslab.sportsbet2.fixtureMisc.SeasonService;
 
 import java.util.List;
 import java.util.Map;

@@ -2,8 +2,8 @@ package pl.coderslab.sportsbet2.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.coderslab.sportsbet2.fixture.eventData.Season;
-import pl.coderslab.sportsbet2.fixture.eventData.Team;
+import pl.coderslab.sportsbet2.fixtureMisc.Season;
+import pl.coderslab.sportsbet2.fixtureMisc.Team;
 
 import java.util.ArrayList;
 import java.util.HashMap;

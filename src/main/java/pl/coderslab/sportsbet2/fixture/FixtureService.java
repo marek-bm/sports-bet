@@ -1,9 +1,8 @@
 package pl.coderslab.sportsbet2.fixture;
 
 import org.springframework.stereotype.Service;
-import pl.coderslab.sportsbet2.fixture.Fixture;
-import pl.coderslab.sportsbet2.fixture.eventData.Season;
-import pl.coderslab.sportsbet2.fixture.eventData.Team;
+import pl.coderslab.sportsbet2.fixtureMisc.Season;
+import pl.coderslab.sportsbet2.fixtureMisc.Team;
 
 import java.util.List;
 import java.util.Map;

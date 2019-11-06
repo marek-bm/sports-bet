@@ -2,10 +2,10 @@ package pl.coderslab.sportsbet2.fixture;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.coderslab.sportsbet2.fixture.eventData.League;
-import pl.coderslab.sportsbet2.fixture.eventData.Season;
-import pl.coderslab.sportsbet2.fixture.eventData.SportCategory;
-import pl.coderslab.sportsbet2.fixture.eventData.Team;
+import pl.coderslab.sportsbet2.fixtureMisc.League;
+import pl.coderslab.sportsbet2.fixtureMisc.Season;
+import pl.coderslab.sportsbet2.fixtureMisc.SportCategory;
+import pl.coderslab.sportsbet2.fixtureMisc.Team;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

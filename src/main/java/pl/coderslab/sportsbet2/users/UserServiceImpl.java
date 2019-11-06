@@ -2,7 +2,6 @@ package pl.coderslab.sportsbet2.users;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.coderslab.sportsbet2.fixture.eventData.RoleRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -15,7 +14,8 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository,
-                           RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+                           RoleRepository roleRepository,
+                           BCryptPasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;

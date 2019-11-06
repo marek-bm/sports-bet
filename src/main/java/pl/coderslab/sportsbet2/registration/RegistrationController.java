@@ -7,12 +7,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.coderslab.sportsbet2.fixture.eventData.Country;
+import pl.coderslab.sportsbet2.fixtureMisc.Country;
 import pl.coderslab.sportsbet2.users.UserDTO;
 import pl.coderslab.sportsbet2.users.User;
 import pl.coderslab.sportsbet2.wallet.Wallet;
 import pl.coderslab.sportsbet2.wallet.WalletRepository;
-import pl.coderslab.sportsbet2.fixture.eventData.CountryService;
+import pl.coderslab.sportsbet2.fixtureMisc.CountryService;
 import pl.coderslab.sportsbet2.users.UserService;
 
 import javax.validation.Valid;

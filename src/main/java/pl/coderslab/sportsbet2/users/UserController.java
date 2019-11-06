@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.sportsbet2.fixture.eventData.Country;
-import pl.coderslab.sportsbet2.fixture.eventData.CountryService;
+import pl.coderslab.sportsbet2.fixtureMisc.Country;
+import pl.coderslab.sportsbet2.fixtureMisc.CountryService;
 
 import javax.validation.Valid;
 import java.util.List;

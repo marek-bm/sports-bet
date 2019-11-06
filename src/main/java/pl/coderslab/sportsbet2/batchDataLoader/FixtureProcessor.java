@@ -7,7 +7,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.coderslab.sportsbet2.fixture.Fixture;
-import pl.coderslab.sportsbet2.fixture.eventData.*;
+import pl.coderslab.sportsbet2.fixtureMisc.*;
 
 import java.util.Map;
 

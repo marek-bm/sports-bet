@@ -1,7 +1,7 @@
 package pl.coderslab.sportsbet2.users;
 
 
-import pl.coderslab.sportsbet2.fixture.eventData.Country;
+import pl.coderslab.sportsbet2.fixtureMisc.Country;
 import pl.coderslab.sportsbet2.users.validators.EmailUnique;
 import pl.coderslab.sportsbet2.users.validators.UsernameUnique;
 

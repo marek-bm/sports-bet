@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import pl.coderslab.sportsbet2.users.login.CustomUserDetailsService;
+import pl.coderslab.sportsbet2.users.userDetailsService.CurrentUserDetailsService;
 
 import javax.sql.DataSource;
 
@@ -26,13 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public CustomUserDetailsService customUserDetailsService() {
-        return new CustomUserDetailsService();
+    public CurrentUserDetailsService currentUserDetailsService() {
+        return new CurrentUserDetailsService();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-                auth.userDetailsService(customUserDetailsService()).
+                auth.userDetailsService(currentUserDetailsService()).
                 passwordEncoder(passwordEncoder());
     }
 

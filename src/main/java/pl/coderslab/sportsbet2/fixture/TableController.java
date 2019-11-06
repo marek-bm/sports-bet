@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.coderslab.sportsbet2.fixture.eventData.Season;
-import pl.coderslab.sportsbet2.fixture.eventData.SeasonResult;
-import pl.coderslab.sportsbet2.fixture.eventData.SeasonRepository;
-import pl.coderslab.sportsbet2.fixture.eventData.SeasonResultsService;
+import pl.coderslab.sportsbet2.fixtureMisc.Season;
+import pl.coderslab.sportsbet2.fixtureMisc.SeasonResult;
+import pl.coderslab.sportsbet2.fixtureMisc.SeasonRepository;
+import pl.coderslab.sportsbet2.fixtureMisc.SeasonResultsService;
 
 import java.util.List;
 

@@ -2,9 +2,8 @@ package pl.coderslab.sportsbet2.fixture;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.coderslab.sportsbet2.fixture.Fixture;
-import pl.coderslab.sportsbet2.fixture.eventData.Season;
-import pl.coderslab.sportsbet2.fixture.eventData.Team;
+import pl.coderslab.sportsbet2.fixtureMisc.Season;
+import pl.coderslab.sportsbet2.fixtureMisc.Team;
 
 import java.util.List;
 
