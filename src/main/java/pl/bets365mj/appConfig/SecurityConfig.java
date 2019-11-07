@@ -9,16 +9,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import pl.bets365mj.user.userDetailsService.CurrentUserDetailsService;
+import pl.bets365mj.appConfig.userDetailsService.CurrentUserDetailsService;
 
 import javax.sql.DataSource;
 
 @Configuration
-@EnableWebSecurity //(debug = true)
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    DataSource dataSource;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -53,6 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
     }
 
+    @Autowired
+    DataSource dataSource;
 
 //    Alternative approach for logging
 //    @Override

@@ -1,4 +1,4 @@
-package pl.bets365mj.user.userDetailsService;
+package pl.bets365mj.appConfig.userDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
