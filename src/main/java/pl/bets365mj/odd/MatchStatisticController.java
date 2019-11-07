@@ -17,7 +17,7 @@ import java.util.Map;
 public class MatchStatisticController {
 
     @Autowired
-    Statistics statistics;
+    MatchStatistics matchStatistics;
 
     @Autowired
     FixtureRepository fixtureRepository;
@@ -32,12 +32,12 @@ public class MatchStatisticController {
         Team home = fixture.getHomeTeam();
         Team away = fixture.getAwayTeam();
 
-        double homeTeamGoals = statistics.homeTeamGoalsPrediction(home, away, season);
-        double[] homeTeamGoalsProbability = statistics.goalsNumberProbability(homeTeamGoals);
-        double awayTeamGoals = statistics.awayTeamGoalsPrediction(home, away, season);
-        double[] awayTeamGoalsProbability = statistics.goalsNumberProbability(awayTeamGoals);
-        double[][] matchResultProbabilityMatix = statistics.matchResultProbability(homeTeamGoalsProbability, awayTeamGoalsProbability);
-        Map<String, Double> odds = statistics.odds(matchResultProbabilityMatix);
+        double homeTeamGoals = matchStatistics.homeTeamGoalsPrediction(home, away, season);
+        double[] homeTeamGoalsProbability = matchStatistics.goalsNumberProbability(homeTeamGoals);
+        double awayTeamGoals = matchStatistics.awayTeamGoalsPrediction(home, away, season);
+        double[] awayTeamGoalsProbability = matchStatistics.goalsNumberProbability(awayTeamGoals);
+        double[][] matchResultProbabilityMatix = matchStatistics.matchResultProbability(homeTeamGoalsProbability, awayTeamGoalsProbability);
+        Map<String, Double> odds = matchStatistics.odds(matchResultProbabilityMatix);
 
         model.addAttribute("ht", home);
         model.addAttribute("at", away);
