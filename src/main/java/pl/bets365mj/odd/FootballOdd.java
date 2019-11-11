@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 @Component
-public class Odds {
+public class FootballOdd extends Odd {
 
     @Autowired
     MatchStatistics matchStatistics;
