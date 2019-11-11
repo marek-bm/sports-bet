@@ -14,7 +14,7 @@ import pl.bets365mj.bet.BetService;
 import pl.bets365mj.coupon.Coupon;
 import pl.bets365mj.coupon.CouponService;
 import pl.bets365mj.fixtureMisc.*;
-import pl.bets365mj.odd.Odds;
+import pl.bets365mj.odd.FootballOdd;
 import pl.bets365mj.fixtureMisc.LeagueRepository;
 import pl.bets365mj.fixtureMisc.SeasonServiceImpl;
 
@@ -45,7 +45,7 @@ public class FixtureController {
     FixtureProcessor fixtureProcessor;
 
     @Autowired
-    Odds odds;
+    FootballOdd footballOdd;
 
     @Autowired
     BetService betService;
@@ -107,7 +107,7 @@ public class FixtureController {
         if (result.hasErrors()) {
             return "forms/fixture-new";
         }
-        odds.fixtureOdds(fixture);
+        footballOdd.setOdds(fixture);
         fixtureService.saveFixture(fixture);
         return "redirect:/active";
     }

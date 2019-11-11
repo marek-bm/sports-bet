@@ -1,4 +1,4 @@
-package pl.bets365mj.odd;
+package pl.bets365mj.oddStatistics;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,9 @@ import pl.bets365mj.fixtureMisc.SeasonService;
 import pl.bets365mj.fixtureMisc.Team;
 import pl.bets365mj.fixture.Fixture;
 import pl.bets365mj.fixture.FixtureRepository;
+import pl.bets365mj.odd.FootballOdd;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 @Controller
@@ -25,6 +27,9 @@ public class MatchStatisticController {
     @Autowired
     SeasonService seasonService;
 
+    @Autowired
+    FootballOdd footballOdd;
+
     @RequestMapping("/fixture-stats/{id}")
     public String odds(Model model, @PathVariable int id) {
         Fixture fixture = fixtureRepository.findById(id);
@@ -32,19 +37,19 @@ public class MatchStatisticController {
         Team home = fixture.getHomeTeam();
         Team away = fixture.getAwayTeam();
 
-        double homeTeamGoals = matchStatistics.homeTeamGoalsPrediction(home, away, season);
-        double[] homeTeamGoalsProbability = matchStatistics.goalsNumberProbability(homeTeamGoals);
-        double awayTeamGoals = matchStatistics.awayTeamGoalsPrediction(home, away, season);
-        double[] awayTeamGoalsProbability = matchStatistics.goalsNumberProbability(awayTeamGoals);
-        double[][] matchResultProbabilityMatix = matchStatistics.matchResultProbability(homeTeamGoalsProbability, awayTeamGoalsProbability);
-        Map<String, Double> odds = matchStatistics.odds(matchResultProbabilityMatix);
+        double homeTeamGoalsConcrete = matchStatistics.homeTeamGoalsPrediction(home, away, season);
+        double[] homeTeamGoalsZeroToSix = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(homeTeamGoalsConcrete);
+        double awayTeamGoalsConcrete = matchStatistics.awayTeamGoalsPrediction(home, away, season);
+        double[] awayTeamGoalsZeroToSix = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(awayTeamGoalsConcrete);
+        double[][] matchResultProbabilityMatix = matchStatistics.matchScoreProbabilityMatrix(homeTeamGoalsZeroToSix, awayTeamGoalsZeroToSix);
+        Map<String, BigDecimal> odds = footballOdd.getOdds(fixture);
 
         model.addAttribute("ht", home);
         model.addAttribute("at", away);
-        model.addAttribute("hg", homeTeamGoals); //single goal
-        model.addAttribute("ag", awayTeamGoals); //single goal
-        model.addAttribute("homeGoals", homeTeamGoalsProbability);
-        model.addAttribute("awayGoals", awayTeamGoalsProbability);
+        model.addAttribute("hg", homeTeamGoalsConcrete); //single goal
+        model.addAttribute("ag", awayTeamGoalsConcrete); //single goal
+        model.addAttribute("homeGoals", homeTeamGoalsZeroToSix);
+        model.addAttribute("awayGoals", awayTeamGoalsZeroToSix);
         model.addAttribute("result", matchResultProbabilityMatix); //match result matrix
         model.addAttribute("odds", odds);
         return "fixture-stats";

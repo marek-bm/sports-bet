@@ -16,18 +16,13 @@ public class Team {
     private Integer id;
 
     @NotNull
-    @Getter
-    @Setter
+    @Getter @Setter
     private String name;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @OneToMany(cascade = CascadeType.ALL)
     private Map<Season, SeasonResult> results;
-//    private List<SeasonResult> results;
 
-    //constructor
-    public Team() {
-        this.results = new HashMap<>();
+    public Team() {this.results = new HashMap<>();
     }
 }
