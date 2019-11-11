@@ -1,4 +1,10 @@
 package pl.bets365mj.odd;
 
-public abstract class Odd {
+import pl.bets365mj.fixture.Fixture;
+
+import java.math.BigDecimal;
+
+public interface Odd {
+
+    BigDecimal calculate(double probability);
 }

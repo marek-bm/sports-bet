@@ -107,7 +107,7 @@ public class FixtureController {
         if (result.hasErrors()) {
             return "forms/fixture-new";
         }
-        footballOdd.fixtureOdds(fixture);
+        footballOdd.setOdds(fixture);
         fixtureService.saveFixture(fixture);
         return "redirect:/active";
     }
