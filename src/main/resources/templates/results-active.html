@@ -111,9 +111,9 @@
                                                     <td>
                                                         <input type="hidden" name="event" th:value="${event.id}"/>
                                                         <input type="hidden" name="betPrice"
-                                                               th:value="${event.goal_less_2_5}"/>
+                                                               th:value="${event.getGoalsMoreThan2odd}"/>
                                                         <input type="hidden" name="placedBet" th:value="LT2_5"/>
-                                                        <input type="submit" th:value="${event.goal_less_2_5}" class="btn btn-dark" style="width:95%"/>
+                                                        <input type="submit" th:value="${event.getGoalsMoreThan2odd}" class="btn btn-dark" style="width:95%"/>
                                                     </td>
                                                 </form>
 
@@ -121,9 +121,9 @@
                                                     <td>
                                                         <input type="hidden" name="event" th:value="${event.id}"/>
                                                         <input type="hidden" name="betPrice"
-                                                               th:value="${event.goal_more_2_5}"/>
+                                                               th:value="${event.getGoalsLessOrEquals2odd}"/>
                                                         <input type="hidden" name="placedBet" th:value="GT2_5"/>
-                                                        <input type="submit" th:value="${event.goal_more_2_5}" class="btn btn-dark" style="width:95%"/>
+                                                        <input type="submit" th:value="${event.getGoalsLessOrEquals2odd}" class="btn btn-dark" style="width:95%"/>
                                                     </td>
                                                 </form>
 

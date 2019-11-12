@@ -59,8 +59,8 @@ public class FixtureProcessor implements ItemProcessor<FixtureDTO, Fixture> {
         fixture.setHomeWinOdd(fixtureDTO.getHomeWinOdd());
         fixture.setDrawOdd(fixtureDTO.getDrawOdd());
         fixture.setAwayWinOdd(fixtureDTO.getAwayWinOdd());
-        fixture.setGoal_less_2_5(fixtureDTO.getGoal_less_2_5());
-        fixture.setGoal_more_2_5(fixtureDTO.getGoal_more_2_5());
+        fixture.setGoalsMoreThan2odd(fixtureDTO.getGoal_less_2_5());
+        fixture.setGoalsLessOrEquals2odd(fixtureDTO.getGoal_more_2_5());
         log.info("Converting event on: " + fixtureDTO.getDate() + " matchday: " + fixtureDTO.getMatchday());
         return fixture;
     }

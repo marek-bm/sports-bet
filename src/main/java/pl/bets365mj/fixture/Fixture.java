@@ -51,30 +51,18 @@ public class Fixture {
     @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Team awayTeam;
 
-    //final time home team goals
-    private Integer FTHG;
+    private Integer FTHG; //final time home team goals
+    private Integer FTAG; //final time away team goals
+    private Integer HTHG; //home team half-time goal
+    private Integer HTAG; //away team half-time goal
+    private String HTR; //half time result (H-HomeTeam, A- AwayTeam, D-draw)
+    private String FTR; //final result (H-HomeTeam, A- AwayTeam, D-draw)
 
-    //final time away team goals
-    private Integer FTAG;
-
-    //final result (H-HomeTeam, A- AwayTeam, D-draw)
-    private String FTR;
-
-    //home team half-time goal
-    private Integer HTHG;
-
-    //away team half-time goal
-    private Integer HTAG;
-
-    //half time result (H-HomeTeam, A- AwayTeam, D-draw)
-    private String HTR;
-
-    //odds
     private BigDecimal homeWinOdd;
     private BigDecimal drawOdd;
     private BigDecimal awayWinOdd;
-    private BigDecimal goal_more_2_5;
-    private BigDecimal goal_less_2_5;
+    private BigDecimal goalsLessOrEquals2odd;
+    private BigDecimal goalsMoreThan2odd;
 
     public void setDate(java.util.Date date) {
         Date = date;

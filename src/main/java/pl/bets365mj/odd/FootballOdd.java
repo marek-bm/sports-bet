@@ -37,8 +37,8 @@ public class FootballOdd implements Odd {
         fixture.setHomeWinOdd(homeTeamWinOdd);
         fixture.setDrawOdd(drawOdd);
         fixture.setAwayWinOdd(awayTeamWinOdd);
-        fixture.setGoal_less_2_5(goalsLessEquals2odd);
-        fixture.setGoal_more_2_5(goalsMoreThan2odd);
+        fixture.setGoalsMoreThan2odd(goalsLessEquals2odd);
+        fixture.setGoalsLessOrEquals2odd(goalsMoreThan2odd);
         return fixture;
     }
 
