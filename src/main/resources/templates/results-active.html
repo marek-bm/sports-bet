@@ -78,60 +78,48 @@
 
                                                     <form th:action="@{/bet-new}" th:object="${bet}" method="post">
                                                         <td>
-                                                            <input type="hidden" name="event" th:value="${event.id}"/>
-                                                            <input type="hidden" name="betPrice"
-                                                                   th:value="${event.homeWinOdd}"/>
+                                                            <input type="hidden" name="fixture" th:value="${event.id}"/>
+                                                            <input type="hidden" name="betPrice" th:value="${event.homeWinOdd}"/>
                                                             <input type="hidden" name="placedBet" th:value="H"/>
                                                             <input type="submit" th:value="${event.homeWinOdd}"
                                                                    class="btn btn-dark" style="width:95%"/>
-
                                                         </td>
                                                     </form>
 
 
                                                     <form th:action="@{/bet-new}" th:object="${bet}" method="post">
                                                         <td>
-                                                            <input type="hidden" name="event" th:value="${event.id}"/>
-                                                            <input type="hidden" name="betPrice"
-                                                                   th:value="${event.drawOdd}"/>
+                                                            <input type="hidden" name="fixture" th:value="${event.id}"/>
+                                                            <input type="hidden" name="betPrice" th:value="${event.drawOdd}"/>
                                                             <input type="hidden" name="placedBet" th:value="D"/>
-                                                            <input type="submit" th:value="${event.drawOdd}"
-                                                                   class="btn btn-dark" style="width:95%"/>
+                                                            <input type="submit" th:value="${event.drawOdd}" class="btn btn-dark" style="width:95%"/>
                                                         </td>
                                                     </form>
 
                                                     <form th:action="@{/bet-new}" th:object="${bet}" method="post">
                                                         <td>
-                                                            <input type="hidden" name="event" th:value="${event.id}"/>
-                                                            <input type="hidden" name="betPrice"
-                                                                   th:value="${event.awayWinOdd}"/>
+                                                            <input type="hidden" name="fixture" th:value="${event.id}"/>
+                                                            <input type="hidden" name="betPrice" th:value="${event.awayWinOdd}"/>
                                                             <input type="hidden" name="placedBet" th:value="A"/>
-                                                            <input type="submit" th:value="${event.awayWinOdd}"
-                                                                   class="btn btn-dark" style="width:95%"/>
+                                                            <input type="submit" th:value="${event.awayWinOdd}" class="btn btn-dark" style="width:95%"/>
                                                         </td>
                                                     </form>
 
                                                     <form th:action="@{/bet-new}" th:object="${bet}" method="post">
                                                         <td>
-                                                            <input type="hidden" name="event" th:value="${event.id}"/>
-                                                            <input type="hidden" name="betPrice"
-                                                                   th:value="${event.goalsLessOrEquals2odd}"/>
+                                                            <input type="hidden" name="fixture" th:value="${event.id}"/>
+                                                            <input type="hidden" name="betPrice" th:value="${event.goalsLessOrEquals2odd}"/>
                                                             <input type="hidden" name="placedBet" th:value="LT2_5"/>
-                                                            <input type="submit"
-                                                                   th:value="${event.goalsMoreThan2odd}"
-                                                                   class="btn btn-dark" style="width:95%"/>
+                                                            <input type="submit" th:value="${event.goalsMoreThan2odd}" class="btn btn-dark" style="width:95%"/>
                                                         </td>
                                                     </form>
 
                                                     <form th:action="@{/bet-new}" th:object="${bet}" method="post">
                                                         <td>
-                                                            <input type="hidden" name="event" th:value="${event.id}"/>
-                                                            <input type="hidden" name="betPrice"
-                                                                   th:value="${event.goalsLessOrEquals2odd}"/>
+                                                            <input type="hidden" name="fixture" th:value="${event.id}"/>
+                                                            <input type="hidden" name="betPrice" th:value="${event.goalsLessOrEquals2odd}"/>
                                                             <input type="hidden" name="placedBet" th:value="GT2_5"/>
-                                                            <input type="submit"
-                                                                   th:value="${event.goalsMoreThan2odd}"
-                                                                   class="btn btn-dark" style="width:95%"/>
+                                                            <input type="submit" th:value="${event.goalsMoreThan2odd}" class="btn btn-dark" style="width:95%"/>
                                                         </td>
                                                     </form>
 
@@ -143,7 +131,6 @@
                                                             <input type="submit" class="btn btn-dark" value="Edit"/>
                                                         </form>
                                                     </td>
-
 
                                                     <td th:if="${event.getMatchStatus().equals('active')}">
                                                         <form th:action="@{/fixture-stats/{id} (id=${event.id})}"

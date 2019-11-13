@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 
 @Controller
-
 public class BetController {
 
     @Autowired
@@ -34,7 +33,7 @@ public class BetController {
         }
         Coupon coupon = (Coupon) session.getAttribute("coupon");
         List<Bet> betsInSession = coupon.getBets();
-        if (bet.checkIfUniqe(betsInSession) == false) {
+        if (bet.isUniqe(betsInSession) == false) {
             return "redirect:/home";
         }
         betsInSession.add(bet);

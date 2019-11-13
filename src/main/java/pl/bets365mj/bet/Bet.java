@@ -18,8 +18,9 @@ public class Bet implements Observer {
     @Getter @Setter
     private Long id;
 
-    @ManyToOne
+
     @Getter @Setter
+    @ManyToOne
     private Fixture fixture;
 
     @Getter @Setter
@@ -49,25 +50,18 @@ public class Bet implements Observer {
         this.dateCreated = date;
     }
 
+    public boolean isUniqe(List<Bet> bets){
+        int fixtureId=this.getFixture().getId();
+        boolean isUnique=bets.stream().noneMatch( b -> b.fixture.getId().equals(fixtureId));
+        return isUnique;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bet singleBet = (Bet) o;
         return Objects.equals(fixture, singleBet.fixture);
-    }
-
-    public boolean checkIfUniqe(List<Bet> bets){
-        if (bets!=null){
-            for( Bet b:bets){
-                int x= this.getFixture().getId();
-                int y= b.getFixture().getId();
-                if (x == y){
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     @Override

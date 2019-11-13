@@ -2,6 +2,8 @@ package pl.bets365mj.fixture;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Synchronized;
+import pl.bets365mj.bet.Bet;
 import pl.bets365mj.fixtureMisc.League;
 import pl.bets365mj.fixtureMisc.Season;
 import pl.bets365mj.fixtureMisc.SportCategory;
@@ -13,7 +15,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Observable;
+import java.util.*;
 
 @Entity
 @Data
@@ -21,6 +23,9 @@ public class Fixture extends Observable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @OneToMany
+    private List<Bet> observers;
 
     @NotNull @OneToOne
     private SportCategory category;
@@ -79,5 +84,15 @@ public class Fixture extends Observable {
         if(matchStatus.equals("finished")){
             notifyObservers();
         }
+    }
+
+    public Fixture() {
+        this.observers = Collections.synchronizedList(new ArrayList<>());
+    }
+
+    @Override
+    public synchronized void addObserver(Observer o) {
+        if (o == null) throw new NullPointerException();
+        observers.add((Bet)o);
     }
 }

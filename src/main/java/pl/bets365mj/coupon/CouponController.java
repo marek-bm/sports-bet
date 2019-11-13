@@ -21,6 +21,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import static jdk.nashorn.internal.objects.NativeArray.forEach;
+
 @Controller
 @SessionAttributes("coupon")
 public class CouponController {
@@ -66,35 +68,41 @@ public class CouponController {
         return "coupon-details";
     }
 
-    @RequestMapping(value = "/make-bet", method = RequestMethod.POST)
-    public String payTheCoupon(@RequestParam(name = "charge") BigDecimal charge,
-                               HttpSession session,
-                               Authentication authentication,
-                               Model model) {
+    @RequestMapping(value = "/finalize-coupon", method = RequestMethod.POST)
+    public String finalizeCoupon(@RequestParam(name = "charge") BigDecimal charge,
+                                 HttpSession session,
+                                 Authentication authentication,
+                                 Model model) {
 
         if (authentication == null) {
             model.addAttribute("error", "You have to login");
             return "error/login-required";
         } else {
-            String userName = authentication.getName();
-            User user = userService.findByUsername(userName);
+            User user = getUser(authentication);
             Wallet wallet = user.getWallet();
 
             if (wallet.getBalance().compareTo(charge) < 0) {
                 return "error/moneyalert";
-            } else {
-                wallet.setBalance(wallet.getBalance().subtract(charge));
-                Coupon coupon = (Coupon) session.getAttribute("coupon");
-
-                couponService.saveCoupon(coupon, charge, user);
-
-
-                wallet.getTransactions().add(new Date() + " you placed  " + charge + " PLN on betting coupon");
-                userService.saveUser(user);
-                walletService.saveWallet(wallet);
-                model.addAttribute("coupon", new Coupon());
             }
+
+            Coupon coupon = (Coupon) session.getAttribute("coupon");
+            List<Bet> bets=coupon.getBets();
+            bets.forEach(bet -> bet.getFixture().addObserver(bet));
+            coupon.setBets(bets);
+            couponService.saveCoupon(coupon, charge, user);
+
+            wallet.setBalance(wallet.getBalance().subtract(charge));
+            wallet.getTransactions().add(new Date() + " you placed  " + charge + " PLN on betting coupon");
+            walletService.saveWallet(wallet);
+            userService.saveUser(user);
+
+            model.addAttribute("coupon", new Coupon());
         }
-        return "redirect:/mycoupons";
+        return"redirect:/mycoupons";
+    }
+
+    private User getUser(Authentication authentication) {
+        String userName = authentication.getName();
+        return userService.findByUsername(userName);
     }
 }
