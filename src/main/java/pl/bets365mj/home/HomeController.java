@@ -31,12 +31,12 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("username", username);
+        model.addAttribute("username", getUsername());
         model.addAttribute("activeFixtures", activeFixtures());
-        model.addAttribute("bet");
+        model.addAttribute("bet", new Bet());
         return "home";
     }
+
 
     @RequestMapping("/admin")
     @ResponseBody
@@ -50,17 +50,22 @@ public class HomeController {
         return coupon;
     }
 
-    @ModelAttribute("fixturesActive")
-    public Map<Integer, List<Fixture>> activeFixtures() {
+    private String getUsername() {
+        String userName= SecurityContextHolder.getContext().getAuthentication().getName();
+        return userName;
+    }
+
+//    @ModelAttribute("fixturesActive")
+    private Map<Integer, List<Fixture>> activeFixtures() {
         List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("active");
         Map<Integer, List<Fixture>> activeFixtureMap = fixtureService.fixturesAsMapSortByMatchday(activeEvents);
         return activeFixtureMap;
     }
 
-    @ModelAttribute("bet")
-    public Bet createEmptyBet(Model model) {
-        Bet bet = new Bet();
-        model.addAttribute("bet", bet);
-        return bet;
-    }
+//    @ModelAttribute("bet")
+//    public Bet createEmptyBet(Model model) {
+//        Bet bet = new Bet();
+//        model.addAttribute("bet", bet);
+//        return bet;
+//    }
 }

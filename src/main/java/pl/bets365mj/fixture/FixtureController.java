@@ -54,7 +54,7 @@ public class FixtureController {
     CouponService couponService;
 
     @RequestMapping("/fixture-finished")
-    public String resultsDisplay(Model model) {
+    public String showFinishedFixtures(Model model) {
         Season currentSeason = seasonService.findById(7);
         List<Fixture> currentSeasonGames = fixtureService.findAllBySeasonAndMatchStatus(currentSeason, "finished");
         Map<Integer, List<Fixture>> fixtureMap = fixtureService.fixturesAsMapSortByMatchday(currentSeasonGames);
@@ -63,7 +63,7 @@ public class FixtureController {
     }
 
     @RequestMapping("/active")
-    public String activeFixtures(Model model) {
+    public String showActiveFixtures(Model model) {
         List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("active");
         Map<Integer, List<Fixture>> fixtureMap = fixtureService.fixturesAsMapSortByMatchday(activeEvents);
         model.addAttribute("activeFixtures", fixtureMap);
@@ -88,7 +88,7 @@ public class FixtureController {
         FixtureProcessor.resultSolver(fixture);
         betService.updateBets(fixture);
 
-        List<Bet> bets = betService.findAllByEvent(fixture);
+        List<Bet> bets = betService.findAllByFixture(fixture);
         List<Coupon> coupons = couponService.findAllByBetsIn(bets);
         couponService.resolveCoupons(coupons);
         return "redirect:/active";

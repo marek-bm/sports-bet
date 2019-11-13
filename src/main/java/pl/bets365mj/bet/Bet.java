@@ -8,13 +8,11 @@ import pl.bets365mj.fixture.Fixture;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Entity
-public class Bet {
+public class Bet implements Observer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter @Setter
@@ -22,7 +20,7 @@ public class Bet {
 
     @ManyToOne
     @Getter @Setter
-    private Fixture event;
+    private Fixture fixture;
 
     @Getter @Setter
     private String placedBet;
@@ -56,14 +54,14 @@ public class Bet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bet singleBet = (Bet) o;
-        return Objects.equals(event, singleBet.event);
+        return Objects.equals(fixture, singleBet.fixture);
     }
 
     public boolean checkIfUniqe(List<Bet> bets){
         if (bets!=null){
             for( Bet b:bets){
-                int x= this.getEvent().getId();
-                int y= b.getEvent().getId();
+                int x= this.getFixture().getId();
+                int y= b.getFixture().getId();
                 if (x == y){
                     return false;
                 }
@@ -74,7 +72,12 @@ public class Bet {
 
     @Override
     public int hashCode() {
-        return Objects.hash(event);
+        return Objects.hash(fixture);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
 

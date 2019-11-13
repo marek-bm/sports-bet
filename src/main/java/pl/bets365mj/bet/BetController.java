@@ -52,7 +52,7 @@ public class BetController {
     private void removeBetFromSession(Integer eventId, List<Bet> sessionBets) {
         Iterator<Bet> iterator = sessionBets.listIterator();
         while (iterator.hasNext()) {
-            int idFromIterator = iterator.next().getEvent().getId();
+            int idFromIterator = iterator.next().getFixture().getId();
             if (idFromIterator == eventId) {
                 iterator.remove();
             }
@@ -62,7 +62,7 @@ public class BetController {
     public static boolean checkIfBetsAreActive(List<Bet> sessionBets) {
         Iterator<Bet> iterator = sessionBets.listIterator();
         while (iterator.hasNext()) {
-            if (iterator.next().getEvent().getMatchStatus().equals("finished"))
+            if (iterator.next().getFixture().getMatchStatus().equals("finished"))
                 return false;
         }
         return true;

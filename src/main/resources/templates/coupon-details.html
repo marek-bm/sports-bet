@@ -39,13 +39,13 @@
 
 
     <tr th:each="bet: ${bets}">
-        <td th:text="${bet.event.category.name}"></td>
+        <td th:text="${bet.getFixture.category.name}"></td>
         <!--<td th:text="${bet.event.country.countryName}"></td>-->
-        <td th:text="${bet.event.league.name}"></td>
-        <td th:text="|${bet.event.homeTeam.name} v ${bet.event.awayTeam.name}|" ></td>
-        <td th:text="|Nr: ${bet.event.matchday} played on: ${bet.event.Date}|"></td>
-        <td th:text="|${bet.event.HTHG} : ${bet.event.HTAG}|"></td>
-        <td th:text="|${bet.event.FTHG} : ${bet.event.FTAG}|"></td>
+        <td th:text="${bet.getFixture.league.name}"></td>
+        <td th:text="|${bet.getFixture.homeTeam.name} v ${bet.getFixture.awayTeam.name}|" ></td>
+        <td th:text="|Nr: ${bet.getFixture.matchday} played on: ${bet.getFixture.Date}|"></td>
+        <td th:text="|${bet.getFixture.HTHG} : ${bet.getFixture.HTAG}|"></td>
+        <td th:text="|${bet.getFixture.FTHG} : ${bet.getFixture.FTAG}|"></td>
 
 
         <td th:if="${bet.placedBet.startsWith('H')}" th:text="'1'"></td>
@@ -55,16 +55,16 @@
         <td th:if="${bet.placedBet.startsWith('GT2_5')}" th:text="'>2.5'"></td>
 
 
-        <div th:switch="${bet.event.FTR}">
+        <div th:switch="${bet.getFixture.FTR}">
             <td th:case='null' th:text="'active'"> </td>
             <td th:case="H" th:text="'1'"></td>
-            <td th:case="${bet.event.FTR.startsWith('D')}" th:text="'X'"></td>
-            <td th:case="${bet.event.FTR.startsWith('A')}" th:text="'2'"></td>
-            <td th:case="${bet.event.FTR.startsWith('LT2_5')}" th:text="'<2.5'"></td>
-            <td th:case="${bet.event.FTR.startsWith('GT2_5')}" th:text="'>2.5'"></td>
+            <td th:case="${bet.getFixture.FTR.startsWith('D')}" th:text="'X'"></td>
+            <td th:case="${bet.getFixture.FTR.startsWith('A')}" th:text="'2'"></td>
+            <td th:case="${bet.getFixture.FTR.startsWith('LT2_5')}" th:text="'<2.5'"></td>
+            <td th:case="${bet.getFixture.FTR.startsWith('GT2_5')}" th:text="'>2.5'"></td>
         </div>
 
-        <div th:switch="${bet.event.FTR}">
+        <div th:switch="${bet.getFixture.FTR}">
             <td th:case='null' th:text="'active'"> </td>
             <td th:case='!null' th:if="${bet.won==true}" th:text="'won'"> </td>
             <td th:case='!null' th:if="${bet.won==false}" th:text="'won'"> </td>

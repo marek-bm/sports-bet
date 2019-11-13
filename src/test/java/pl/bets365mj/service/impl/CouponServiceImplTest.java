@@ -115,7 +115,7 @@ public class CouponServiceImplTest {
 
         //1.4 creating new bets to add into coupon
         Bet b1=new Bet();
-        b1.setEvent(fixture1);
+        b1.setFixture(fixture1);
         b1.setWon(true);
         b1.setDateCreated(date);
         b1.setBetPrice(BigDecimal.valueOf(2.5));
@@ -125,7 +125,7 @@ public class CouponServiceImplTest {
         bets.add(b1);
 
         Bet b2=new Bet();
-        b2.setEvent(fixture2);
+        b2.setFixture(fixture2);
         b2.setWon(true);
         b2.setDateCreated(date);
         b2.setBetPrice(BigDecimal.valueOf(2));
@@ -186,7 +186,7 @@ public class CouponServiceImplTest {
 
         //1.4 creating new bets to add into coupon
         Bet b1=new Bet();
-        b1.setEvent(fixture1);
+        b1.setFixture(fixture1);
         b1.setWon(true);
         b1.setDateCreated(date);
         b1.setBetPrice(BigDecimal.valueOf(2.5));
@@ -196,7 +196,7 @@ public class CouponServiceImplTest {
         bets.add(b1);
 
         Bet b2=new Bet();
-        b2.setEvent(fixture2);
+        b2.setFixture(fixture2);
         b2.setWon(false);
         b2.setDateCreated(date);
         b2.setBetPrice(BigDecimal.valueOf(2));

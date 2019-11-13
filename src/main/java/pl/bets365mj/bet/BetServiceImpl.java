@@ -29,20 +29,20 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
-    public List<Bet> findAllByEventMatchday(int id) {
-        return betRepository.findAllByEventMatchday(id);
+    public List<Bet> findAllByFixtureMatchday(int id) {
+        return betRepository.findAllByFixtureMatchday(id);
     }
 
     @Override
-    public List<Bet> findAllByEvent(Fixture fixture) {
-        return betRepository.findAllByEvent(fixture);
+    public List<Bet> findAllByFixture(Fixture fixture) {
+        return betRepository.findAllByFixture(fixture);
     }
 
     @Override
     public void updateBets(Fixture fixture) {
         List<Bet> bets = new ArrayList<>();
         try {
-            bets = betRepository.findAllByEvent(fixture);
+            bets = betRepository.findAllByFixture(fixture);
             resolveBets(bets, fixture);
             betRepository.saveAll(bets);
         } catch (BetNotFoundException e) {

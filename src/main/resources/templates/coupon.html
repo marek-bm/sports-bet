@@ -22,8 +22,8 @@
                 <table class="table table-responsive-sm table-hover">
 
                     <tr th:each="bet: ${coupon.getBets()}">
-                        <td th:text="|${bet.event.homeTeam.name} v|"></td>
-                        <td th:text="${bet.event.awayTeam.name}"></td>
+                        <td th:text="|${bet.getFixture().getHomeTeam().getName()} v|"></td>
+                        <td th:text="${bet.getFixture().awayTeam.name}"></td>
                         <td th:text="${bet.betPrice}"></td>
 
                         <!--/*@thymesVar id="userBetOnResult" type="pl.coderslab.sport_book.model.betting.SingleBet"*/-->
@@ -37,7 +37,7 @@
 
                 <td>
                     <form th:action="@{/delbet}" method="post">
-                        <input type="hidden" name="eventId" th:value="${bet.event.id}"/>
+                        <input type="hidden" name="eventId" th:value="${bet.getFixture.id}"/>
                         <input type="submit" class="btn btn-dark" th:value="x"/>
                     </form>
                 </td>

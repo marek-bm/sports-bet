@@ -13,22 +13,19 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Observable;
 
-@NoArgsConstructor
 @Entity
 @Data
-public class Fixture {
+public class Fixture extends Observable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
-    @OneToOne
+    @NotNull @OneToOne
     private SportCategory category;
 
-    @NotNull
-    @ManyToOne
+    @NotNull @ManyToOne
     private League league;
 
     @ManyToOne (cascade = CascadeType.ALL)
@@ -43,12 +40,10 @@ public class Fixture {
     @NotNull
     private String matchStatus;
 
-    @NotNull
-    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @NotNull @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Team homeTeam;
 
-    @NotNull
-    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @NotNull @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Team awayTeam;
 
     private Integer FTHG; //final time home team goals
@@ -61,13 +56,14 @@ public class Fixture {
     private BigDecimal homeWinOdd;
     private BigDecimal drawOdd;
     private BigDecimal awayWinOdd;
+    @Column(name = "goal_less_2_5")
     private BigDecimal goalsLessOrEquals2odd;
+    @Column(name = "goal_more_2_5")
     private BigDecimal goalsMoreThan2odd;
 
     public void setDate(java.util.Date date) {
         Date = date;
     }
-
     public void setDate(String date) {
         DateFormat format = new SimpleDateFormat("dd/MM/yy");
         try {
@@ -75,6 +71,13 @@ public class Fixture {
             this.Date=dateConverted;
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setMatchStatus(String matchStatus) {
+        this.matchStatus = matchStatus;
+        if(matchStatus.equals("finished")){
+            notifyObservers();
         }
     }
 }

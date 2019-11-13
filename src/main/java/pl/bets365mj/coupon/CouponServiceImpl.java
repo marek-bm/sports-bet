@@ -65,7 +65,7 @@ public class CouponServiceImpl implements CouponService {
 
             for (Bet b : bets) {
                 betStatus.add(b.isWon());
-                if (b.getEvent().getMatchStatus().equals("active")) {
+                if (b.getFixture().getMatchStatus().equals("active")) {
                     activeBets++;
                 } else {
                     finishedBets++;
@@ -91,7 +91,7 @@ public class CouponServiceImpl implements CouponService {
 
     public List<Bet> resolveBets(List<Bet> bets) {
         for (Bet bet : bets) {
-            Fixture fixture = bet.getEvent();
+            Fixture fixture = bet.getFixture();
             String fixtureStatus = fixture.getMatchStatus();
 
             if (fixture.equals("finished")) {

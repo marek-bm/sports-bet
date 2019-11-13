@@ -2,35 +2,23 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
-
-<head th:replace="fragments/header :: header">
-
-</head>
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/header :: header"></head>
 
 <body id="page-top">
-
 <nav th:replace="fragments/topbar :: topbar"></nav>
-
 <div id="wrapper">
 
-<!--<div id="wrapper">-->
-
+    <!--<div id="wrapper">-->
     <div class="main-sidebar">
         <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
     </div>
 
     <div id="content-wrapper">
-
         <div class="container-fluid">
-
-        <!--<div class="main-content">-->
+            <!--<div class="main-content">-->
             <section class="section">
-
                 <div class="row">
-
-
                     <div class="col-lg-8 col-md-12 col-12 col-sm-12" th:replace="results-active:: active">
                         <div class="card">
                             <div class="card-header">
@@ -42,16 +30,24 @@
                                 </div>
                                 <h4>Upcoming events</h4>
                             </div>
-                            <div class="card-body"><div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;" class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                            <div class="card-body">
+                                <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
+                                     class="chartjs-size-monitor">
+                                    <div class="chartjs-size-monitor-expand"
+                                         style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink"
+                                         style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                    </div>
+                                </div>
                                 <div class="statistic-details mt-sm-4">
 
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-
                     <div class="col-lg-4 col-md-12 col-12 col-sm-12">
                         <div class="card">
                             <div class="card-header">
@@ -59,14 +55,13 @@
                             </div>
                             <div class="card-body">
                                 <small>
-                                    <table class="table-responsive-sm" style="width: auto" >
+                                    <table class="table-responsive-sm" style="width: auto">
                                         <tr>
 
                                             <td>
                                                 <div th:include="coupon::coupon"></div>
                                                 <p style="color:red;" th:text="${error}"></p>
                                             </td>
-
                                         </tr>
                                     </table>
                                 </small>
@@ -74,15 +69,11 @@
                         </div>
                     </div>
                 </div>
-
             </section>
         </div>
-
     </div>
-
-
+</div>
 <div th:include="fragments/footer :: footer"></div>
-
 
 </body>
 </html>

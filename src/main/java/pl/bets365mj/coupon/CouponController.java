@@ -85,7 +85,10 @@ public class CouponController {
             } else {
                 wallet.setBalance(wallet.getBalance().subtract(charge));
                 Coupon coupon = (Coupon) session.getAttribute("coupon");
+
                 couponService.saveCoupon(coupon, charge, user);
+
+
                 wallet.getTransactions().add(new Date() + " you placed  " + charge + " PLN on betting coupon");
                 userService.saveUser(user);
                 walletService.saveWallet(wallet);
