@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.bets365mj.coupon.Coupon;
 import pl.bets365mj.coupon.CouponService;
@@ -15,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Controller
+@RequestMapping("/bet")
 public class BetController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class BetController {
     @Autowired
     CouponService couponService;
 
-    @PostMapping("/bet-new")
+    @PostMapping("add")
     public String addBetToCoupon(@Valid Bet bet, BindingResult result, HttpSession session) {
         if (result.hasErrors()) {
             return "redirect:/active";
@@ -40,7 +42,7 @@ public class BetController {
         return "redirect:/home";
     }
 
-    @PostMapping("/delbet")
+    @PostMapping("/remove")
     public String deleteBetFromCoupon(@RequestParam Integer eventId, HttpSession session) {
         Coupon coupon = (Coupon) session.getAttribute("coupon");
         List<Bet> sessionBets = coupon.getBets();
