@@ -44,18 +44,8 @@ public class BetController {
     public String deleteBetFromCoupon(@RequestParam Integer eventId, HttpSession session) {
         Coupon coupon = (Coupon) session.getAttribute("coupon");
         List<Bet> sessionBets = coupon.getBets();
-        removeBetFromSession(eventId, sessionBets);
+        sessionBets.removeIf(x -> x.getFixture().getId().equals(eventId));
         return "redirect:/home";
-    }
-
-    private void removeBetFromSession(Integer eventId, List<Bet> sessionBets) {
-        Iterator<Bet> iterator = sessionBets.listIterator();
-        while (iterator.hasNext()) {
-            int idFromIterator = iterator.next().getFixture().getId();
-            if (idFromIterator == eventId) {
-                iterator.remove();
-            }
-        }
     }
 
     public static boolean checkIfBetsAreActive(List<Bet> sessionBets) {
