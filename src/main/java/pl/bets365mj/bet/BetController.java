@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 
 @Controller
-@RequestMapping("/bet")
 public class BetController {
 
     @Autowired
@@ -28,7 +27,7 @@ public class BetController {
     @Autowired
     CouponService couponService;
 
-    @PostMapping("add")
+    @PostMapping("/bet-add")
     public String addBetToCoupon(@Valid Bet bet, BindingResult result, HttpSession session) {
         if (result.hasErrors()) {
             return "redirect:/active";
@@ -36,26 +35,17 @@ public class BetController {
         Coupon coupon = (Coupon) session.getAttribute("coupon");
         List<Bet> betsInSession = coupon.getBets();
         if (bet.isUniqe(betsInSession) == false) {
-            return "redirect:/home";
+            return "redirect:/";
         }
         betsInSession.add(bet);
-        return "redirect:/home";
+        return "redirect:/";
     }
 
-    @PostMapping("/remove")
+    @PostMapping("/bet-remove")
     public String deleteBetFromCoupon(@RequestParam Integer eventId, HttpSession session) {
         Coupon coupon = (Coupon) session.getAttribute("coupon");
         List<Bet> sessionBets = coupon.getBets();
         sessionBets.removeIf(x -> x.getFixture().getId().equals(eventId));
-        return "redirect:/home";
-    }
-
-    public static boolean checkIfBetsAreActive(List<Bet> sessionBets) {
-        Iterator<Bet> iterator = sessionBets.listIterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getFixture().getMatchStatus().equals("finished"))
-                return false;
-        }
-        return true;
+        return "redirect:/";
     }
 }

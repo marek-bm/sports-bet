@@ -22,14 +22,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public CurrentUserDetailsService currentUserDetailsService() {
-        return new CurrentUserDetailsService();
-    }
+    @Autowired
+    CurrentUserDetailsService currentUserDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-                auth.userDetailsService(currentUserDetailsService()).
+                auth.userDetailsService(currentUserDetailsService).
                 passwordEncoder(passwordEncoder());
     }
 
@@ -43,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/fixture-edit/").hasRole("ADMIN")
                 .and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/home")
+                .formLogin().loginPage("/login").defaultSuccessUrl("/")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login").deleteCookies("JSESSIONID")

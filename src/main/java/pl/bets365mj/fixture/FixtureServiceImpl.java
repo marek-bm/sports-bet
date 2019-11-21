@@ -17,12 +17,12 @@ public class FixtureServiceImpl  implements FixtureService {
     @Autowired
     FixtureRepository fixtureRepository;
 
-    public Fixture saveFixture(Fixture fixture){
+    public Fixture save(Fixture fixture){
         return fixtureRepository.save(fixture);
     }
 
     @Override
-    public List<Fixture> saveFixtures(List<Fixture> fixtures) {
+    public List<Fixture> saveAll(List<Fixture> fixtures) {
         return fixtureRepository.saveAll(fixtures);
     }
 
@@ -78,7 +78,7 @@ public class FixtureServiceImpl  implements FixtureService {
 
     @Override
     public Fixture findById(int id) {
-        return fixtureRepository.getOne(id);
+        return fixtureRepository.findById(id);
     }
 
 

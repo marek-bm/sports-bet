@@ -29,19 +29,12 @@ public class HomeController {
     @Autowired
     SeasonResultsService seasonResultsService;
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("username", getUsername());
         model.addAttribute("activeFixtures", activeFixtures());
         model.addAttribute("bet", new Bet());
         return "home";
-    }
-
-
-    @RequestMapping("/admin")
-    @ResponseBody
-    public String admin() {
-        return "admin page";
     }
 
     @ModelAttribute("coupon")
@@ -62,10 +55,10 @@ public class HomeController {
         return activeFixtureMap;
     }
 
-//    @ModelAttribute("bet")
-//    public Bet createEmptyBet(Model model) {
-//        Bet bet = new Bet();
-//        model.addAttribute("bet", bet);
-//        return bet;
-//    }
+    @ModelAttribute("bet")
+    public Bet createEmptyBet(Model model) {
+        Bet bet = new Bet();
+        model.addAttribute("bet", bet);
+        return bet;
+    }
 }

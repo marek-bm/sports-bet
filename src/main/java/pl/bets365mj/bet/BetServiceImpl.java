@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bets365mj.fixture.Fixture;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @Service
 public class BetServiceImpl implements BetService {
 
@@ -78,16 +80,4 @@ public class BetServiceImpl implements BetService {
         }
         return bets;
     }
-
-
-//    public static Bet getBet(@RequestParam Integer event, @RequestParam BigDecimal betPrice, @RequestParam String placedBet, FixtureService fixtureService) {
-//        Bet bet=new Bet();
-//        Fixture fixture=fixtureService.findById(event);
-//        bet.setEvent(fixture);
-//        bet.setBetPrice(betPrice);
-//        bet.setPlacedBet(placedBet);
-//
-//        return bet;
-//    }
-
 }

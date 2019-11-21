@@ -14,7 +14,9 @@ public interface CouponService {
     Coupon findById(int id);
     List<Coupon> findAllByBetsIn(List<Bet> bets);
     void resolveCoupons(List<Coupon> coupons);
-    void saveCoupon(Coupon coupon, BigDecimal charge, User user);
+    void save(Coupon coupon, BigDecimal charge, User owner);
 
 
 }
+
+

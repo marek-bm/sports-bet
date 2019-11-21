@@ -17,8 +17,10 @@ import pl.bets365mj.fixtureMisc.*;
 import pl.bets365mj.odd.FootballOdd;
 import pl.bets365mj.fixtureMisc.LeagueRepository;
 import pl.bets365mj.fixtureMisc.SeasonServiceImpl;
+import pl.bets365mj.oddStatistics.MatchStatistics;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +55,9 @@ public class FixtureController {
     @Autowired
     CouponService couponService;
 
+    @Autowired
+    MatchStatistics matchStatistics;
+
     @RequestMapping("/fixture-finished")
     public String showFinishedFixtures(Model model) {
         Season currentSeason = seasonService.findById(7);
@@ -62,7 +67,7 @@ public class FixtureController {
         return "results-all";
     }
 
-    @RequestMapping("/active")
+    @RequestMapping("/fixture-active")
     public String showActiveFixtures(Model model) {
         List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("active");
         Map<Integer, List<Fixture>> fixtureMap = fixtureService.fixturesAsMapSortByMatchday(activeEvents);
@@ -84,7 +89,7 @@ public class FixtureController {
         if (result.hasErrors()) {
             return "forms/fixture-edit";
         }
-        fixtureService.saveFixture(fixture);
+        fixtureService.save(fixture);
         FixtureProcessor.resultSolver(fixture);
         betService.updateBets(fixture);
 
@@ -108,8 +113,34 @@ public class FixtureController {
             return "forms/fixture-new";
         }
         footballOdd.setOdds(fixture);
-        fixtureService.saveFixture(fixture);
+        fixtureService.save(fixture);
         return "redirect:/active";
+    }
+
+
+    @RequestMapping("/fixture-stats/{id}")
+    public String odds(Model model, @PathVariable int id) {
+        Fixture fixture = fixtureService.findById(id);
+        Season season = fixture.getSeason();
+        Team home = fixture.getHomeTeam();
+        Team away = fixture.getAwayTeam();
+
+        double homeTeamGoalsConcrete = matchStatistics.homeTeamGoalsPrediction(home, away, season);
+        double[] homeTeamGoalsZeroToSix = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(homeTeamGoalsConcrete);
+        double awayTeamGoalsConcrete = matchStatistics.awayTeamGoalsPrediction(home, away, season);
+        double[] awayTeamGoalsZeroToSix = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(awayTeamGoalsConcrete);
+        double[][] matchResultProbabilityMatix = matchStatistics.matchScoreProbabilityMatrix(homeTeamGoalsZeroToSix, awayTeamGoalsZeroToSix);
+        Map<String, BigDecimal> odds = footballOdd.getOdds(fixture);
+
+        model.addAttribute("ht", home);
+        model.addAttribute("at", away);
+        model.addAttribute("hg", homeTeamGoalsConcrete); //single goal
+        model.addAttribute("ag", awayTeamGoalsConcrete); //single goal
+        model.addAttribute("homeGoals", homeTeamGoalsZeroToSix);
+        model.addAttribute("awayGoals", awayTeamGoalsZeroToSix);
+        model.addAttribute("result", matchResultProbabilityMatix); //match result matrix
+        model.addAttribute("odds", odds);
+        return "fixture-stats";
     }
 
     @ModelAttribute

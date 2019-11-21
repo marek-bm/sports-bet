@@ -10,8 +10,8 @@ import java.util.Map;
 @Service
 public interface FixtureService {
 
-    Fixture saveFixture(Fixture fixture);
-    List<Fixture> saveFixtures(List<Fixture> fixtures);
+    Fixture save(Fixture fixture);
+    List<Fixture> saveAll(List<Fixture> fixtures);
     List<Fixture> findAll();
     List<Fixture> findAllByMatchdayAndSeason(int matchday, Season season);
     List<Fixture> findAllBySeasonAndMatchStatus(Season season, String status);

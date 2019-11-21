@@ -1,5 +1,6 @@
 package pl.bets365mj.coupon;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import pl.bets365mj.bet.Bet;
@@ -13,64 +14,54 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 @Entity
+@Data
 public class Coupon {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter @Setter
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
-    @NotNull
-    @OneToMany (mappedBy = "coupon", cascade = CascadeType.MERGE)
-    @Getter @Setter
+    @NotNull @OneToMany (mappedBy = "coupon",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Bet> bets;
-
-    @NotNull
-    @Min(value = 1)
-    @Getter @Setter
+    @NotNull @Min(value = 1)
     private BigDecimal betValue;
-
-    @Getter @Setter
     private BigDecimal winValue;
-
-    @Getter @Setter
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
-
-    @ManyToOne //(cascade = CascadeType.PERSIST)
-    @Getter @Setter
+    @ManyToOne (cascade = CascadeType.MERGE)
     private User user;
-
-    @Getter @Setter
     @Column (name = "is_won")
     private boolean won=false;
-
-    @Getter @Setter
     @Column (name = "is_active")
     private boolean active=true;
 
-    //constructor
     public Coupon() {
         setDateCreated();
         setActive(true);
         this.bets=new ArrayList<>();
     }
 
-//    public List<SingleBet> getBets() {
-//        return bets;
-//    }
-
-//    public void setBets(List<SingleBet> bets) {
-//        this.bets = bets;
-//    }
-
-    public void setWinValue(BigDecimal winValue) {
-        this.winValue = winValue;
-    }
-
     public void setDateCreated() {
         Date date=new Date();
         this.dateCreated = date;
+    }
+
+    public void addBet(Bet newBet){
+        if(bets.contains(newBet)){
+            return;
+        } else {
+            bets.add(newBet);
+            newBet.setCoupon(this);
+        }
+    }
+
+    public void removeBet(Bet bet){
+        bets.removeIf(b -> b.equals(bet));
+        bet.setCoupon(null);
+    }
+
+    public void calculateWin(List<Bet> bets, BigDecimal charge) {
+        this.winValue = charge;
+        for (Bet bet : bets) {
+            winValue = winValue.multiply(bet.getBetPrice());
+        }
     }
 }

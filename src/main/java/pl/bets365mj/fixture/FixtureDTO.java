@@ -1,4 +1,4 @@
-package pl.bets365mj.batchDataLoader;
+package pl.bets365mj.fixture;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

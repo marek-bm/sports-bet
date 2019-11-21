@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import pl.bets365mj.fixture.Fixture;
+import pl.bets365mj.fixture.FixtureDTO;
 
 @Configuration
 @EnableBatchProcessing

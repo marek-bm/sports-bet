@@ -19,7 +19,7 @@ import java.util.*;
 
 @Entity
 @Data
-public class Fixture extends Observable {
+public class Fixture {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -77,22 +77,5 @@ public class Fixture extends Observable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setMatchStatus(String matchStatus) {
-        this.matchStatus = matchStatus;
-        if(matchStatus.equals("finished")){
-            notifyObservers();
-        }
-    }
-
-    public Fixture() {
-        this.observers = Collections.synchronizedList(new ArrayList<>());
-    }
-
-    @Override
-    public synchronized void addObserver(Observer o) {
-        if (o == null) throw new NullPointerException();
-        observers.add((Bet)o);
     }
 }
