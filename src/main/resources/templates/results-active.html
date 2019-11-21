@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/header :: header"></head>
 <body id="page-top">
@@ -76,7 +78,7 @@
                                                               th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>
                                                     </td>
 
-                                                    <form th:action="@{/bet-new}" th:object="${bet}" method="post">
+                                                    <form th:action="@{/bet-add}" th:object="${bet}" method="post">
                                                         <td>
                                                             <input type="hidden" name="fixture" th:value="${event.id}"/>
                                                             <input type="hidden" name="betPrice" th:value="${event.homeWinOdd}"/>
@@ -87,7 +89,7 @@
                                                     </form>
 
 
-                                                    <form th:action="@{/bet-new}" th:object="${bet}" method="post">
+                                                    <form th:action="@{/bet-add}" th:object="${bet}" method="post">
                                                         <td>
                                                             <input type="hidden" name="fixture" th:value="${event.id}"/>
                                                             <input type="hidden" name="betPrice" th:value="${event.drawOdd}"/>
@@ -96,7 +98,7 @@
                                                         </td>
                                                     </form>
 
-                                                    <form th:action="@{/bet-new}" th:object="${bet}" method="post">
+                                                    <form th:action="@{/bet-add}" th:object="${bet}" method="post">
                                                         <td>
                                                             <input type="hidden" name="fixture" th:value="${event.id}"/>
                                                             <input type="hidden" name="betPrice" th:value="${event.awayWinOdd}"/>
@@ -105,7 +107,7 @@
                                                         </td>
                                                     </form>
 
-                                                    <form th:action="@{/bet-new}" th:object="${bet}" method="post">
+                                                    <form th:action="@{/bet-add}" th:object="${bet}" method="post">
                                                         <td>
                                                             <input type="hidden" name="fixture" th:value="${event.id}"/>
                                                             <input type="hidden" name="betPrice" th:value="${event.goalsLessOrEquals2odd}"/>
@@ -114,7 +116,7 @@
                                                         </td>
                                                     </form>
 
-                                                    <form th:action="@{/bet-new}" th:object="${bet}" method="post">
+                                                    <form th:action="@{/bet-add}" th:object="${bet}" method="post">
                                                         <td>
                                                             <input type="hidden" name="fixture" th:value="${event.id}"/>
                                                             <input type="hidden" name="betPrice" th:value="${event.goalsLessOrEquals2odd}"/>
@@ -151,12 +153,9 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12 col-12 col-sm-12">
-
                 </div>
-
-
+            </section>
         </div>
-        </section>
     </div>
 
 </div>

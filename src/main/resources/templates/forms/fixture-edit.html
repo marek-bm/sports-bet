@@ -1,38 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/header :: header">
-
-</head>
+<head th:replace="fragments/header :: header"></head>
 
 <body id="page-top">
-
 <nav th:replace="fragments/topbar :: topbar"></nav>
-
 <div id="wrapper">
-
     <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
-
     <div id="content-wrapper" width="70%">
-
         <h2> Fixture editor</h2>
-
-        <form th:action="@{/fixture-edit}" th:object="${fixture}" method="post">
-
+        <form th:action="@{/fixture/edit}" th:object="${fixture}" method="post">
             <table>
-
                 <tr>
-
                     <td>
                         <input type="hidden" th:field="*{id}"/>
                         <input type="hidden" th:field="*{homeWinOdd}"/>
                         <input type="hidden" th:field="*{drawOdd}"></input>
                         <input type="hidden" th:field="*{awayWinOdd}"></input>
-                        <input type="hidden" th:field="*{getGoalsLessOrEquals2odd}"></input>
-                        <input type="hidden" th:field="*{getGoalsMoreThan2odd}"></input>
+                        <input type="hidden" th:field="*{goalsLessOrEquals2odd}"></input>
+                        <input type="hidden" th:field="*{goalsMoreThan2odd}"></input>
                     </td>
                 </tr>
-
                 <tr>
                     <td> Sport category:</td>
                     <!--<td th:text="${fixture.getCategory().getName()}"> </td>-->
@@ -47,7 +35,6 @@
                         <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Error</p>
                     </td>
                 </tr>
-
                 <tr>
                     <td> League:</td>
                     <td>
@@ -61,7 +48,6 @@
                         </select>
                     </td>
                 </tr>
-
                 <tr>
                     <td> Season:</td>
                     <td>
@@ -75,7 +61,6 @@
                         <p th:if="${#fields.hasErrors('season')}" th:errors="*{season}">Error</p>
                     </td>
                 </tr>
-
                 <tr>
                     <td> Matchday:</td>
                     <td>
@@ -83,7 +68,6 @@
                         <p th:if="${#fields.hasErrors('matchday')}" th:errors="*{matchday}">Error</p>
                     </td>
                 </tr>
-
                 <tr>
                     <td> Date:</td>
                     <td>
@@ -91,8 +75,6 @@
                         <!--<p th:if="${#fields.hasErrors('Date')}" th:errors="*{Date}">Error</p>-->
                     </td>
                 </tr>
-
-
                 <tr>
                     <td> Home team:</td>
                     <td>
@@ -106,7 +88,6 @@
                         <p th:if="${#fields.hasErrors('homeTeam')}" th:errors="*{homeTeam}">Error</p>
                     </td>
                 </tr>
-
                 <tr>
                     <td> Away team:</td>
                     <td>
@@ -120,16 +101,12 @@
                         <p th:if="${#fields.hasErrors('awayTeam')}" th:errors="*{awayTeam}">Error</p>
                     </td>
                 </tr>
-
-
                 <tr>
                     <td> FT home team score:</td>
                     <td>
                         <input type="number" min="0" th:field="*{FTHG}"/>
                     </td>
                 </tr>
-
-
                 <tr>
                     <td> FT away team score:</td>
                     <td>
@@ -137,8 +114,6 @@
                         <p th:if="${#fields.hasErrors('FTAG')}" th:errors="*{FTAG}">Error</p>
                     </td>
                 </tr>
-
-
                 <tr>
                     <td> HT home team score:</td>
                     <td>
@@ -146,8 +121,6 @@
                         <p th:if="${#fields.hasErrors('HTHG')}" th:errors="*{HTHG}">Error</p>
                     </td>
                 </tr>
-
-
                 <tr>
                     <td> HT away team score:</td>
                     <td>
@@ -155,7 +128,6 @@
                         <p th:if="${#fields.hasErrors('HTAG')}" th:errors="*{HTAG}">Error</p>
                     </td>
                 </tr>
-
                 <tr>
                     <td> Final Time Result:</td>
                     <td>
@@ -166,10 +138,7 @@
                         </select>
                         <p th:if="${#fields.hasErrors('FTR')}" th:errors="*{FTR}">Error</p>
                     </td>
-
                 </tr>
-
-
                 <tr>
                     <td> Half Time Result:</td>
                     <td>
@@ -180,10 +149,7 @@
                         </select>
                         <p th:if="${#fields.hasErrors('HTR')}" th:errors="*{HTR}">Error</p>
                     </td>
-
                 </tr>
-
-
                 <tr>
                     <td> Match status:</td>
                     <td>
@@ -194,17 +160,12 @@
                         </select>
                         <p th:if="${#fields.hasErrors('matchStatus')}" th:errors="*{matchStatus}">Error</p>
                     </td>
-
                 </tr>
-
             </table>
-
             <input type="submit" value="Save"/>
-
         </form>
     </div>
 </div>
 <div th:include="fragments/footer :: footer"></div>
-
 </body>
 </html>
