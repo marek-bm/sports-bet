@@ -38,6 +38,7 @@ public class TableController {
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders httpHeaders=new HttpHeaders();
         httpHeaders.set("X-Auth-Token", "aa328c4c0d484c18b588362d5de22ec9");
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         String URL= "http://api.football-data.org/v2/competitions/2021/standings";
         HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
 

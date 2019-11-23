@@ -2,36 +2,61 @@ package pl.bets365mj.fixtureMisc;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.*;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Data
+@NoArgsConstructor @AllArgsConstructor
 public class TableDto {
     @JsonProperty ("competition") Competition competition;
-
-    public TableDto(Competition competition) {
-        this.competition = competition;
-    }
-
-    public TableDto() {
-    }
+    @JsonProperty ("season") SeasonDto season;
+    @JsonProperty("standings") List standings;
 
     @Data
+    @NoArgsConstructor @AllArgsConstructor
     private class Competition {
         @JsonProperty ("id") String id;
         @JsonProperty ("area") HashMap<String, String> area;
         @JsonProperty ("name") String name;
         @JsonProperty ("code") String code;
+        @JsonProperty("lastUpdated") Date update;
+    }
 
-        public Competition(String id, HashMap<String, String> area, String name, String code) {
-            this.id = id;
-            this.area = area;
-            this.name = name;
-            this.code = code;
-        }
+    @Data
+    @NoArgsConstructor @AllArgsConstructor
+    private class SeasonDto {
+        @JsonProperty ("currentMatchday") int currentMatchday;
+    }
 
-        public Competition() {
-        }
+    @Data
+    @NoArgsConstructor @AllArgsConstructor
+    private class Standings {
+        @JsonProperty("type") String type;
+        @JsonProperty("table") List<ApiTable> table;
+    }
+
+    @Data
+    @NoArgsConstructor @AllArgsConstructor
+    private class ApiTable{
+        @JsonProperty("position") int position;
+        @JsonProperty("team") TeamDto team;
+        @JsonProperty("playedGames") String playedGames;
+        @JsonProperty("won") int won;
+        @JsonProperty("draw") int draw;
+        @JsonProperty("lost") int lost;
+        @JsonProperty("points") int points;
+        @JsonProperty("goalsFor") int goalsFor;
+        @JsonProperty("goalsAgainst") int goalsAgainst;
+        @JsonProperty("goalDifference") int goalsDifference;
+    }
+
+    @Data
+    @NoArgsConstructor @AllArgsConstructor
+    private class TeamDto{
+        @JsonProperty("name") String name;
+        @JsonProperty("crestUrl") String crestUrl;
     }
 }
