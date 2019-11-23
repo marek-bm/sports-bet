@@ -7,7 +7,6 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.bets365mj.fixture.Fixture;
-import pl.bets365mj.fixture.FixtureDTO;
 import pl.bets365mj.fixtureMisc.*;
 
 import java.util.Map;

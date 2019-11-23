@@ -1,13 +1,13 @@
 package pl.bets365mj.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import pl.bets365mj.api.ApiDetails;
 import pl.bets365mj.batchDataLoader.FixtureProcessor;
 import pl.bets365mj.bet.Bet;
 import pl.bets365mj.bet.BetService;
@@ -141,6 +141,20 @@ public class FixtureController {
         model.addAttribute("result", matchResultProbabilityMatix); //match result matrix
         model.addAttribute("odds", odds);
         return "fixture-stats";
+    }
+
+    @RequestMapping("/api-import")
+    @ResponseBody
+    public String importFixturesFromApi(){
+        RestTemplate restTemplate=new RestTemplate();
+        HttpHeaders httpHeaders=new HttpHeaders();
+        httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        String URL= "http://api.football-data.org/v2/competitions/PL/matches";
+        HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
+        ResponseEntity<FixtureDTO> responseEntity=restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureDTO.class);
+        HttpStatus httpStatus=responseEntity.getStatusCode();
+        return responseEntity.getBody().toString();
     }
 
     @ModelAttribute

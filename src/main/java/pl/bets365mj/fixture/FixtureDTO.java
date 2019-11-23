@@ -1,113 +1,48 @@
 package pl.bets365mj.fixture;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-
-@NoArgsConstructor
+@Data
+@NoArgsConstructor @AllArgsConstructor
 public class FixtureDTO {
+    @JsonProperty("count") int count;
+    @JsonProperty("matches") List matches;
 
-    @Getter
-    @Setter
-    private Integer Id;
-
-    @Getter
-    @Setter
-    private int category_id;
-
-    @Getter
-    @Setter
-    private int league_id;
-
-    @Getter
-    @Setter
-    private int season_id;
-
-    @Getter
-    @Setter
-    private int matchday;
-
-    private java.util.Date Date;
-
-    public java.util.Date getDate() {
-        return Date;
+    @Data
+    @NoArgsConstructor @AllArgsConstructor
+    private class MatchApi{
+        @JsonProperty("id") long apiMatchId;
+        @JsonProperty("season") HashMap<String, String> season;
+        @JsonProperty("utcDate") Date utcDate;
+        @JsonProperty("status") String status;
+        @JsonProperty("matchday") int matchday;
+        @JsonProperty("score") Score score;
+        @JsonProperty("homeTeam") TeamDto homeTeam;
+        @JsonProperty("awayTeam") TeamDto awayTeam;
     }
 
-    @Getter
-    @Setter
-    private String matchStatus;
+    @Data
+    @NoArgsConstructor @AllArgsConstructor
+    private class Score{
+        @JsonProperty("winner") String winner;
+        @JsonProperty("fullTime") Map<String, Integer> fullTime;
+        @JsonProperty("halfTime") Map<String, Integer> halfTime;
+    }
 
-    @Getter
-    @Setter
-    private String homeTeam;
-
-    @Getter
-    @Setter
-    private String awayTeam;
-
-    @Getter
-    @Setter
-    //final time home team goals
-    private Integer FTHG;
-
-    @Getter
-    @Setter
-    //final time away team goals
-    private Integer FTAG;
-
-    @Getter
-    @Setter
-    //final result (H-HomeTeam, A- AwayTeam, D-draw)
-    private String FTR;
-
-    @Getter
-    @Setter
-    //home team half-time goal
-    private Integer HTHG;
-
-    @Getter
-    @Setter
-    //away team half-time goal
-    private Integer HTAG;
-
-    @Getter
-    @Setter
-    //half time result (H-HomeTeam, A- AwayTeam, D-draw)
-    private String HTR;
-
-    @Getter
-    @Setter
-    private BigDecimal homeWinOdd;
-
-    @Getter
-    @Setter
-    private BigDecimal drawOdd;
-
-    @Getter
-    @Setter
-    private BigDecimal awayWinOdd;
-
-    @Getter
-    @Setter
-    private BigDecimal goal_more_2_5;
-
-    @Getter
-    @Setter
-    private BigDecimal goal_less_2_5;
-
-    public void setDate(String date) {
-        DateFormat format = new SimpleDateFormat("dd/MM/yy");
-        try {
-            java.util.Date dateConverted = format.parse(date);
-            this.Date = dateConverted;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    @Data
+    @NoArgsConstructor @AllArgsConstructor
+    private class TeamDto{
+        @JsonProperty("id") long apiTeamId;
+        @JsonProperty("name") String name;
     }
 }

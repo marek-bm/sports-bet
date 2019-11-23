@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import pl.bets365mj.api.ApiDetails;
 import pl.bets365mj.fixtureMisc.Season;
 import pl.bets365mj.fixtureMisc.SeasonRepository;
 import pl.bets365mj.fixtureMisc.SeasonResult;
@@ -32,19 +34,17 @@ public class TableController {
         return "table";
     }
 
-    @RequestMapping ("/api-table")
-    @ResponseBody
-    public void showApiTable(){
+    @GetMapping("/api-table")
+    public String showApiTable(Model model){
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders httpHeaders=new HttpHeaders();
-        httpHeaders.set("X-Auth-Token", "aa328c4c0d484c18b588362d5de22ec9");
+        httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         String URL= "http://api.football-data.org/v2/competitions/2021/standings";
         HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
-
         ResponseEntity<TableDto> responseEntity=restTemplate.exchange(URL, HttpMethod.GET, httpEntity, TableDto.class);
         HttpStatus responseStatus=responseEntity.getStatusCode();
-        System.out.println(responseStatus);
-        System.out.println(responseEntity.getBody().toString());
+        model.addAttribute("apiTable", responseEntity.getBody());
+        return "api-table";
     }
 }
