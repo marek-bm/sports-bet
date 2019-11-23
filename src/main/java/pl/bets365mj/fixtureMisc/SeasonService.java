@@ -6,5 +6,7 @@ public interface SeasonService {
 
     Season findById(int id);
     List<Season> findAll();
+    Season findCurrent();
 }
+
 

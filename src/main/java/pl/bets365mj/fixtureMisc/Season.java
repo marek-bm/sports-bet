@@ -28,4 +28,7 @@ public class Season {
 
     @OneToMany(mappedBy = "season")
     List<SeasonResult> seasonResults;
+
+    private long apiId;
+    private int currentMatchday;
 }

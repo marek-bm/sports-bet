@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import pl.bets365mj.api.ApiDetails;
+import pl.bets365mj.api.MatchDto;
 import pl.bets365mj.batchDataLoader.FixtureProcessor;
 import pl.bets365mj.bet.Bet;
 import pl.bets365mj.bet.BetService;
@@ -22,6 +23,7 @@ import pl.bets365mj.oddStatistics.MatchStatistics;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -146,14 +148,26 @@ public class FixtureController {
     @RequestMapping("/api-import")
     @ResponseBody
     public String importFixturesFromApi(){
+        Season season=seasonService.findCurrent();
+        int currentMatchdayDataBase=season.getCurrentMatchday();
+        int requestedMatchday=currentMatchdayDataBase+1;
+
+
+//        String URL= "http://api.football-data.org/v2/competitions/PL/matches?matchday="+requestedMatchday;
+        String URL= ApiDetails.URL_MATCHES+"?matchday=1";
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders httpHeaders=new HttpHeaders();
         httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        String URL= "http://api.football-data.org/v2/competitions/PL/matches";
         HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
         ResponseEntity<FixtureDTO> responseEntity=restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureDTO.class);
+        FixtureDTO dto=responseEntity.getBody();
         HttpStatus httpStatus=responseEntity.getStatusCode();
+        HttpHeaders responseHeader=responseEntity.getHeaders();
+        int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
+        int currentMatchdayApi= Integer.parseInt(dto.getMatches().get(0).getSeason().get("currentMatchday"));
+
+
         return responseEntity.getBody().toString();
     }
 
