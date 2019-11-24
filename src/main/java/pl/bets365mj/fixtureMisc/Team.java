@@ -1,27 +1,27 @@
 package pl.bets365mj.fixtureMisc;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
 @Entity
+@Data
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
     private Integer id;
 
     @NotNull
-    @Getter @Setter
     private String name;
 
-    @Getter @Setter
     @OneToMany(cascade = CascadeType.ALL)
     private Map<Season, SeasonResult> results;
+
+    private int apiId;
+
+    private String logoUrl;
 
     public Team() {this.results = new HashMap<>();
     }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import pl.bets365mj.api.ApiDetails;
 import pl.bets365mj.api.MatchDto;
+import pl.bets365mj.api.ScoreDto;
+import pl.bets365mj.api.TeamDto;
 import pl.bets365mj.batchDataLoader.FixtureProcessor;
 import pl.bets365mj.bet.Bet;
 import pl.bets365mj.bet.BetService;
@@ -22,10 +24,7 @@ import pl.bets365mj.oddStatistics.MatchStatistics;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class FixtureController {
@@ -167,8 +166,52 @@ public class FixtureController {
         int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
         int currentMatchdayApi= Integer.parseInt(dto.getMatches().get(0).getSeason().get("currentMatchday"));
 
+//        while (currentMatchdayDataBase!=currentMatchdayApi){
+//            if(availableRequests==0){
+//                wait60seconds();
+//            }
+//        }
+        List<MatchDto> matches=dto.getMatches();
+        MatchDto m=matches.get(0);
+        long apiId=m.getApiMatchId();
+        Map seasonApi=m.getSeason();
+        int seasonId= (int) seasonApi.get("id");
+        Date matchDate=m.getUtcDate();
+        String status=m.getStatus();
+        int matchday=m.getMatchday();
+        ScoreDto score=m.getScore();
 
-        return responseEntity.getBody().toString();
+        TeamDto homeTeamDto=m.getHomeTeam();
+        TeamDto awayTeamDto=m.getAwayTeam();
+
+        Fixture fixture=new Fixture();
+        fixture.setSeason(season);
+        fixture.setMatchday(matchday);
+
+        League league=leagueRepository.findLeagueById(1);
+        fixture.setLeague(league);
+
+        Team homeTeam=teamService.findByApiId(homeTeamDto.getApiTeamId());
+        fixture.setHomeTeam(homeTeam);
+
+        Team awayTeam=teamService.findByApiId(awayTeamDto.getApiTeamId());
+        fixture.setAwayTeam(awayTeam);
+        fixture.setDate(matchDate);
+        fixture.setMatchStatus(status);
+
+        //ToDo
+        // set results to fixture
+
+        return dto.getMatches().get(0).toString();
+    }
+
+    private void wait60seconds() {
+        try {
+            wait(6000);
+            System.out.println("Waiting 60 seconds for new requestes pool");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @ModelAttribute

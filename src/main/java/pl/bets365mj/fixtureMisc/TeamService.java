@@ -7,4 +7,5 @@ public interface TeamService {
     Team findTeamById(int id);
     Team findTeamByName(String name);
     List<Team> findAll();
+    Team findByApiId(long id);
 }
