@@ -27,10 +27,10 @@ public class Fixture {
     @OneToMany
     private List<Bet> observers;
 
-    @NotNull @OneToOne
+    @OneToOne
     private SportCategory category;
 
-    @NotNull @ManyToOne
+    @NotNull @ManyToOne (cascade = {CascadeType.MERGE})
     private League league;
 
     @ManyToOne (cascade = CascadeType.ALL)
@@ -65,6 +65,7 @@ public class Fixture {
     private BigDecimal goalsLessOrEquals2odd;
     @Column(name = "goal_more_2_5")
     private BigDecimal goalsMoreThan2odd;
+    private long apiId;
 
     public void setDate(java.util.Date date) {
         Date = date;
@@ -78,4 +79,6 @@ public class Fixture {
             e.printStackTrace();
         }
     }
+
+
 }

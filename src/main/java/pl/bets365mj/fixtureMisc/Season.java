@@ -7,6 +7,7 @@ import lombok.Setter;
 import pl.bets365mj.fixture.Fixture;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,17 @@ public class Season {
 
     @OneToMany(mappedBy = "season")
     List<SeasonResult> seasonResults;
-
     private long apiId;
+    @Min(1)
     private int currentMatchday;
+
+    @Override
+    public String toString() {
+        return "Season{" +
+                "id=" + id +
+                ", seasonYear='" + seasonYear + '\'' +
+                ", apiId=" + apiId +
+                ", currentMatchday=" + currentMatchday +
+                '}';
+    }
 }

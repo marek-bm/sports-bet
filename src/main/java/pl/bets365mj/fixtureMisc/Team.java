@@ -19,10 +19,20 @@ public class Team {
     @OneToMany(cascade = CascadeType.ALL)
     private Map<Season, SeasonResult> results;
 
-    private int apiId;
+    private long apiId;
 
     private String logoUrl;
 
     public Team() {this.results = new HashMap<>();
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", apiId=" + apiId +
+                ", logoUrl='" + logoUrl + '\'' +
+                '}';
     }
 }

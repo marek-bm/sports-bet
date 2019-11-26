@@ -64,4 +64,6 @@ public class Coupon {
             winValue = winValue.multiply(bet.getBetPrice());
         }
     }
+
+
 }

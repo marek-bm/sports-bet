@@ -20,7 +20,19 @@ public class League {
     private List<Season> seasons;
     @OneToOne
     private Country country;
-    @OneToMany(mappedBy = "league")
+    @OneToMany(mappedBy = "league", fetch = FetchType.LAZY)
     private List<Fixture> fixtures;
     private int apiId;
+
+    @Override
+    public String toString() {
+        return "League{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", division=" + division +
+                ", seasons=" + seasons +
+                ", country=" + country +
+                ", apiId=" + apiId +
+                '}';
+    }
 }
