@@ -12,4 +12,5 @@ public interface SeasonRepository extends JpaRepository<Season, Integer> {
     @Query ("select max(s.id) from Season s")
     int findTopByIdAndOrderByIdDesc();
     List<Season> findAll();
+    Season findByApiId(long apiId);;
 }

@@ -1,6 +1,7 @@
 package pl.bets365mj.fixture;
 
 import org.springframework.stereotype.Service;
+import pl.bets365mj.api.MatchDto;
 import pl.bets365mj.fixtureMisc.Season;
 import pl.bets365mj.fixtureMisc.Team;
 
@@ -24,6 +25,7 @@ public interface FixtureService {
     List<Fixture> findAllByMatchStatus(String status);
     Fixture findById(int id);
     Map<Integer, List<Fixture>> fixturesAsMapSortByMatchday(List<Fixture> currentSeasonGames);
+    Fixture convertDtoToFixtureEntity(MatchDto dto);
 
 
 }

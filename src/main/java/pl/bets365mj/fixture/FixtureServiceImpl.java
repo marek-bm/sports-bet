@@ -2,13 +2,12 @@ package pl.bets365mj.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.bets365mj.fixtureMisc.Season;
-import pl.bets365mj.fixtureMisc.Team;
+import pl.bets365mj.api.MatchDto;
+import pl.bets365mj.api.ScoreDto;
+import pl.bets365mj.api.TeamDto;
+import pl.bets365mj.fixtureMisc.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,6 +15,15 @@ public class FixtureServiceImpl  implements FixtureService {
 
     @Autowired
     FixtureRepository fixtureRepository;
+
+    @Autowired
+    LeagueRepository leagueRepository;
+
+    @Autowired
+    TeamService  teamService;
+
+    @Autowired
+    SeasonService seasonService;
 
     public Fixture save(Fixture fixture){
         return fixtureRepository.save(fixture);
@@ -113,5 +121,56 @@ public class FixtureServiceImpl  implements FixtureService {
             }
             return fixtureMap;
         }else {return null;}
+    }
+
+    @Override
+    public Fixture convertDtoToFixtureEntity(MatchDto dto) {
+
+        Fixture fixture=new Fixture();
+        long matchIdDto=dto.getApiMatchId();
+        fixture.setApiId(matchIdDto);
+
+        //Home and Away team setup
+        TeamDto homeTeamDto=dto.getHomeTeam();
+        Team homeTeam=teamService.findByApiId(homeTeamDto.getApiTeamId());
+        fixture.setHomeTeam(homeTeam);
+        TeamDto awayTeamDto=dto.getAwayTeam();
+        Team awayTeam=teamService.findByApiId(awayTeamDto.getApiTeamId());
+        fixture.setAwayTeam(awayTeam);
+
+        //Season setup
+        HashMap<String, String> seasonDto=dto.getSeason();
+        long seasonId= Long.parseLong(seasonDto.get("id"));
+        Season season=seasonService.findByApiId(seasonId);
+        fixture.setSeason(season);
+
+        //Misc setup (Date, League, status etc
+        Date matchDate=dto.getUtcDate();
+        String status=dto.getStatus();
+        int matchdayDto=dto.getMatchday();
+        fixture.setMatchday(matchdayDto);
+        Optional<League> league= leagueRepository.findById(1);
+        fixture.setLeague(league.get());
+        fixture.setDate(matchDate);
+        fixture.setMatchStatus(status.toLowerCase());
+
+        //Half Time Score
+        ScoreDto score=dto.getScore();
+        Map<String, Integer> halfTimeResult=score.getHalfTime();
+        int halfTimefHomeTeamScore=halfTimeResult.get("homeTeam");
+        int halfTimeAwayTeamScore=halfTimeResult.get("awayTeam");
+        fixture.setHTHG(halfTimefHomeTeamScore);
+        fixture.setHTAG(halfTimeAwayTeamScore);
+
+        //Final Time Score
+        Map<String, Integer> fullTimeResult=score.getFullTime();
+        int fullTimefHomeTeamScore=fullTimeResult.get("homeTeam");
+        int fullTimeAwayTeamScore=fullTimeResult.get("awayTeam");
+        fixture.setFTHG(fullTimefHomeTeamScore);
+        fixture.setFTAG(fullTimeAwayTeamScore);
+        String winner=score.getWinner();
+        fixture.setFTR(String.valueOf(winner.charAt(0)));
+
+        return fixture;
     }
 }

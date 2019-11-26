@@ -148,21 +148,14 @@ public class FixtureController {
     @ResponseBody
     public String importFixturesFromApi(){
         Season season=seasonService.findCurrent();
-        int currentMatchdayDataBase=season.getCurrentMatchday();
-        int requestedMatchday=currentMatchdayDataBase+1;
 
+        String URL= ApiDetails.URL_MATCHES;
+//        String URL= ApiDetails.URL_MATCHES+"?matchday=1";
 
-//        String URL= "http://api.football-data.org/v2/competitions/PL/matches?matchday="+requestedMatchday;
-        String URL= ApiDetails.URL_MATCHES+"?matchday=1";
-        RestTemplate restTemplate=new RestTemplate();
-        HttpHeaders httpHeaders=new HttpHeaders();
-        httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
-        ResponseEntity<FixtureDTO> responseEntity=restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureDTO.class);
+        ResponseEntity<FixtureDTO> responseEntity = getFixtureDTOResponseEntity(URL);
         FixtureDTO dto=responseEntity.getBody();
         HttpStatus httpStatus=responseEntity.getStatusCode();
-        HttpHeaders responseHeader=responseEntity.getHeaders();
+        System.out.println(httpStatus);
         int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
         int currentMatchdayApi= Integer.parseInt(dto.getMatches().get(0).getSeason().get("currentMatchday"));
 
@@ -173,41 +166,27 @@ public class FixtureController {
 //        }
         List<MatchDto> matches=dto.getMatches();
         MatchDto m=matches.get(0);
-        long apiId=m.getApiMatchId();
-        Map seasonApi=m.getSeason();
-        int seasonId= (int) seasonApi.get("id");
-        Date matchDate=m.getUtcDate();
-        String status=m.getStatus();
-        int matchday=m.getMatchday();
-        ScoreDto score=m.getScore();
 
-        TeamDto homeTeamDto=m.getHomeTeam();
-        TeamDto awayTeamDto=m.getAwayTeam();
+        Fixture fixture=fixtureService.convertDtoToFixtureEntity(m);
+        //ToDo - check how season results are updated in DB on the fixture persist
+        //ToDo - Odd calculation for the fixture (take into acccount last 10(?) matches
+        //ToDo - for new team assume avg leage values as long they don't reach 2(?) matches
 
-        Fixture fixture=new Fixture();
-        fixture.setSeason(season);
-        fixture.setMatchday(matchday);
+        return fixture.toString();
+    }
 
-        League league=leagueRepository.findLeagueById(1);
-        fixture.setLeague(league);
-
-        Team homeTeam=teamService.findByApiId(homeTeamDto.getApiTeamId());
-        fixture.setHomeTeam(homeTeam);
-
-        Team awayTeam=teamService.findByApiId(awayTeamDto.getApiTeamId());
-        fixture.setAwayTeam(awayTeam);
-        fixture.setDate(matchDate);
-        fixture.setMatchStatus(status);
-
-        //ToDo
-        // set results to fixture
-
-        return dto.getMatches().get(0).toString();
+    private ResponseEntity<FixtureDTO> getFixtureDTOResponseEntity(String URL) {
+        RestTemplate restTemplate=new RestTemplate();
+        HttpHeaders httpHeaders=new HttpHeaders();
+        httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
+        return restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureDTO.class);
     }
 
     private void wait60seconds() {
         try {
-            wait(6000);
+            wait(60000);
             System.out.println("Waiting 60 seconds for new requestes pool");
         } catch (InterruptedException e) {
             e.printStackTrace();

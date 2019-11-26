@@ -28,4 +28,10 @@ public class SeasonServiceImpl implements SeasonService {
         return season;
     }
 
+    @Override
+    public Season findByApiId(long apiId) {
+        return seasonRepository.findByApiId(apiId);
+    }
+
+
 }
