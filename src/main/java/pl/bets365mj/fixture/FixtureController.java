@@ -2,6 +2,7 @@ package pl.bets365mj.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,7 +60,7 @@ public class FixtureController {
 
     @RequestMapping("/fixture-finished")
     public String showFinishedFixtures(Model model) {
-        Season currentSeason = seasonService.findById(7);
+        Season currentSeason = seasonService.findCurrent();
         List<Fixture> allFixtures = fixtureService.findAllBySeasonAndMatchStatus(currentSeason, "finished");
         Map<Integer, List<Fixture>> grouppedByMatchday = fixtureService.groupByMatchday(allFixtures);
         model.addAttribute("fixtures", grouppedByMatchday);
@@ -68,7 +69,7 @@ public class FixtureController {
 
     @RequestMapping("/fixture-active")
     public String showActiveFixtures(Model model) {
-        List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("active");
+        List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("scheduled");
         Map<Integer, List<Fixture>> fixtureMap = fixtureService.groupByMatchday(activeEvents);
         model.addAttribute("activeFixtures", fixtureMap);
         Bet bet = new Bet();
@@ -142,45 +143,69 @@ public class FixtureController {
         return "fixture-stats";
     }
 
-    @RequestMapping("/api-import")
+    @RequestMapping("/api-import-batch")
     @ResponseBody
-    public String importFixturesFromApi(){
+    public String importAllFixturesFromApi(){
         Season season=seasonService.findCurrent();
         int currentMatchdayDataBase=season.getCurrentMatchday();
         int currentMatchdayApi=fixtureService.getCurrentApiMatchday();
+        System.out.println("Current matchday  API " + currentMatchdayApi);
 
+        while (currentMatchdayDataBase <= currentMatchdayApi){
+            String URL= ApiDetails.URL_MATCHES+"?matchday="+currentMatchdayDataBase;
+            ResponseEntity<FixtureDTO> responseEntity = fixtureService.makeApiCall(URL);
+            FixtureDTO dto=responseEntity.getBody();
+            List<MatchDto> matches=dto.getMatches();
 
-        String URL= ApiDetails.URL_MATCHES;
-//        String URL= ApiDetails.URL_MATCHES+"?matchday=1";
+            HttpStatus httpStatus=responseEntity.getStatusCode();
+            System.out.println(httpStatus);
+            int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
+            System.out.println("Available Requests "+ availableRequests);
+            if(availableRequests==1){
+                wait60seconds();
+            }
 
-        ResponseEntity<FixtureDTO> responseEntity = fixtureService.makeApiCall(URL);
-        FixtureDTO dto=responseEntity.getBody();
-        HttpStatus httpStatus=responseEntity.getStatusCode();
-        System.out.println(httpStatus);
-        int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
+            List<Fixture> fixtures=matches.stream()
+                    .map(m->fixtureService.convertDtoToFixtureEntity(m))
+                    .map(f-> footballOdd.calculateOdds(f))
+                    .collect(Collectors.toList());
 
+            currentMatchdayDataBase+=1;
+            fixtureService.saveAll(fixtures);
+        }
 
-//        while (currentMatchdayDataBase!=currentMatchdayApi){
-//            if(availableRequests==0){
-//                wait60seconds();
-//            }
-//        }
-        List<MatchDto> matches=dto.getMatches();
-        MatchDto m=matches.get(0);
-
-        Fixture fixture=fixtureService.convertDtoToFixtureEntity(m);
-        fixtureService.save(fixture);
-        //ToDo - check how season results are updated in DB on the fixture persist
-        //ToDo - Odd calculation for the fixture (take into acccount last 10(?) matches
-        //ToDo - for new team assume avg leage values as long they don't reach 2(?) matches
-
-        return fixture.toString();
+        season.setCurrentMatchday(currentMatchdayApi);
+        seasonService.save(season);
+        return "OK";
     }
 
+    @RequestMapping("/api-import-next")
+    @ResponseBody
+    public String importNextFixturesRoundFromApi(){
+        Season season=seasonService.findCurrent();
+        int matchday=season.getCurrentMatchday()+1;
+        String URL = ApiDetails.URL_MATCHES + "?matchday=" + matchday;
+        ResponseEntity<FixtureDTO> responseEntity = fixtureService.makeApiCall(URL);
+        FixtureDTO dto = responseEntity.getBody();
+        List<MatchDto> matches = dto.getMatches();
+
+        List<Fixture> fixtures = matches.stream()
+                .map(m -> fixtureService.convertDtoToFixtureEntity(m))
+                .map(f -> footballOdd.calculateOdds(f))
+                .collect(Collectors.toList());
+
+        fixtureService.saveAll(fixtures);
+        season.setCurrentMatchday(matchday);
+        seasonService.save(season);
+        return "OK";
+    }
+
+    @Secured("ROLE_ADMIN")
     @RequestMapping("/api-update-2018-2019")
     @ResponseBody
     public String apiUpdateSeasonStartingIn2018(){
       String URL ="http://api.football-data.org/v2/competitions/PL/matches?dateFrom=2018-11-06&dateTo=2019-07-01";
+//      String URL="http://api.football-data.org/v2/competitions/PL/matches?matchday=11&season=2018";
       ResponseEntity<FixtureDTO> responseEntity=fixtureService.makeApiCall(URL);
       FixtureDTO dto=responseEntity.getBody();
       List<MatchDto> matches=dto.getMatches();
@@ -208,19 +233,10 @@ public class FixtureController {
         fixtures.forEach(System.out :: println);
     }
 
-//    private ResponseEntity<FixtureDTO> getFixtureDTOResponseEntity(String URL) {
-//        RestTemplate restTemplate=new RestTemplate();
-//        HttpHeaders httpHeaders=new HttpHeaders();
-//        httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
-//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-//        HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
-//        return restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureDTO.class);
-//    }
-
     private void wait60seconds() {
         try {
-            wait(60000);
             System.out.println("Waiting 60 seconds for new requestes pool");
+            Thread.sleep(61000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

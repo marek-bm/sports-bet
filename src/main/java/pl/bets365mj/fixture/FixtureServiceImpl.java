@@ -140,21 +140,21 @@ public class FixtureServiceImpl  implements FixtureService {
 
         //Half Time Score
         ScoreDto score=dto.getScore();
-        Map<String, Integer> halfTimeResult=score.getHalfTime();
-        int halfTimefHomeTeamScore=halfTimeResult.get("homeTeam");
-        int halfTimeAwayTeamScore=halfTimeResult.get("awayTeam");
-        fixture.setHTHG(halfTimefHomeTeamScore);
-        fixture.setHTAG(halfTimeAwayTeamScore);
-
-        //Final Time Score
-        Map<String, Integer> fullTimeResult=score.getFullTime();
-        int fullTimefHomeTeamScore=fullTimeResult.get("homeTeam");
-        int fullTimeAwayTeamScore=fullTimeResult.get("awayTeam");
-        fixture.setFTHG(fullTimefHomeTeamScore);
-        fixture.setFTAG(fullTimeAwayTeamScore);
         String winner=score.getWinner();
-        fixture.setFTR(String.valueOf(winner.charAt(0)));
+        if (winner != null) {
+            Map<String, Integer> halfTimeResult = score.getHalfTime();
+            int halfTimefHomeTeamScore = halfTimeResult.get("homeTeam");
+            int halfTimeAwayTeamScore = halfTimeResult.get("awayTeam");
+            fixture.setHTHG(halfTimefHomeTeamScore);
+            fixture.setHTAG(halfTimeAwayTeamScore);
 
+            Map<String, Integer> fullTimeResult = score.getFullTime();
+            int fullTimefHomeTeamScore = fullTimeResult.get("homeTeam");
+            int fullTimeAwayTeamScore = fullTimeResult.get("awayTeam");
+            fixture.setFTHG(fullTimefHomeTeamScore);
+            fixture.setFTAG(fullTimeAwayTeamScore);
+            fixture.setFTR(String.valueOf(winner.charAt(0)));
+        }
         return fixture;
     }
 

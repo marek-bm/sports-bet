@@ -27,10 +27,13 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
     @Override
     public double homeTeamAttackStrength(Team team, Season season) {
         double homeTeamsGoalsGlobalAVG = homeTeamsGoalsGlobalSeasonAvg(season);
+        List<Fixture> fixtures = fixtureService.findTop5ByHomeTeam(team, season);
+        if(fixtures.size()==0){
+            return homeTeamsGoalsGlobalAVG;
+        }
+
         double scoredGoals = 0;
         double games = 0;
-
-        List<Fixture> fixtures = fixtureService.findTop5ByHomeTeam(team, season);
         for (Fixture f : fixtures) {
             scoredGoals += f.getFTHG();
             games += 1;
@@ -42,8 +45,11 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
 
     @Override
     public double homeTeamDefensiveStrength(Team team, Season season) {
-        List<Fixture> fixtures = fixtureService.findTop5ByHomeTeam(team, season);
         double awayTeamGoalsSeasonAvg = awayTeamGoalsGlobalSeasonAvg(season);
+        List<Fixture> fixtures = fixtureService.findTop5ByHomeTeam(team, season);
+        if(fixtures.size()==0){
+            return awayTeamGoalsSeasonAvg;
+        }
         double totalGoals = 0;
         double games = 0;
 
@@ -91,8 +97,11 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
 
     @Override
     public double awayTeamAttackStrength(Team team, Season season) {
+        double awayGlobalAVG = awayTeamGoalsGlobalSeasonAvg(season);
         List<Fixture> awayTeamFixtures = fixtureService.findTop5ByAwayTeam(team, season);
-        double awayGlobalAVG = this.awayTeamGoalsGlobalSeasonAvg(season);
+        if(awayTeamFixtures.size()==0){
+            return awayGlobalAVG;
+        }
         double totalGoals = 0;
         double games = 0;
 
@@ -107,11 +116,17 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
 
     @Override
     public double awayTeamDefensiveStrength(Team team, Season season) {
-        List<Fixture> awayTeamFixtures = fixtureService.findTop5ByAwayTeam(team, season);
         double homeGlobalAVG = homeTeamsGoalsGlobalSeasonAvg(season);
+        List<Fixture> awayTeamFixtures = fixtureService.findTop5ByAwayTeam(team, season);
+        if(awayTeamFixtures.size()==0){
+            return homeGlobalAVG;
+        }
+        if(awayTeamFixtures.size()==0){
+            return homeGlobalAVG;
+        }
+
         double totalGoals = 0;
         double games = 0;
-
         for (Fixture f : awayTeamFixtures) {
             totalGoals += f.getFTHG();
             games += 1;

@@ -40,4 +40,9 @@ public class SeasonServiceImpl implements SeasonService {
         return seasonRepository.findBySeasonYearIsStartingWith(prevTear);
     }
 
+    @Override
+    public Season save(Season season) {
+        return seasonRepository.save(season);
+    }
+
 }

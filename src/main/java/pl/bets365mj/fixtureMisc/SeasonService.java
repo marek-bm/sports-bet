@@ -9,6 +9,7 @@ public interface SeasonService {
     Season findCurrent();
     Season findByApiId(long apiId);
     Season findPrevious(Season currentSeason);
+    Season save(Season season);
 
 }
 

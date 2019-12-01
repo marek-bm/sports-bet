@@ -14,14 +14,14 @@
         <div class="main-content">
             <section class="section">
                 <!-- to be displayed when no event is available-->
-                <div class="table-responsive" th:if="${activeFixtures} ==null" th:fragment="active"> No betting events
+                <div class="table-responsive" th:if="${activeFixtures.size()==0}" th:fragment="active"> No betting events
                     available at the moment
                 </div>
 
                 <!--to be displayed when content is available-->
                 <div class="row">
                     <div th:fragment="active" class="col-lg-8 col-md-12 col-12 col-sm-12"
-                         th:if="${activeFixtures}!=null" th:each="fixture : ${activeFixtures}">
+                         th:if="${activeFixtures.size()>=0}" th:each="fixture : ${activeFixtures}">
                         <div class="card">
                             <div class="card-header">
                                 <div class="float-right">
@@ -134,7 +134,7 @@
                                                         </form>
                                                     </td>
 
-                                                    <td th:if="${event.getMatchStatus().equals('active')}">
+                                                    <td th:if="${event.getMatchStatus().equals('scheduled')}">
                                                         <form th:action="@{/fixture-stats/{id} (id=${event.id})}"
                                                               method="get">
                                                             <input type="submit" class="btn btn-secondary"
