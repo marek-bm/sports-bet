@@ -1,10 +1,11 @@
 package pl.bets365mj.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import pl.bets365mj.api.ApiDetails;
 import pl.bets365mj.api.MatchDto;
 import pl.bets365mj.api.ScoreDto;
 import pl.bets365mj.api.TeamDto;
@@ -100,32 +101,10 @@ public class FixtureServiceImpl  implements FixtureService {
      * matchday vs. list of fixtures in a given matchday
      */
     public
-    Map<Integer, List<Fixture>> fixturesAsMapSortByMatchday(List<Fixture> currentSeasonGames) {
-
-        if (currentSeasonGames.size()>0) {
-            Map<Integer, List<Fixture>> fixtureMap = new HashMap<>();
-
-            Fixture f = currentSeasonGames.stream()
-                    .collect(Collectors.minBy((x, y) -> x.getMatchday() - y.getMatchday()))
-                    .get();
-
-            int counter = f.getMatchday();
-
-            fixtureMap.put(counter, new ArrayList<>());
-
-            for (Fixture fixture : currentSeasonGames) {
-                int matchday = fixture.getMatchday();
-
-                if (counter == matchday) {
-                    fixtureMap.get(counter).add(fixture);
-                } else {
-                    counter++;
-                    fixtureMap.put(counter, new ArrayList<>());
-                    fixtureMap.get(counter).add(fixture);
-                }
-            }
-            return fixtureMap;
-        }else {return null;}
+    Map<Integer, List<Fixture>> groupByMatchday(List<Fixture> currentSeasonGames) {
+        Map<Integer, List<Fixture>> mappedFixtures=currentSeasonGames.stream()
+                .collect(Collectors.groupingBy(Fixture::getMatchday));
+        return mappedFixtures;
     }
 
     @Override
@@ -177,5 +156,24 @@ public class FixtureServiceImpl  implements FixtureService {
         fixture.setFTR(String.valueOf(winner.charAt(0)));
 
         return fixture;
+    }
+
+    @Override
+    public int getCurrentApiMatchday() {
+        String URL= ApiDetails.URL_MATCHES+"?matchday=1";
+        ResponseEntity<FixtureDTO> responseEntity=makeApiCall(URL);
+        FixtureDTO dto=responseEntity.getBody();
+        int currentMatchdayApi= Integer.parseInt(dto.getMatches().get(0).getSeason().get("currentMatchday"));
+        return currentMatchdayApi;
+    }
+
+    @Override
+    public ResponseEntity<FixtureDTO> makeApiCall(String URL) {
+        RestTemplate restTemplate=new RestTemplate();
+        HttpHeaders httpHeaders=new HttpHeaders();
+        httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
+        return restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureDTO.class);
     }
 }

@@ -2,11 +2,13 @@ package pl.bets365mj.fixture;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.bets365mj.api.MatchDto;
 import pl.bets365mj.fixtureMisc.Season;
 import pl.bets365mj.fixtureMisc.Team;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import java.util.Map;
 public interface FixtureService {
 
     Fixture save(Fixture fixture);
+    @Transactional
     List<Fixture> saveAll(List<Fixture> fixtures);
     List<Fixture> findAll();
     List<Fixture> findAllByMatchdayAndSeason(int matchday, Season season);
@@ -26,8 +29,10 @@ public interface FixtureService {
     List<Fixture> findTop5ByAwayTeam(Team team, Season season);
     List<Fixture> findAllByMatchStatus(String status);
     Fixture findById(int id);
-    Map<Integer, List<Fixture>> fixturesAsMapSortByMatchday(List<Fixture> currentSeasonGames);
+    Map<Integer, List<Fixture>> groupByMatchday(List<Fixture> currentSeasonGames);
     Fixture convertDtoToFixtureEntity(MatchDto dto);
+    int getCurrentApiMatchday();
+    ResponseEntity<FixtureDTO> makeApiCall(String URL);
 
 
 }
