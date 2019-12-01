@@ -23,7 +23,7 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     public Season findCurrent() {
-        int id=seasonRepository.findTopByIdAndOrderByIdDesc();
+        int id=seasonRepository.findTop();
         Season season=findById(id);
         return season;
     }
@@ -33,5 +33,11 @@ public class SeasonServiceImpl implements SeasonService {
         return seasonRepository.findByApiId(apiId);
     }
 
+    @Override
+    public Season findPrevious(Season currentSeason) {
+        int currentYear= Integer.parseInt(currentSeason.getSeasonYear().substring(0,4));
+        int prevTear=currentYear-1;
+        return seasonRepository.findBySeasonYearIsStartingWith(prevTear);
+    }
 
 }

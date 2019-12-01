@@ -8,6 +8,8 @@ public interface SeasonService {
     List<Season> findAll();
     Season findCurrent();
     Season findByApiId(long apiId);
+    Season findPrevious(Season currentSeason);
+
 }
 
 

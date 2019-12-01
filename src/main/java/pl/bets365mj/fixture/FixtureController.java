@@ -1,6 +1,7 @@
 package pl.bets365mj.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -168,11 +169,22 @@ public class FixtureController {
         MatchDto m=matches.get(0);
 
         Fixture fixture=fixtureService.convertDtoToFixtureEntity(m);
+        fixtureService.save(fixture);
         //ToDo - check how season results are updated in DB on the fixture persist
         //ToDo - Odd calculation for the fixture (take into acccount last 10(?) matches
         //ToDo - for new team assume avg leage values as long they don't reach 2(?) matches
 
         return fixture.toString();
+    }
+
+    @ResponseBody
+    @RequestMapping("/test")
+    public void testTop5HomeTeam(){
+        Team team=teamService.findTeamById(14);
+        Season season=seasonService.findCurrent();
+        System.out.println("Current season " +season);
+        List<Fixture> fixtures=fixtureService.findTop5ByHomeTeam(team, season);
+        fixtures.forEach(System.out :: println);
     }
 
     private ResponseEntity<FixtureDTO> getFixtureDTOResponseEntity(String URL) {

@@ -1,5 +1,7 @@
 package pl.bets365mj.fixture;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.bets365mj.api.MatchDto;
 import pl.bets365mj.fixtureMisc.Season;
@@ -20,7 +22,7 @@ public interface FixtureService {
     List<Fixture> findFixturesByHomeTeamAndSeasonAndMatchStatus(Team team, Season season, String status);
     List<Fixture> findFixturesByAwayTeamAndSeasonAndMatchStatus(Team team, Season season, String status);
     List<Fixture> findFixturesByHomeTeamAndAwayTeamAndMatchStatus(Team home, Team away, String status);
-    List<Fixture> findTop5ByHomeTeam(Team team);
+    List<Fixture> findTop5ByHomeTeam(Team team, Season season);
     List<Fixture> findTop5ByAwayTeam(Team team);
     List<Fixture> findAllByMatchStatus(String status);
     Fixture findById(int id);

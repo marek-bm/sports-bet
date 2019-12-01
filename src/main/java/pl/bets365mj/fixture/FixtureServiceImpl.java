@@ -1,6 +1,9 @@
 package pl.bets365mj.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.bets365mj.api.MatchDto;
 import pl.bets365mj.api.ScoreDto;
@@ -70,13 +73,14 @@ public class FixtureServiceImpl  implements FixtureService {
     }
 
     @Override
-    public List<Fixture> findTop5ByHomeTeam(Team team) {
-        return fixtureRepository.findTop5ByHomeTeam(team);
+    public List<Fixture> findTop5ByHomeTeam(Team team, Season currentSeason) {
+        Season previousSeason=seasonService.findPrevious(currentSeason);
+        return fixtureRepository.findTop5ByHomeTeam(team, currentSeason, previousSeason, PageRequest.of(0,5)).getContent();
     }
 
     @Override
     public List<Fixture> findTop5ByAwayTeam(Team team) {
-        return fixtureRepository.findTop5ByAwayTeam(team);
+        return fixtureRepository.findTop5ByAwayTeam(team, PageRequest.of(0, 5)).getContent();
     }
 
     @Override

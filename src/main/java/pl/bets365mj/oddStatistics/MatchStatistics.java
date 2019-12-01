@@ -4,6 +4,7 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.bets365mj.fixtureMisc.Season;
+import pl.bets365mj.fixtureMisc.SeasonService;
 import pl.bets365mj.fixtureMisc.Team;
 import pl.bets365mj.fixture.Fixture;
 import pl.bets365mj.fixture.FixtureService;
@@ -20,17 +21,21 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
     @Autowired
     FixtureService fixtureService;
 
+    @Autowired
+    SeasonService seasonService;
+
     @Override
     public double homeTeamAttackStrength(Team team, Season season) {
-        double homeTeamsGoalsGlobalAVG = this.homeTeamsGoalsGlobalSeasonAvg(season);
+        double homeTeamsGoalsGlobalAVG = homeTeamsGoalsGlobalSeasonAvg(season);
         double scoredGoals = 0;
         double games = 0;
 
-        List<Fixture> fixtures = fixtureService.findFixturesByHomeTeamAndSeasonAndMatchStatus(team, season, "finished");
+        List<Fixture> fixtures = fixtureService.findTop5ByHomeTeam(team, season);
         for (Fixture f : fixtures) {
             scoredGoals += f.getFTHG();
             games += 1;
         }
+
 
         double homeTeamAvgGoals = scoredGoals / games;
         double homeTeamAttackStrength = homeTeamAvgGoals / homeTeamsGoalsGlobalAVG;
@@ -66,10 +71,21 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
     public double homeTeamsGoalsGlobalSeasonAvg(Season season) {
         double totalGoals = 0;
         double games = 0;
-        List<Fixture> fixtures = fixtureService.findAllBySeasonAndMatchStatus(season, "finished");
-        for (Fixture f : fixtures) {
-            totalGoals += f.getFTHG();
-            games += 1;
+
+        if(season.getCurrentMatchday()==0){
+            Season previous=seasonService.findPrevious(season);
+            List<Fixture> fixturesPrevSeason = fixtureService.findAllBySeason(previous);
+            for (Fixture f : fixturesPrevSeason) {
+                totalGoals += f.getFTHG();
+                games += 1;
+            }
+        }
+        else {
+            List<Fixture> fixtures = fixtureService.findAllBySeasonAndMatchStatus(season, "finished");
+            for (Fixture f : fixtures) {
+                totalGoals += f.getFTHG();
+                games += 1;
+            }
         }
         double homeAVG = totalGoals / games;
         return homeAVG;
