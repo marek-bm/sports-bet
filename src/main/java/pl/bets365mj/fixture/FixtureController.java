@@ -183,7 +183,7 @@ public class FixtureController {
         Team team=teamService.findTeamById(14);
         Season season=seasonService.findCurrent();
         System.out.println("Current season " +season);
-        List<Fixture> fixtures=fixtureService.findTop5ByHomeTeam(team, season);
+        List<Fixture> fixtures=fixtureService.findTop5ByAwayTeam(team, season);
         fixtures.forEach(System.out :: println);
     }
 

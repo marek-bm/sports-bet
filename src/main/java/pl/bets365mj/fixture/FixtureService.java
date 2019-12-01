@@ -23,7 +23,7 @@ public interface FixtureService {
     List<Fixture> findFixturesByAwayTeamAndSeasonAndMatchStatus(Team team, Season season, String status);
     List<Fixture> findFixturesByHomeTeamAndAwayTeamAndMatchStatus(Team home, Team away, String status);
     List<Fixture> findTop5ByHomeTeam(Team team, Season season);
-    List<Fixture> findTop5ByAwayTeam(Team team);
+    List<Fixture> findTop5ByAwayTeam(Team team, Season season);
     List<Fixture> findAllByMatchStatus(String status);
     Fixture findById(int id);
     Map<Integer, List<Fixture>> fixturesAsMapSortByMatchday(List<Fixture> currentSeasonGames);

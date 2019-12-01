@@ -79,8 +79,9 @@ public class FixtureServiceImpl  implements FixtureService {
     }
 
     @Override
-    public List<Fixture> findTop5ByAwayTeam(Team team) {
-        return fixtureRepository.findTop5ByAwayTeam(team, PageRequest.of(0, 5)).getContent();
+    public List<Fixture> findTop5ByAwayTeam(Team team, Season currentSeason) {
+        Season previousSeason=seasonService.findPrevious(currentSeason);
+        return fixtureRepository.findTop5ByAwayTeam(team, currentSeason,previousSeason, PageRequest.of(0, 5)).getContent();
     }
 
     @Override
