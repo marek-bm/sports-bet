@@ -13,23 +13,11 @@
 <nav th:replace="fragments/topbar :: topbar"></nav>
 
 <div id="wrapper">
-
-    <!--<div id="wrapper">-->
-
-    <div class="main-sidebar">
-        <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
-    </div>
-
     <div id="content-wrapper">
-
         <div class="container-fluid">
-
             <section class="section">
-
                 <div class="row">
-
-
-                    <div class="col-lg-8 col-md-12 col-12 col-sm-12">
+                    <div class="col-lg-8 offset-sm-2">
                         <div class="card">
                             <div class="card-header">
                                 <h4>About me</h4>
@@ -48,34 +36,18 @@
                                 </div>
                                 <div class="statistic-details mt-sm-4">
                                     <p>
-                                        I'm working to update this web site.
-                                        For the moment please contact me through private message at LinkedIn or send me e-mail refernced in nav bar.
+                                        You can use LinkedIn icon the get to my profile, or use email referenced in top bar above menu.
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="col-lg-4 col-md-12 col-12 col-sm-12">
-                        <!--empty space-->
-                    </div>
                 </div>
-
             </section>
-
         </div>
-
     </div>
-
-
 </div>
-
 </div>
-
-
 <div th:include="fragments/footer :: footer"></div>
-
-
 </body>
 </html>

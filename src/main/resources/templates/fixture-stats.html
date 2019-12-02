@@ -6,76 +6,168 @@
 <body id="page-top">
 <nav th:replace="fragments/topbar :: topbar"></nav>
 <div id="wrapper">
-<!--    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>-->
     <div id="content-wrapper">
-        <ul>
-            <li><h3>Probabilitties for 1/x/2 market </h3></li>
-        </ul>
-        <table class="table table-responsive-sm">
-            <tr>
-                <td>Home Team:</td>
-                <td rowspan="2">Draw</td>
-                <td>Away Team</td>
-            </tr>
-            <tr>
-                <td th:text="${ht.getName()}"></td>
-                <td th:text="${at.getName()}"></td>
-            </tr>
-            <tr>
-                <td> 1</td>
-                <td> X</td>
-                <td> 2</td>
-            </tr>
-            <tr>
-                <td th:text="|${#numbers.formatDecimal(odds.get('win'),1,2)} |"></td>
-                <td th:text="|${#numbers.formatDecimal(odds.get('draw'),1,2)}|"/>
-                <td th:text="|${#numbers.formatDecimal(odds.get('lost'),1,2)}|"/>
-            </tr>
-        </table>
-        <ul>
-            <li><h3>Goal score estimation</h3></li>
-        </ul>
-        <p th:text="|Home team goal score: ${ht.getName()} : ${#numbers.formatDecimal(hg,1,1)}|"/>
-        <p th:text="|Away team goal score: ${at.getName()} : ${#numbers.formatDecimal(ag,1,1)}|"/>
-        <ul>
-            <li><h3>Probability of scoring given amount of goals,% </h3></li>
-        </ul>
-        <table class="table table-responsive-sm">
-            <!--<thead>-->
-            <!--<th colspan="3" > Probability of scoring given amount of goals,%</th>-->
-            <!--</thead>-->
-            <tr>
-                <td>Goals</td>
-                <td th:text="${ht.getName()}">home goals</td>
-                <td th:text="${at.getName()}">away goals</td>
-            </tr>
-            <tr th:each="g, iteration: ${#numbers.sequence(0,5)}">
-                <td th:text="${iteration.index}"></td>
-                <td th:text="${#numbers.formatDecimal(homeGoals[g],1,2)}"></td>
-                <td th:text="${#numbers.formatDecimal(awayGoals[g],1,2)}"></td>
-            </tr>
-        </table>
-        <ul>
-            <li><h3>Probability for specific match result, % </h3></li>
-        </ul>
-        <table class="table table-responsive-sm">
-            <tr>
-                <td rowspan="2" colspan="2"></td>
-                <th colspan="6" th:text="|Away team: ${at.getName()}|"></th>
-            </tr>
-            <tr>
-                <th th:width="100px" th:each="i, iter: ${#numbers.sequence(0,5)}" th:text="${iter.index}"></th>
-            </tr>
-            <tr>
-                <th width="200px" rowspan="7" th:text="|Home team: ${ht.getName()}|"></th>
-            </tr>
-            <tr th:each="i, iter: ${#numbers.sequence(0,5)}">
-                <th width="100px" th:text="${iter.index}"></th>
-                <td th:each="j: ${#numbers.sequence(0,5)}"
-                    th:text="${#numbers.formatDecimal(result[i][j],1,3)}"></td>
-            </tr>
-        </table>
-    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 offset-sm-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Probabilitties for 1/x/2 market</h4>
+                        </div>
+                        <div class="card-body">
+                            <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
+                                 class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                </div>
+                            </div>
+                            <div class="statistic-details mt-sm-4" style="text-justify: auto">
+                                <table class="table table-responsive-sm">
+                                    <tr>
+                                        <td>Home Team:</td>
+                                        <td rowspan="2">Draw</td>
+                                        <td>Away Team</td>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${ht.getName()}"></td>
+                                        <td th:text="${at.getName()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td> 1</td>
+                                        <td> X</td>
+                                        <td> 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="|${#numbers.formatDecimal(odds.get('win'),1,2)} |"></td>
+                                        <td th:text="|${#numbers.formatDecimal(odds.get('draw'),1,2)}|"/>
+                                        <td th:text="|${#numbers.formatDecimal(odds.get('lost'),1,2)}|"/>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 offset-sm-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Goal score estimation</h4>
+                        </div>
+                        <div class="card-body">
+                            <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
+                                 class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                </div>
+                            </div>
+                            <div class="statistic-details mt-sm-4" style="text-justify: auto">
+                                <ul>
+                                    <li>
+                                        <p th:text="|Home team goal score: ${ht.getName()} : ${#numbers.formatDecimal(hg,1,1)}|"/>
+                                    </li>
+                                    <li>
+                                        <p th:text="|Away team goal score: ${at.getName()} : ${#numbers.formatDecimal(ag,1,1)}|"/>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 offset-sm-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Probability of scoring given amount of goals,%</h4>
+                        </div>
+                        <div class="card-body">
+                            <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
+                                 class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                </div>
+                            </div>
+                            <div class="statistic-details mt-sm-4" style="text-justify: auto">
+                                <table class="table table-responsive-sm">
+                                    <!--<thead>-->
+                                    <!--<th colspan="3" > Probability of scoring given amount of goals,%</th>-->
+                                    <!--</thead>-->
+                                    <tr>
+                                        <td>Goals</td>
+                                        <td th:text="${ht.getName()}">home goals</td>
+                                        <td th:text="${at.getName()}">away goals</td>
+                                    </tr>
+                                    <tr th:each="g, iteration: ${#numbers.sequence(0,5)}">
+                                        <td th:text="${iteration.index}"></td>
+                                        <td th:text="${#numbers.formatDecimal(homeGoals[g],1,2)}*100 + '%'"></td>
+                                        <td th:text="${#numbers.formatDecimal(awayGoals[g],1,2)}*100 + '%'"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 offset-sm-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Probability matrix for specific result, %</h4>
+                        </div>
+                        <div class="card-body">
+                            <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
+                                 class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                </div>
+                            </div>
+                            <div class="statistic-details mt-sm-4" style="text-justify: auto">
+                                <table class="table table-responsive-sm">
+                                    <tr>
+                                        <td rowspan="2" colspan="2"></td>
+                                        <th colspan="6" th:text="|Away team: ${at.getName()}|"></th>
+                                    </tr>
+                                    <tr>
+                                        <th th:width="100px" th:each="i, iter: ${#numbers.sequence(0,5)}" th:text="${iter.index}"></th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px" rowspan="7" th:text="|Home team: ${ht.getName()}|"></th>
+                                    </tr>
+                                    <tr th:each="i, iter: ${#numbers.sequence(0,5)}">
+                                        <th width="100px" th:text="${iter.index}"></th>
+                                        <td th:each="j: ${#numbers.sequence(0,5)}"
+                                            th:text="${#numbers.formatDecimal(result[i][j],1,2)}*100 + '%'" ></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
 </div>
 
 
