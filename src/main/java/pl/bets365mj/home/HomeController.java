@@ -50,7 +50,7 @@ public class HomeController {
 
 //    @ModelAttribute("fixturesActive")
     private Map<Integer, List<Fixture>> activeFixtures() {
-        List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("active");
+        List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("scheduled");
         Map<Integer, List<Fixture>> activeFixtureMap = fixtureService.groupByMatchday(activeEvents);
         return activeFixtureMap;
     }
