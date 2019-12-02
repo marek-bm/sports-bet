@@ -21,5 +21,28 @@ public class SeasonServiceImpl implements SeasonService {
         return seasonRepository.findAll();
     }
 
+    @Override
+    public Season findCurrent() {
+        int id=seasonRepository.findTop();
+        Season season=findById(id);
+        return season;
+    }
+
+    @Override
+    public Season findByApiId(long apiId) {
+        return seasonRepository.findByApiId(apiId);
+    }
+
+    @Override
+    public Season findPrevious(Season currentSeason) {
+        int currentYear= Integer.parseInt(currentSeason.getSeasonYear().substring(0,4));
+        int prevTear=currentYear-1;
+        return seasonRepository.findBySeasonYearIsStartingWith(prevTear);
+    }
+
+    @Override
+    public Season save(Season season) {
+        return seasonRepository.save(season);
+    }
 
 }

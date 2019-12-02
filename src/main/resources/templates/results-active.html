@@ -1,175 +1,295 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="fragments/header :: header">
-
-</head>
+<head th:replace="fragments/header :: header"></head>
 <body id="page-top">
-
 <nav th:replace="fragments/topbar :: topbar"></nav>
-
 <div id="wrapper">
-
-    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
-
-    <div id="content-wrapper" >
-
-        <div class="main-content">
-            <section class="section">
-
-                <!-- to be displayed when no event is available-->
-                <div class="table-responsive" th:if="${activeFixtures} ==null" th:fragment="active"> No betting events
-                    available at the moment
-                </div>
-
-
-                <!--to be displayed when content is available-->
-                <div class="row">
-                    <div th:fragment="active" class="col-lg-8 col-md-12 col-12 col-sm-12" th:if="${activeFixtures}!=null" th:each="fixture : ${activeFixtures}">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="float-right">
-                                    <div class="btn-group">
-                                        <a href="#" class="btn active">Today</a>
-                                        <a href="#" class="btn">All</a>
-                                    </div>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 offset-sm-2">
+                    <div class="card" th:fragment="active">
+                        <div class="card-header" th:if="${activeFixtures.size()>=0}" th:each="fixture : ${activeFixtures}">
+                                                        <div class="float-right">
+                                                            <div class="btn-group">
+                                                                <a href="#" class="btn active">Today</a>
+                                                                <a href="#" class="btn">All</a>
+                                                            </div>
+                                                        </div>
+                                                        <h4 th:text="|Upcoming events  - Matchday ${fixture.getKey()}|"></h4>
+                        </div>
+                        <div class="card-body" >
+                            <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
+                                 class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
                                 </div>
-                                <h4>Upcoming events</h4>
+                                <div class="chartjs-size-monitor-shrink"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                </div>
                             </div>
-                            <div class="card-body"><div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;" class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-                                <div class="statistic-details mt-sm-4">
+                            <div class="statistic-details mt-sm-4" style="text-justify: auto" th:if="${activeFixtures.size()>=0}" th:each="fixture : ${activeFixtures}">
+                                <table class="table-hover table-responsive-md w-auto text-center" style="font-size: 18px">
+                                                                            <thead style="font-size: 20px; font:bold">
+                                                                            <tr>
+                                                                                <th class="th-sm"> Date</th>
+                                                                                <th class="th-sm"> Teams</th>
+                                                                                <th> FT Result</th>
+                                                                                <th> 1</th>
+                                                                                <th> x</th>
+                                                                                <th> 2</th>
+                                                                                <th> less2.5</th>
+                                                                                <th> more2.5</th>
+                                                                                <td></td>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr th:each="event : ${fixture.getValue()}">
+                                                                                <td th:text="${event.getDate()}"></td>
+                                                                                <!--                                                    <td style="font-size: 20px; font: bold"-->
+                                                                                <td
+                                                                                        th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
+                                                                                <!--<td th:text="|${event.getFTHG()} : ${event.FTAG}|"></td>-->
+                                                                                <td th:switch="${event.FTHG}">
+                                                                                    <span th:case="null" th:text="|-- : --|"></span>
+                                                                                    <span th:case="${event.getFTHG()}"
+                                                                                          th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>
+                                                                                </td>
+                                                                                <form th:action="@{/bet-add}" th:object="${bet}" method="post">
+                                                                                    <td>
+                                                                                        <input type="hidden" name="fixture" th:value="${event.id}"/>
+                                                                                        <input type="hidden" name="betPrice"
+                                                                                               th:value="${event.homeWinOdd}"/>
+                                                                                        <input type="hidden" name="placedBet" th:value="H"/>
+                                                                                        <input type="submit" th:value="${event.homeWinOdd}"
+                                                                                               class="btn btn-dark" style="width:95%"/>
+                                                                                    </td>
+                                                                                </form>
+                                                                                <form th:action="@{/bet-add}" th:object="${bet}" method="post">
+                                                                                    <td>
+                                                                                        <input type="hidden" name="fixture" th:value="${event.id}"/>
+                                                                                        <input type="hidden" name="betPrice" th:value="${event.drawOdd}"/>
+                                                                                        <input type="hidden" name="placedBet" th:value="D"/>
+                                                                                        <input type="submit" th:value="${event.drawOdd}"
+                                                                                               class="btn btn-dark" style="width:95%"/>
+                                                                                    </td>
+                                                                                </form>
 
-                                        <!--<small>-->
-                                            <ul class="list-group" th:text="|Matchday ${fixture.getKey()}|"></ul>
-                                    <div class="table-responsive-sm">
-                                        <small>
+                                                                                <form th:action="@{/bet-add}" th:object="${bet}" method="post">
+                                                                                    <td>
+                                                                                        <input type="hidden" name="fixture" th:value="${event.id}"/>
+                                                                                        <input type="hidden" name="betPrice"
+                                                                                               th:value="${event.awayWinOdd}"/>
+                                                                                        <input type="hidden" name="placedBet" th:value="A"/>
+                                                                                        <input type="submit" th:value="${event.awayWinOdd}"
+                                                                                               class="btn btn-dark" style="width:95%"/>
+                                                                                    </td>
+                                                                                </form>
 
-                                        <table class="table-hover w-auto text-center" style="font-size: 18px">
-                                            <thead style="font-size: 20px; font:bold">
-                                            <tr>
+                                                                                <form th:action="@{/bet-add}" th:object="${bet}" method="post">
+                                                                                    <td>
+                                                                                        <input type="hidden" name="fixture" th:value="${event.id}"/>
+                                                                                        <input type="hidden" name="betPrice"
+                                                                                               th:value="${event.goalsLessOrEquals2odd}"/>
+                                                                                        <input type="hidden" name="placedBet" th:value="LT2_5"/>
+                                                                                        <input type="submit" th:value="${event.goalsMoreThan2odd}"
+                                                                                               class="btn btn-dark" style="width:95%"/>
+                                                                                    </td>
+                                                                                </form>
 
-                                                <th class="th-sm"> Date</th>
-                                                <th class="th-sm"> Teams</th>
-                                                <th> FT Result</th>
-                                                <th> 1</th>
-                                                <th> x</th>
-                                                <th> 2</th>
-                                                <th> less2.5</th>
-                                                <th> more2.5</th>
-                                                <td></td>
-                                            </tr>
-                                            </thead>
-
-                                            <tbody>
-                                            <tr th:each="event : ${fixture.getValue()}">
-                                                <td th:text="${event.getDate()}"></td>
-                                                <td style="font-size: 20px; font: bold" th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
-
-                                                <!--<td th:text="|${event.getFTHG()} : ${event.FTAG}|"></td>-->
-
-                                                <td th:switch="${event.FTHG}">
-                                                    <span th:case="null" th:text="|-- : --|"></span>
-                                                    <span th:case="${event.getFTHG()}"
-                                                          th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>
-                                                </td>
-
-                                                <form th:action="@{/bet-new}" th:object="${singlBet}" method="post">
-
-                                                    <td>
-                                                        <input type="hidden" name="event" th:value="${event.id}"/>
-                                                        <input type="hidden" name="betPrice"
-                                                               th:value="${event.homeWinOdd}"/>
-                                                        <input type="hidden" name="placedBet" th:value="H"/>
-                                                        <input type="submit" th:value="${event.homeWinOdd}" class="btn btn-dark" style="width:95%"/>
-
-                                                    </td>
-                                                </form>
-
-
-                                                <form th:action="@{/bet-new}" th:object="${bet}" method="post">
-                                                    <td>
-                                                        <input type="hidden" name="event" th:value="${event.id}"/>
-                                                        <input type="hidden" name="betPrice"
-                                                               th:value="${event.drawOdd}"/>
-                                                        <input type="hidden" name="placedBet" th:value="D"/>
-                                                        <input type="submit" th:value="${event.drawOdd}" class="btn btn-dark" style="width:95%"/>
-                                                    </td>
-                                                </form>
-
-                                                <form th:action="@{/bet-new}" th:object="${bet}" method="post">
-                                                    <td>
-                                                        <input type="hidden" name="event" th:value="${event.id}"/>
-                                                        <input type="hidden" name="betPrice"
-                                                               th:value="${event.awayWinOdd}"/>
-                                                        <input type="hidden" name="placedBet" th:value="A"/>
-                                                        <input type="submit" th:value="${event.awayWinOdd}" class="btn btn-dark" style="width:95%"/>
-                                                    </td>
-                                                </form>
-
-                                                <form th:action="@{/bet-new}" th:object="${bet}" method="post">
-                                                    <td>
-                                                        <input type="hidden" name="event" th:value="${event.id}"/>
-                                                        <input type="hidden" name="betPrice"
-                                                               th:value="${event.getGoalsMoreThan2odd}"/>
-                                                        <input type="hidden" name="placedBet" th:value="LT2_5"/>
-                                                        <input type="submit" th:value="${event.getGoalsMoreThan2odd}" class="btn btn-dark" style="width:95%"/>
-                                                    </td>
-                                                </form>
-
-                                                <form th:action="@{/bet-new}" th:object="${bet}" method="post">
-                                                    <td>
-                                                        <input type="hidden" name="event" th:value="${event.id}"/>
-                                                        <input type="hidden" name="betPrice"
-                                                               th:value="${event.getGoalsLessOrEquals2odd}"/>
-                                                        <input type="hidden" name="placedBet" th:value="GT2_5"/>
-                                                        <input type="submit" th:value="${event.getGoalsLessOrEquals2odd}" class="btn btn-dark" style="width:95%"/>
-                                                    </td>
-                                                </form>
+                                                                                <form th:action="@{/bet-add}" th:object="${bet}" method="post">
+                                                                                    <td>
+                                                                                        <input type="hidden" name="fixture" th:value="${event.id}"/>
+                                                                                        <input type="hidden" name="betPrice"
+                                                                                               th:value="${event.goalsLessOrEquals2odd}"/>
+                                                                                        <input type="hidden" name="placedBet" th:value="GT2_5"/>
+                                                                                        <input type="submit" th:value="${event.goalsMoreThan2odd}"
+                                                                                               class="btn btn-dark" style="width:95%"/>
+                                                                                    </td>
+                                                                                </form>
 
 
-                                                <td sec:authorize="hasRole('ROLE_ADMIN')">
-                                                    <form th:action="@{/fixture-edit/{id} (id=${event.getId()})}"
-                                                          th:object="${fixture}"
-                                                          method="get">
-                                                        <input type="submit" class="btn btn-dark" value="Edit"/>
-                                                    </form>
-                                                </td>
+                                                                                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                                                                                    <form th:action="@{/fixture-edit/{id} (id=${event.getId()})}"
+                                                                                          th:object="${fixture}"
+                                                                                          method="get">
+                                                                                        <input type="submit" class="btn btn-dark" value="Edit"/>
+                                                                                    </form>
+                                                                                </td>
+
+                                                                                <td th:if="${event.getMatchStatus().equals('scheduled')}">
+                                                                                    <form th:action="@{/fixture-stats/{id} (id=${event.id})}"
+                                                                                          method="get">
+                                                                                        <input type="submit" class="btn btn-secondary"
+                                                                                               value="Show stats"/>
+                                                                                    </form>
+                                                                                </td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
 
 
-                                                <td th:if="${event.getMatchStatus().equals('active')}">
-                                                    <form th:action="@{/fixture-stats/{id} (id=${event.id})}"
-                                                          method="get">
-                                                        <input type="submit" class="btn btn-secondary" value="Show stats"/>
-                                                    </form>
-                                                </td>
-
-                                            </tr>
-
-                                            </tbody>
-
-                                        </table>
-                                        </small>
-                                    </div>
-
-                                        <!--</small>-->
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12 col-12 col-sm-12">
-
-                    </div>
-
-
                 </div>
-            </section>
-        </div>
-
+            </div>
         </div>
     </div>
+</div>
 
-    <div th:include="fragments/footer :: footer"></div>
+<!--<div id="wrapper">-->
+<!--    <div id="content-wrapper">-->
+<!--        <div class="container-fluid">-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-8 offset-sm-2">-->
+<!--                    <div class="table-responsive" th:if="${activeFixtures.size()==0}" th:fragment="active"> No betting-->
+<!--                        events-->
+<!--                        available at the moment-->
+<!--                    </div>-->
+<!--                    <div class="card col-md-8 offset-md-2" th:fragment="active"-->
+<!--                         th:if="${activeFixtures.size()>=0}" th:each="fixture : ${activeFixtures}">-->
+<!--                        <div class="card-header">-->
+<!--                            <div class="float-right">-->
+<!--                                <div class="btn-group">-->
+<!--                                    <a href="#" class="btn active">Today</a>-->
+<!--                                    <a href="#" class="btn">All</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <h4 th:text="|Upcoming events  - Matchday ${fixture.getKey()}|"></h4>-->
+<!--                        </div>-->
+<!--                    <div class="card-body">-->
+<!--                        <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"-->
+<!--                             class="chartjs-size-monitor">-->
+<!--                            <div class="chartjs-size-monitor-expand"-->
+<!--                                 style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">-->
+<!--                                <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>-->
+<!--                            </div>-->
+<!--                            <div class="chartjs-size-monitor-shrink"-->
+<!--                                 style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">-->
+<!--                                <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="statistic-details mt-sm-4">-->
+<!--                            &lt;!&ndash;<small>&ndash;&gt;-->
+<!--                            <ul class="list-group"></ul>-->
+<!--                            <div>-->
+<!--                                <small>-->
+<!--                                    <table class="table-hover table-responsive-md w-auto text-center"-->
+<!--                                           style="font-size: 18px">-->
+<!--                                        <thead style="font-size: 20px; font:bold">-->
+<!--                                        <tr>-->
+<!--                                            <th class="th-sm"> Date</th>-->
+<!--                                            <th class="th-sm"> Teams</th>-->
+<!--                                            <th> FT Result</th>-->
+<!--                                            <th> 1</th>-->
+<!--                                            <th> x</th>-->
+<!--                                            <th> 2</th>-->
+<!--                                            <th> less2.5</th>-->
+<!--                                            <th> more2.5</th>-->
+<!--                                            <td></td>-->
+<!--                                        </tr>-->
+<!--                                        </thead>-->
+<!--                                        <tbody>-->
+<!--                                        <tr th:each="event : ${fixture.getValue()}">-->
+<!--                                            <td th:text="${event.getDate()}"></td>-->
+<!--                                            &lt;!&ndash;                                                    <td style="font-size: 20px; font: bold"&ndash;&gt;-->
+<!--                                            <td-->
+<!--                                                    th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>-->
+<!--                                            &lt;!&ndash;<td th:text="|${event.getFTHG()} : ${event.FTAG}|"></td>&ndash;&gt;-->
+<!--                                            <td th:switch="${event.FTHG}">-->
+<!--                                                <span th:case="null" th:text="|&#45;&#45; : &#45;&#45;|"></span>-->
+<!--                                                <span th:case="${event.getFTHG()}"-->
+<!--                                                      th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>-->
+<!--                                            </td>-->
+<!--                                            <form th:action="@{/bet-add}" th:object="${bet}" method="post">-->
+<!--                                                <td>-->
+<!--                                                    <input type="hidden" name="fixture" th:value="${event.id}"/>-->
+<!--                                                    <input type="hidden" name="betPrice"-->
+<!--                                                           th:value="${event.homeWinOdd}"/>-->
+<!--                                                    <input type="hidden" name="placedBet" th:value="H"/>-->
+<!--                                                    <input type="submit" th:value="${event.homeWinOdd}"-->
+<!--                                                           class="btn btn-dark" style="width:95%"/>-->
+<!--                                                </td>-->
+<!--                                            </form>-->
+<!--                                            <form th:action="@{/bet-add}" th:object="${bet}" method="post">-->
+<!--                                                <td>-->
+<!--                                                    <input type="hidden" name="fixture" th:value="${event.id}"/>-->
+<!--                                                    <input type="hidden" name="betPrice" th:value="${event.drawOdd}"/>-->
+<!--                                                    <input type="hidden" name="placedBet" th:value="D"/>-->
+<!--                                                    <input type="submit" th:value="${event.drawOdd}"-->
+<!--                                                           class="btn btn-dark" style="width:95%"/>-->
+<!--                                                </td>-->
+<!--                                            </form>-->
+
+<!--                                            <form th:action="@{/bet-add}" th:object="${bet}" method="post">-->
+<!--                                                <td>-->
+<!--                                                    <input type="hidden" name="fixture" th:value="${event.id}"/>-->
+<!--                                                    <input type="hidden" name="betPrice"-->
+<!--                                                           th:value="${event.awayWinOdd}"/>-->
+<!--                                                    <input type="hidden" name="placedBet" th:value="A"/>-->
+<!--                                                    <input type="submit" th:value="${event.awayWinOdd}"-->
+<!--                                                           class="btn btn-dark" style="width:95%"/>-->
+<!--                                                </td>-->
+<!--                                            </form>-->
+
+<!--                                            <form th:action="@{/bet-add}" th:object="${bet}" method="post">-->
+<!--                                                <td>-->
+<!--                                                    <input type="hidden" name="fixture" th:value="${event.id}"/>-->
+<!--                                                    <input type="hidden" name="betPrice"-->
+<!--                                                           th:value="${event.goalsLessOrEquals2odd}"/>-->
+<!--                                                    <input type="hidden" name="placedBet" th:value="LT2_5"/>-->
+<!--                                                    <input type="submit" th:value="${event.goalsMoreThan2odd}"-->
+<!--                                                           class="btn btn-dark" style="width:95%"/>-->
+<!--                                                </td>-->
+<!--                                            </form>-->
+
+<!--                                            <form th:action="@{/bet-add}" th:object="${bet}" method="post">-->
+<!--                                                <td>-->
+<!--                                                    <input type="hidden" name="fixture" th:value="${event.id}"/>-->
+<!--                                                    <input type="hidden" name="betPrice"-->
+<!--                                                           th:value="${event.goalsLessOrEquals2odd}"/>-->
+<!--                                                    <input type="hidden" name="placedBet" th:value="GT2_5"/>-->
+<!--                                                    <input type="submit" th:value="${event.goalsMoreThan2odd}"-->
+<!--                                                           class="btn btn-dark" style="width:95%"/>-->
+<!--                                                </td>-->
+<!--                                            </form>-->
+
+
+<!--                                            <td sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--                                                <form th:action="@{/fixture-edit/{id} (id=${event.getId()})}"-->
+<!--                                                      th:object="${fixture}"-->
+<!--                                                      method="get">-->
+<!--                                                    <input type="submit" class="btn btn-dark" value="Edit"/>-->
+<!--                                                </form>-->
+<!--                                            </td>-->
+
+<!--                                            <td th:if="${event.getMatchStatus().equals('scheduled')}">-->
+<!--                                                <form th:action="@{/fixture-stats/{id} (id=${event.id})}"-->
+<!--                                                      method="get">-->
+<!--                                                    <input type="submit" class="btn btn-secondary"-->
+<!--                                                           value="Show stats"/>-->
+<!--                                                </form>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        </tbody>-->
+<!--                                    </table>-->
+<!--                                </small>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div th:include="fragments/footer :: footer"></div>-->
 </body>
 </html>

@@ -8,15 +8,10 @@
 <body id="page-top">
 <nav th:replace="fragments/topbar :: topbar"></nav>
 <div id="wrapper">
-    <!--<div id="wrapper">-->
-    <div class="main-sidebar">
-        <ul class="sidebar navbar-nav" th:replace="fragments/sidebar :: sidebar"></ul>
-    </div>
     <div id="content-wrapper">
         <div class="container-fluid">
-            <section class="section">
                 <div class="row">
-                    <div class="col-lg-8 col-md-12 col-12 col-sm-12">
+                    <div class="col-lg-8 offset-sm-2">
                         <div class="card">
                             <div class="card-header">
                                 <h4>About the project</h4>
@@ -47,12 +42,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12 col-12 col-sm-12">
-                            <!--empty space-->
-                        </div>
                     </div>
                 </div>
-            </section>
         </div>
     </div>
 </div>

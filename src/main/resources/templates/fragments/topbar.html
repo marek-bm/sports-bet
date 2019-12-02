@@ -10,29 +10,29 @@
     <title>FootballBet</title>
 
     <!-- Bootstrap core CSS-->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<!--    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>-->
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+<!--    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css"/>-->
 
     <!-- Page level plugin CSS-->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet"/>
+    <link href="/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet"/>
+<!--    <link th:href="@{/vendor/datatables/dataTables.bootstrap4.css}" rel="stylesheet"/>-->
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin.css" rel="stylesheet"/>
+    <link href="/css/sb-admin.css" rel="stylesheet"/>
+<!--    <link th:href="@{/css/sb-admin.css}" rel="stylesheet"/>-->
 
 </head>
-
-
 <body id="page-top">
-
-
 <header class="site-navbar absolute transparent" role="banner" th:fragment="topbar">
     <div class="py-3">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-6 col-md-3">
-                    <a href="/home"><img src="img/icons8-the-premier-league-500.png" style="height:100px" alt="" ></a>
+                    <a href="/"><img src="img/icons8-the-premier-league-500.png" style="height:100px" alt="" ></a>
                     <a href="https://www.linkedin.com/in/marek-jastrzebski-6a90399a/" class="text-secondary px-2"><span class="icon-linkedin"></span></a>
                     <a href="https://github.com/marek-bm" class="text-secondary px-2"><span class="icon-github"></span></a>
                 </div>
@@ -42,19 +42,17 @@
             </div>
         </div>
     </div>
-
     <nav class="site-navigation position-relative text-right bg-black text-md-right" role="navigation">
         <div class="container position-relative">
             <div class="d-inline-block d-md-none ml-md-0 mr-auto py-3">
-
                 <a href="#" class="site-menu-toggle js-menu-toggle text-white">
                     <span class="icon-menu h3"></span></a>
             </div>
-
             <ul class="site-menu js-clone-nav d-none d-md-block">
+                <li>
 
-
-                <li><a href="/">Welcome</a></li>
+                </li>
+<!--                <li><a href="/">Welcome</a></li>-->
                 <li class="has-children active">
                     <a href="/account">User</a>
 
@@ -64,8 +62,6 @@
                         <li><a th:href="@{/wallet}">Wallet</a></li>
                         <li><a th:href="@{/logout}">Logout</a></li>
                     </ul>
-
-
                     <ul class="dropdown arrow-top" sec:authorize="isAnonymous()">
                         <li><a th:href="@{/login}">Login</a></li>
                         <li><a th:href="@{/register}">Register</a></li>
@@ -73,23 +69,18 @@
                     </ul>
 
                 </li>
-
                 <li class="has-children">
                     <a href="#">Events</a>
                     <ul class="dropdown arrow-top">
-                        <li><a href="/active">Active</a></li>
+                        <li><a href="/fixture-active">Active</a></li>
                         <li><a href="/fixture-finished">Finished</a></li>
                     </ul>
                 </li>
-
-                <li><a href="/table">Table</a></li>
+                <li><a href="/api-table">Table</a></li>
                 <li><a href="/instruction">How to bet?</a></li>
-                <li><a href="/about-me">About me</a></li>
+                <li><a href="/about-me">Used technology</a></li>
                 <li><a href="/contact">Contact</a></li>
-
             </ul>
-
-
         </div>
         </div>
     </nav>

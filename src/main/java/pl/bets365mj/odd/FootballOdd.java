@@ -22,7 +22,7 @@ public class FootballOdd implements Odd {
     @Autowired
     MatchStatistics matchStatistics;
 
-    public Fixture setOdds(Fixture fixture) {
+    public Fixture calculateOdds(Fixture fixture) {
         Team homeTeam = fixture.getHomeTeam();
         Team awayTeam = fixture.getAwayTeam();
         Season season = fixture.getSeason();

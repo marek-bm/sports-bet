@@ -1,14 +1,17 @@
 package pl.bets365mj.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import pl.bets365mj.fixtureMisc.Season;
-import pl.bets365mj.fixtureMisc.Team;
+import org.springframework.web.client.RestTemplate;
+import pl.bets365mj.api.ApiDetails;
+import pl.bets365mj.api.MatchDto;
+import pl.bets365mj.api.ScoreDto;
+import pl.bets365mj.api.TeamDto;
+import pl.bets365mj.fixtureMisc.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,12 +20,21 @@ public class FixtureServiceImpl  implements FixtureService {
     @Autowired
     FixtureRepository fixtureRepository;
 
-    public Fixture saveFixture(Fixture fixture){
+    @Autowired
+    LeagueRepository leagueRepository;
+
+    @Autowired
+    TeamService  teamService;
+
+    @Autowired
+    SeasonService seasonService;
+
+    public Fixture save(Fixture fixture){
         return fixtureRepository.save(fixture);
     }
 
     @Override
-    public List<Fixture> saveFixtures(List<Fixture> fixtures) {
+    public List<Fixture> saveAll(List<Fixture> fixtures) {
         return fixtureRepository.saveAll(fixtures);
     }
 
@@ -62,13 +74,15 @@ public class FixtureServiceImpl  implements FixtureService {
     }
 
     @Override
-    public List<Fixture> findTop5ByHomeTeam(Team team) {
-        return fixtureRepository.findTop5ByHomeTeam(team);
+    public List<Fixture> findTop5ByHomeTeam(Team team, Season currentSeason) {
+        Season previousSeason=seasonService.findPrevious(currentSeason);
+        return fixtureRepository.findTop5ByHomeTeam(team, currentSeason, previousSeason, PageRequest.of(0,5)).getContent();
     }
 
     @Override
-    public List<Fixture> findTop5ByAwayTeam(Team team) {
-        return fixtureRepository.findTop5ByAwayTeam(team);
+    public List<Fixture> findTop5ByAwayTeam(Team team, Season currentSeason) {
+        Season previousSeason=seasonService.findPrevious(currentSeason);
+        return fixtureRepository.findTop5ByAwayTeam(team, currentSeason,previousSeason, PageRequest.of(0, 5)).getContent();
     }
 
     @Override
@@ -78,7 +92,7 @@ public class FixtureServiceImpl  implements FixtureService {
 
     @Override
     public Fixture findById(int id) {
-        return fixtureRepository.getOne(id);
+        return fixtureRepository.findById(id);
     }
 
 
@@ -87,31 +101,79 @@ public class FixtureServiceImpl  implements FixtureService {
      * matchday vs. list of fixtures in a given matchday
      */
     public
-    Map<Integer, List<Fixture>> fixturesAsMapSortByMatchday(List<Fixture> currentSeasonGames) {
+    Map<Integer, List<Fixture>> groupByMatchday(List<Fixture> currentSeasonGames) {
+        Map<Integer, List<Fixture>> mappedFixtures=currentSeasonGames.stream()
+                .collect(Collectors.groupingBy(Fixture::getMatchday));
+        return mappedFixtures;
+    }
 
-        if (currentSeasonGames.size()>0) {
-            Map<Integer, List<Fixture>> fixtureMap = new HashMap<>();
+    @Override
+    public Fixture convertDtoToFixtureEntity(MatchDto dto) {
 
-            Fixture f = currentSeasonGames.stream()
-                    .collect(Collectors.minBy((x, y) -> x.getMatchday() - y.getMatchday()))
-                    .get();
+        Fixture fixture=new Fixture();
+        long matchIdDto=dto.getApiMatchId();
+        fixture.setApiId(matchIdDto);
 
-            int counter = f.getMatchday();
+        //Home and Away team setup
+        TeamDto homeTeamDto=dto.getHomeTeam();
+        Team homeTeam=teamService.findByApiId(homeTeamDto.getApiTeamId());
+        fixture.setHomeTeam(homeTeam);
+        TeamDto awayTeamDto=dto.getAwayTeam();
+        Team awayTeam=teamService.findByApiId(awayTeamDto.getApiTeamId());
+        fixture.setAwayTeam(awayTeam);
 
-            fixtureMap.put(counter, new ArrayList<>());
+        //Season setup
+        HashMap<String, String> seasonDto=dto.getSeason();
+        long seasonId= Long.parseLong(seasonDto.get("id"));
+        Season season=seasonService.findByApiId(seasonId);
+        fixture.setSeason(season);
 
-            for (Fixture fixture : currentSeasonGames) {
-                int matchday = fixture.getMatchday();
+        //Misc setup (Date, League, status etc
+        Date matchDate=dto.getUtcDate();
+        String status=dto.getStatus();
+        int matchdayDto=dto.getMatchday();
+        fixture.setMatchday(matchdayDto);
+        Optional<League> league= leagueRepository.findById(1);
+        fixture.setLeague(league.get());
+        fixture.setDate(matchDate);
+        fixture.setMatchStatus(status.toLowerCase());
 
-                if (counter == matchday) {
-                    fixtureMap.get(counter).add(fixture);
-                } else {
-                    counter++;
-                    fixtureMap.put(counter, new ArrayList<>());
-                    fixtureMap.get(counter).add(fixture);
-                }
-            }
-            return fixtureMap;
-        }else {return null;}
+        //Half Time Score
+        ScoreDto score=dto.getScore();
+        String winner=score.getWinner();
+        if (winner != null) {
+            Map<String, Integer> halfTimeResult = score.getHalfTime();
+            int halfTimefHomeTeamScore = halfTimeResult.get("homeTeam");
+            int halfTimeAwayTeamScore = halfTimeResult.get("awayTeam");
+            fixture.setHTHG(halfTimefHomeTeamScore);
+            fixture.setHTAG(halfTimeAwayTeamScore);
+
+            Map<String, Integer> fullTimeResult = score.getFullTime();
+            int fullTimefHomeTeamScore = fullTimeResult.get("homeTeam");
+            int fullTimeAwayTeamScore = fullTimeResult.get("awayTeam");
+            fixture.setFTHG(fullTimefHomeTeamScore);
+            fixture.setFTAG(fullTimeAwayTeamScore);
+            fixture.setFTR(String.valueOf(winner.charAt(0)));
+        }
+        return fixture;
+    }
+
+    @Override
+    public int getCurrentApiMatchday() {
+        String URL= ApiDetails.URL_MATCHES+"?matchday=1";
+        ResponseEntity<FixtureDTO> responseEntity=makeApiCall(URL);
+        FixtureDTO dto=responseEntity.getBody();
+        int currentMatchdayApi= Integer.parseInt(dto.getMatches().get(0).getSeason().get("currentMatchday"));
+        return currentMatchdayApi;
+    }
+
+    @Override
+    public ResponseEntity<FixtureDTO> makeApiCall(String URL) {
+        RestTemplate restTemplate=new RestTemplate();
+        HttpHeaders httpHeaders=new HttpHeaders();
+        httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
+        return restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureDTO.class);
     }
 }

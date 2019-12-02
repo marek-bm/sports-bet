@@ -1,13 +1,14 @@
 package pl.bets365mj.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import pl.bets365mj.api.ApiDetails;
+import pl.bets365mj.api.MatchDto;
 import pl.bets365mj.batchDataLoader.FixtureProcessor;
 import pl.bets365mj.bet.Bet;
 import pl.bets365mj.bet.BetService;
@@ -17,11 +18,12 @@ import pl.bets365mj.fixtureMisc.*;
 import pl.bets365mj.odd.FootballOdd;
 import pl.bets365mj.fixtureMisc.LeagueRepository;
 import pl.bets365mj.fixtureMisc.SeasonServiceImpl;
+import pl.bets365mj.oddStatistics.MatchStatistics;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class FixtureController {
@@ -53,19 +55,22 @@ public class FixtureController {
     @Autowired
     CouponService couponService;
 
+    @Autowired
+    MatchStatistics matchStatistics;
+
     @RequestMapping("/fixture-finished")
-    public String resultsDisplay(Model model) {
-        Season currentSeason = seasonService.findById(7);
-        List<Fixture> currentSeasonGames = fixtureService.findAllBySeasonAndMatchStatus(currentSeason, "finished");
-        Map<Integer, List<Fixture>> fixtureMap = fixtureService.fixturesAsMapSortByMatchday(currentSeasonGames);
-        model.addAttribute("fixtures", fixtureMap);
+    public String showFinishedFixtures(Model model) {
+        Season currentSeason = seasonService.findCurrent();
+        List<Fixture> allFixtures = fixtureService.findAllBySeasonAndMatchStatus(currentSeason, "finished");
+        Map<Integer, List<Fixture>> grouppedByMatchday = fixtureService.groupByMatchday(allFixtures);
+        model.addAttribute("fixtures", grouppedByMatchday);
         return "results-all";
     }
 
-    @RequestMapping("/active")
-    public String activeFixtures(Model model) {
-        List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("active");
-        Map<Integer, List<Fixture>> fixtureMap = fixtureService.fixturesAsMapSortByMatchday(activeEvents);
+    @RequestMapping("/fixture-active")
+    public String showActiveFixtures(Model model) {
+        List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("scheduled");
+        Map<Integer, List<Fixture>> fixtureMap = fixtureService.groupByMatchday(activeEvents);
         model.addAttribute("activeFixtures", fixtureMap);
         Bet bet = new Bet();
         model.addAttribute("bet", bet);
@@ -84,11 +89,11 @@ public class FixtureController {
         if (result.hasErrors()) {
             return "forms/fixture-edit";
         }
-        fixtureService.saveFixture(fixture);
+        fixtureService.save(fixture);
         FixtureProcessor.resultSolver(fixture);
         betService.updateBets(fixture);
 
-        List<Bet> bets = betService.findAllByEvent(fixture);
+        List<Bet> bets = betService.findAllByFixture(fixture);
         List<Coupon> coupons = couponService.findAllByBetsIn(bets);
         couponService.resolveCoupons(coupons);
         return "redirect:/active";
@@ -107,9 +112,134 @@ public class FixtureController {
         if (result.hasErrors()) {
             return "forms/fixture-new";
         }
-        footballOdd.setOdds(fixture);
-        fixtureService.saveFixture(fixture);
+        footballOdd.calculateOdds(fixture);
+        fixtureService.save(fixture);
         return "redirect:/active";
+    }
+
+
+    @RequestMapping("/fixture-stats/{id}")
+    public String odds(Model model, @PathVariable int id) {
+        Fixture fixture = fixtureService.findById(id);
+        Season season = fixture.getSeason();
+        Team home = fixture.getHomeTeam();
+        Team away = fixture.getAwayTeam();
+
+        double homeTeamGoalsConcrete = matchStatistics.homeTeamGoalsPrediction(home, away, season);
+        double[] homeTeamGoalsZeroToSix = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(homeTeamGoalsConcrete);
+        double awayTeamGoalsConcrete = matchStatistics.awayTeamGoalsPrediction(home, away, season);
+        double[] awayTeamGoalsZeroToSix = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(awayTeamGoalsConcrete);
+        double[][] matchResultProbabilityMatix = matchStatistics.matchScoreProbabilityMatrix(homeTeamGoalsZeroToSix, awayTeamGoalsZeroToSix);
+        Map<String, BigDecimal> odds = footballOdd.getOdds(fixture);
+
+        model.addAttribute("ht", home);
+        model.addAttribute("at", away);
+        model.addAttribute("hg", homeTeamGoalsConcrete); //single goal
+        model.addAttribute("ag", awayTeamGoalsConcrete); //single goal
+        model.addAttribute("homeGoals", homeTeamGoalsZeroToSix);
+        model.addAttribute("awayGoals", awayTeamGoalsZeroToSix);
+        model.addAttribute("result", matchResultProbabilityMatix); //match result matrix
+        model.addAttribute("odds", odds);
+        return "fixture-stats";
+    }
+
+    @RequestMapping("/api-import-batch")
+    @ResponseBody
+    public String importAllFixturesFromApi(){
+        Season season=seasonService.findCurrent();
+        int currentMatchdayDataBase=season.getCurrentMatchday();
+        int currentMatchdayApi=fixtureService.getCurrentApiMatchday();
+        System.out.println("Current matchday  API " + currentMatchdayApi);
+
+        while (currentMatchdayDataBase <= currentMatchdayApi){
+            String URL= ApiDetails.URL_MATCHES+"?matchday="+currentMatchdayDataBase;
+            ResponseEntity<FixtureDTO> responseEntity = fixtureService.makeApiCall(URL);
+            FixtureDTO dto=responseEntity.getBody();
+            List<MatchDto> matches=dto.getMatches();
+
+            HttpStatus httpStatus=responseEntity.getStatusCode();
+            System.out.println(httpStatus);
+            int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
+            System.out.println("Available Requests "+ availableRequests);
+            if(availableRequests==1){
+                wait60seconds();
+            }
+
+            List<Fixture> fixtures=matches.stream()
+                    .map(m->fixtureService.convertDtoToFixtureEntity(m))
+                    .map(f-> footballOdd.calculateOdds(f))
+                    .collect(Collectors.toList());
+
+            currentMatchdayDataBase+=1;
+            fixtureService.saveAll(fixtures);
+        }
+
+        season.setCurrentMatchday(currentMatchdayApi);
+        seasonService.save(season);
+        return "OK";
+    }
+
+    @RequestMapping("/api-import-next")
+    @ResponseBody
+    public String importNextFixturesRoundFromApi(){
+        Season season=seasonService.findCurrent();
+        int matchday=season.getCurrentMatchday()+1;
+        String URL = ApiDetails.URL_MATCHES + "?matchday=" + matchday;
+        ResponseEntity<FixtureDTO> responseEntity = fixtureService.makeApiCall(URL);
+        FixtureDTO dto = responseEntity.getBody();
+        List<MatchDto> matches = dto.getMatches();
+
+        List<Fixture> fixtures = matches.stream()
+                .map(m -> fixtureService.convertDtoToFixtureEntity(m))
+                .map(f -> footballOdd.calculateOdds(f))
+                .collect(Collectors.toList());
+
+        fixtureService.saveAll(fixtures);
+        season.setCurrentMatchday(matchday);
+        seasonService.save(season);
+        return "OK";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("/api-update-2018-2019")
+    @ResponseBody
+    public String apiUpdateSeasonStartingIn2018(){
+      String URL ="http://api.football-data.org/v2/competitions/PL/matches?dateFrom=2018-11-06&dateTo=2019-07-01";
+//      String URL="http://api.football-data.org/v2/competitions/PL/matches?matchday=11&season=2018";
+      ResponseEntity<FixtureDTO> responseEntity=fixtureService.makeApiCall(URL);
+      FixtureDTO dto=responseEntity.getBody();
+      List<MatchDto> matches=dto.getMatches();
+      List<Fixture> fixtures=matches.stream()
+              .map(m->fixtureService.convertDtoToFixtureEntity(m))
+              .map(f->footballOdd.calculateOdds(f))
+              .collect(Collectors.toList());
+      fixtureService.saveAll(fixtures);
+      return "OK";
+    };
+
+    @RequestMapping("/api-resolve")
+    public void resolveFixture(){
+
+
+    }
+
+    @ResponseBody
+    @RequestMapping("/test")
+    public void testTop5HomeTeam(){
+        Team team=teamService.findTeamById(14);
+        Season season=seasonService.findCurrent();
+        System.out.println("Current season " +season);
+        List<Fixture> fixtures=fixtureService.findTop5ByAwayTeam(team, season);
+        fixtures.forEach(System.out :: println);
+    }
+
+    private void wait60seconds() {
+        try {
+            System.out.println("Waiting 60 seconds for new requestes pool");
+            Thread.sleep(61000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @ModelAttribute

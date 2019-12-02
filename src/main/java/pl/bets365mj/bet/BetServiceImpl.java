@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bets365mj.fixture.Fixture;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @Service
 public class BetServiceImpl implements BetService {
 
@@ -29,20 +31,20 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
-    public List<Bet> findAllByEventMatchday(int id) {
-        return betRepository.findAllByEventMatchday(id);
+    public List<Bet> findAllByFixtureMatchday(int id) {
+        return betRepository.findAllByFixtureMatchday(id);
     }
 
     @Override
-    public List<Bet> findAllByEvent(Fixture fixture) {
-        return betRepository.findAllByEvent(fixture);
+    public List<Bet> findAllByFixture(Fixture fixture) {
+        return betRepository.findAllByFixture(fixture);
     }
 
     @Override
     public void updateBets(Fixture fixture) {
         List<Bet> bets = new ArrayList<>();
         try {
-            bets = betRepository.findAllByEvent(fixture);
+            bets = betRepository.findAllByFixture(fixture);
             resolveBets(bets, fixture);
             betRepository.saveAll(bets);
         } catch (BetNotFoundException e) {
@@ -78,16 +80,4 @@ public class BetServiceImpl implements BetService {
         }
         return bets;
     }
-
-
-//    public static Bet getBet(@RequestParam Integer event, @RequestParam BigDecimal betPrice, @RequestParam String placedBet, FixtureService fixtureService) {
-//        Bet bet=new Bet();
-//        Fixture fixture=fixtureService.findById(event);
-//        bet.setEvent(fixture);
-//        bet.setBetPrice(betPrice);
-//        bet.setPlacedBet(placedBet);
-//
-//        return bet;
-//    }
-
 }

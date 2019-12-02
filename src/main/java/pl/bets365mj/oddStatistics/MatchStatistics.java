@@ -4,6 +4,7 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.bets365mj.fixtureMisc.Season;
+import pl.bets365mj.fixtureMisc.SeasonService;
 import pl.bets365mj.fixtureMisc.Team;
 import pl.bets365mj.fixture.Fixture;
 import pl.bets365mj.fixture.FixtureService;
@@ -20,18 +21,23 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
     @Autowired
     FixtureService fixtureService;
 
+    @Autowired
+    SeasonService seasonService;
+
     @Override
     public double homeTeamAttackStrength(Team team, Season season) {
-        double homeTeamsGoalsGlobalAVG = this.homeTeamsGoalsGlobalSeasonAvg(season);
+        double homeTeamsGoalsGlobalAVG = homeTeamsGoalsGlobalSeasonAvg(season);
+        List<Fixture> fixtures = fixtureService.findTop5ByHomeTeam(team, season);
+        if(fixtures.size()==0){
+            return homeTeamsGoalsGlobalAVG;
+        }
+
         double scoredGoals = 0;
         double games = 0;
-
-        List<Fixture> fixtures = fixtureService.findFixturesByHomeTeamAndSeasonAndMatchStatus(team, season, "finished");
         for (Fixture f : fixtures) {
             scoredGoals += f.getFTHG();
             games += 1;
         }
-
         double homeTeamAvgGoals = scoredGoals / games;
         double homeTeamAttackStrength = homeTeamAvgGoals / homeTeamsGoalsGlobalAVG;
         return homeTeamAttackStrength;
@@ -39,8 +45,11 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
 
     @Override
     public double homeTeamDefensiveStrength(Team team, Season season) {
-        List<Fixture> fixtures = fixtureService.findFixturesByHomeTeamAndSeasonAndMatchStatus(team, season, "finished");
-        double awayTeamGoalsSeasonAvg = this.awayTeamGoalsGlobalSeasonAvg(season);
+        double awayTeamGoalsSeasonAvg = awayTeamGoalsGlobalSeasonAvg(season);
+        List<Fixture> fixtures = fixtureService.findTop5ByHomeTeam(team, season);
+        if(fixtures.size()==0){
+            return awayTeamGoalsSeasonAvg;
+        }
         double totalGoals = 0;
         double games = 0;
 
@@ -55,9 +64,9 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
 
     @Override
     public double homeTeamGoalsPrediction(Team homeTeam, Team awayTeam, Season season) {
-        double homeTeamAttackStrength = this.homeTeamAttackStrength(homeTeam, season);
-        double awayTeamDeffenceStrength = this.awayTeamDefensiveStrength(awayTeam, season);
-        double homeTeamGlobalsStrength = this.homeTeamsGoalsGlobalSeasonAvg(season);
+        double homeTeamAttackStrength = homeTeamAttackStrength(homeTeam, season);
+        double awayTeamDeffenceStrength = awayTeamDefensiveStrength(awayTeam, season);
+        double homeTeamGlobalsStrength = homeTeamsGoalsGlobalSeasonAvg(season);
         double goalsPrediction = homeTeamAttackStrength * awayTeamDeffenceStrength * homeTeamGlobalsStrength;
         return goalsPrediction;
     }
@@ -66,10 +75,21 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
     public double homeTeamsGoalsGlobalSeasonAvg(Season season) {
         double totalGoals = 0;
         double games = 0;
-        List<Fixture> fixtures = fixtureService.findAllBySeasonAndMatchStatus(season, "finished");
-        for (Fixture f : fixtures) {
-            totalGoals += f.getFTHG();
-            games += 1;
+
+        if(season.getCurrentMatchday()==1){
+            Season previous=seasonService.findPrevious(season);
+            List<Fixture> fixturesPrevSeason = fixtureService.findAllBySeason(previous);
+            for (Fixture f : fixturesPrevSeason) {
+                totalGoals += f.getFTHG();
+                games += 1;
+            }
+        }
+        else {
+            List<Fixture> fixtures = fixtureService.findAllBySeasonAndMatchStatus(season, "finished");
+            for (Fixture f : fixtures) {
+                totalGoals += f.getFTHG();
+                games += 1;
+            }
         }
         double homeAVG = totalGoals / games;
         return homeAVG;
@@ -77,8 +97,11 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
 
     @Override
     public double awayTeamAttackStrength(Team team, Season season) {
-        List<Fixture> awayTeamFixtures = fixtureService.findFixturesByAwayTeamAndSeasonAndMatchStatus(team, season, "finished");
-        double awayGlobalAVG = this.awayTeamGoalsGlobalSeasonAvg(season);
+        double awayGlobalAVG = awayTeamGoalsGlobalSeasonAvg(season);
+        List<Fixture> awayTeamFixtures = fixtureService.findTop5ByAwayTeam(team, season);
+        if(awayTeamFixtures.size()==0){
+            return awayGlobalAVG;
+        }
         double totalGoals = 0;
         double games = 0;
 
@@ -86,7 +109,6 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
             totalGoals += f.getFTAG();
             games += 1;
         }
-
         double awayTeamAVG = totalGoals / games;
         double attackStrength = awayTeamAVG / awayGlobalAVG;
         return attackStrength;
@@ -94,12 +116,17 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
 
     @Override
     public double awayTeamDefensiveStrength(Team team, Season season) {
-        List<Fixture> awayTeamFixtures = fixtureService.findFixturesByAwayTeamAndSeasonAndMatchStatus(team, season, "finished");
         double homeGlobalAVG = homeTeamsGoalsGlobalSeasonAvg(season);
-        ;
+        List<Fixture> awayTeamFixtures = fixtureService.findTop5ByAwayTeam(team, season);
+        if(awayTeamFixtures.size()==0){
+            return homeGlobalAVG;
+        }
+        if(awayTeamFixtures.size()==0){
+            return homeGlobalAVG;
+        }
+
         double totalGoals = 0;
         double games = 0;
-
         for (Fixture f : awayTeamFixtures) {
             totalGoals += f.getFTHG();
             games += 1;
@@ -113,10 +140,21 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
     public double awayTeamGoalsGlobalSeasonAvg(Season season) {
         double totalGoals = 0;
         double games = 0;
-        List<Fixture> fixtures = fixtureService.findAllBySeasonAndMatchStatus(season, "finished");
-        for (Fixture f : fixtures) {
-            totalGoals += f.getFTAG();
-            games += 1;
+
+        if(season.getCurrentMatchday()==1){
+            Season previous=seasonService.findPrevious(season);
+            List<Fixture> fixturesPrevSeason = fixtureService.findAllBySeason(previous);
+            for (Fixture f : fixturesPrevSeason) {
+                totalGoals += f.getFTAG();
+                games += 1;
+            }
+        }
+        else {
+            List<Fixture> fixtures = fixtureService.findAllBySeasonAndMatchStatus(season, "finished");
+            for (Fixture f : fixtures) {
+                totalGoals += f.getFTHG();
+                games += 1;
+            }
         }
         return totalGoals / games;
     }

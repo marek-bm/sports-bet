@@ -3,7 +3,8 @@ footer.sticky-footer {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: calc(100% - #{$sidebar-collapsed-width});
+  //width: calc(100% - #{$sidebar-collapsed-width});
+  width: calc(100%);
   height: $sticky-footer-height;
   background-color: $gray-200;
   .copyright {
@@ -11,7 +12,8 @@ footer.sticky-footer {
     font-size: 0.8rem;
   }
   @media (min-width: 768px) {
-    width: calc(100% - #{$sidebar-base-width});
+    //width: calc(100% - #{$sidebar-base-width});
+    width: calc(100%);
   }
 }
 
@@ -21,7 +23,8 @@ body.sidebar-toggled {
   }
   @media (min-width: 768px) {
     footer.sticky-footer {
-      width: calc(100% - #{$sidebar-collapsed-width});
+      //width: calc(100% - #{$sidebar-collapsed-width});
+      width: calc(100%);
     }
   }
 }

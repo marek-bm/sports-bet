@@ -5,13 +5,16 @@ import org.springframework.stereotype.Service;
 import pl.bets365mj.bet.Bet;
 import pl.bets365mj.fixture.Fixture;
 import pl.bets365mj.bet.BetService;
+import pl.bets365mj.fixture.FixtureService;
 import pl.bets365mj.user.User;
 import pl.bets365mj.wallet.Wallet;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @Service
 public class CouponServiceImpl implements CouponService {
     @Autowired
@@ -19,6 +22,9 @@ public class CouponServiceImpl implements CouponService {
 
     @Autowired
     BetService betService;
+
+    @Autowired
+    FixtureService fixtureService;
 
     @Override
     public Coupon save(Coupon coupon) {
@@ -31,6 +37,7 @@ public class CouponServiceImpl implements CouponService {
         try {
             coupons = couponRepository.findAllByUser(userName);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return coupons;
     }
@@ -65,7 +72,7 @@ public class CouponServiceImpl implements CouponService {
 
             for (Bet b : bets) {
                 betStatus.add(b.isWon());
-                if (b.getEvent().getMatchStatus().equals("active")) {
+                if (b.getFixture().getMatchStatus().equals("active")) {
                     activeBets++;
                 } else {
                     finishedBets++;
@@ -91,7 +98,7 @@ public class CouponServiceImpl implements CouponService {
 
     public List<Bet> resolveBets(List<Bet> bets) {
         for (Bet bet : bets) {
-            Fixture fixture = bet.getEvent();
+            Fixture fixture = bet.getFixture();
             String fixtureStatus = fixture.getMatchStatus();
 
             if (fixture.equals("finished")) {
@@ -117,32 +124,13 @@ public class CouponServiceImpl implements CouponService {
         return bets;
     }
 
-    public void saveCoupon(Coupon coupon, BigDecimal charge, User user) {
-        //saving coupon to generate Id
-        couponRepository.save(coupon);
-        couponRepository.flush();
-        int id = coupon.getId();
-        //saving coupon to fill other data
+    @Transactional
+    public void save(Coupon coupon, BigDecimal charge, User owner) {
+        List<Bet> bets=coupon.getBets();
         coupon.setBetValue(charge);
-        coupon.setUser(user);
-        List<Bet> betsOnCoupon = coupon.getBets();
-        BigDecimal winValue = calculateWinValue(betsOnCoupon, charge);
-        coupon.setWinValue(winValue);
+        coupon.setUser(owner);
+        coupon.calculateWin(bets, charge);
         couponRepository.save(coupon);
-
-        //saving bets, cascade saving was not warking
-        for (Bet b : betsOnCoupon) {
-            b.setCoupon(coupon);
-            betService.save(b);
-        }
-    }
-
-    private static BigDecimal calculateWinValue(List<Bet> bets, BigDecimal charge) {
-        BigDecimal win = charge;
-        for (Bet bet : bets) {
-            win = win.multiply(bet.getBetPrice());
-        }
-        return win;
     }
 }
 

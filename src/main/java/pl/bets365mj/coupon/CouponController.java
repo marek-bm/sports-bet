@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+
 @Controller
 @SessionAttributes("coupon")
 public class CouponController {
@@ -66,32 +67,45 @@ public class CouponController {
         return "coupon-details";
     }
 
-    @RequestMapping(value = "/make-bet", method = RequestMethod.POST)
-    public String payTheCoupon(@RequestParam(name = "charge") BigDecimal charge,
-                               HttpSession session,
-                               Authentication authentication,
-                               Model model) {
+    @RequestMapping(value = "/coupon-finalize", method = RequestMethod.POST)
+    public String finalizeCoupon(@RequestParam(name = "charge") BigDecimal charge,
+                                 HttpSession session,
+                                 Authentication authentication,
+                                 Model model) {
 
         if (authentication == null) {
             model.addAttribute("error", "You have to login");
             return "error/login-required";
         } else {
-            String userName = authentication.getName();
-            User user = userService.findByUsername(userName);
+            User user = getUser(authentication);
             Wallet wallet = user.getWallet();
-
             if (wallet.getBalance().compareTo(charge) < 0) {
                 return "error/moneyalert";
-            } else {
-                wallet.setBalance(wallet.getBalance().subtract(charge));
-                Coupon coupon = (Coupon) session.getAttribute("coupon");
-                couponService.saveCoupon(coupon, charge, user);
-                wallet.getTransactions().add(new Date() + " you placed  " + charge + " PLN on betting coupon");
-                userService.saveUser(user);
-                walletService.saveWallet(wallet);
-                model.addAttribute("coupon", new Coupon());
             }
+            finalizeCoupon(charge, session, user);
+            updateWallet(charge, wallet);
+            getNewCoupon(model);
         }
-        return "redirect:/mycoupons";
+        return"redirect:/mycoupons";
+    }
+
+    private void finalizeCoupon(@RequestParam(name = "charge") BigDecimal charge, HttpSession session, User user) {
+        Coupon coupon = (Coupon) session.getAttribute("coupon");
+        couponService.save(coupon, charge, user);
+    }
+
+    private void getNewCoupon(Model model) {
+        model.addAttribute("coupon", new Coupon());
+    }
+
+    private void updateWallet(@RequestParam(name = "charge") BigDecimal charge, Wallet wallet) {
+        wallet.setBalance(wallet.getBalance().subtract(charge));
+        wallet.getTransactions().add(new Date() + " you placed  " + charge + " PLN on betting coupon");
+        walletService.saveWallet(wallet);
+    }
+
+    private User getUser(Authentication authentication) {
+        String userName = authentication.getName();
+        return userService.findByUsername(userName);
     }
 }

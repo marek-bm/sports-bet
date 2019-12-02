@@ -8,84 +8,62 @@
 <nav th:replace="fragments/topbar :: topbar"></nav>
 
 <div id="wrapper">
-
-    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
-
+    <!--    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>-->
     <div id="content-wrapper">
-
-        <div class="table-responsive" th:if="${fixtures} ==null"> No events history available at the moment</div>
-
-        <div class="row" th:if="${fixtures}!=null" th:each="fixture : ${fixtures}">
-            <div class="col-lg-8 col-md-12 col-12 col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 th:text="|Matchday ${fixture.getKey()}|"></h4>
-                    </div>
-                    <div class="card-body">
-
-                        <div class="statistic-details mt-sm-4">
-                            <div class="statistic-details-item">
-                                <small>
-
-                                    <table class="table table-hover">
-                                        <thead>
-                                        <tr>
-
-                                            <th> Date</th>
-                                            <th width="300"> Teams</th>
-                                            <th> FT Result</th>
-                                            <th> HT Result</th>
-                                            <th> Winning combination</th>
-                                        </tr>
-                                        </thead>
-
-                                        <tr th:each="event : ${fixture.getValue()}">
-                                            <td th:text="${event.getDate()}"></td>
-                                            <td th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
-
-
-                                            <td th:switch="${event.FTHG}">
-                                                <span th:case="null" th:text="|-- : --|"></span>
-                                                <span th:case="${event.getFTHG()}"
-                                                      th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>
-                                            </td>
-
-
-                                            <td th:switch="${event.HTHG}">
-                                                <span th:case="null" th:text="|-- : --|"></span>
-                                                <span th:case="${event.getHTHG()}"
-                                                      th:text="|(${event.getHTHG()} : ${event.HTAG})|"></span>
-                                            </td>
-
-
-                                            <td th:switch="${event.FTR}">
-                                                <span th:case="null" th:text="--"></span>
-                                                <span th:case="H" th:text="' 1, 1X, 12'"></span>
-                                                <span th:case="D" th:text="' 1X, X, X2 '"></span>
-                                                <span th:case="A" th:text="' 1X, X, X2 '"></span>
-                                            </td>
-
-                                        </tr>
-
-                                    </table>
-                                </small>
+        <div class="container-fluid">
+            <div class="table-responsive-sm" th:if="${fixtures} ==null"> No events history available at the moment</div>
+            <div class="row" th:if="${fixtures}!=null" th:each="fixture : ${fixtures}">
+<!--                <div class="col-lg-8 col-md-12 col-12 col-sm-12">-->
+                <div class="col-lg-8 offset-sm-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 th:text="|Matchday ${fixture.getKey()}|"></h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="statistic-details mt-sm-4">
+                                <div class="statistic-details-item">
+                                    <small>
+                                        <table class="table table-hover table-responsive-md">
+                                            <thead>
+                                            <tr>
+                                                <th> Date</th>
+                                                <th width="300"> Teams</th>
+                                                <th> FT Result</th>
+                                                <th> HT Result</th>
+                                                <th> Winning combination</th>
+                                            </tr>
+                                            </thead>
+                                            <tr th:each="event : ${fixture.getValue()}">
+                                                <td th:text="${event.getDate()}"></td>
+                                                <td th:text="|${event.getHomeTeam().getName()} v ${event.getAwayTeam().getName()}|"></td>
+                                                <td th:switch="${event.FTHG}">
+                                                    <span th:case="null" th:text="|-- : --|"></span>
+                                                    <span th:case="${event.getFTHG()}"
+                                                          th:text="|${event.getFTHG()} : ${event.FTAG}|"></span>
+                                                </td>
+                                                <td th:switch="${event.HTHG}">
+                                                    <span th:case="null" th:text="|-- : --|"></span>
+                                                    <span th:case="${event.getHTHG()}"
+                                                          th:text="|(${event.getHTHG()} : ${event.HTAG})|"></span>
+                                                </td>
+                                                <td th:switch="${event.FTR}">
+                                                    <span th:case="null" th:text="--"></span>
+                                                    <span th:case="H" th:text="' 1, 1X, 12'"></span>
+                                                    <span th:case="D" th:text="' 1X, X, X2 '"></span>
+                                                    <span th:case="A" th:text="' 1X, X, X2 '"></span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-12 col-12 col-sm-12">
-
-            </div>
-
         </div>
-
     </div>
 </div>
-
-
 <div th:include="fragments/footer :: footer"></div>
-
-
 </body>
 </html>

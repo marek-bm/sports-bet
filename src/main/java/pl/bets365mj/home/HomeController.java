@@ -29,19 +29,12 @@ public class HomeController {
     @Autowired
     SeasonResultsService seasonResultsService;
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String home(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("username", username);
+        model.addAttribute("username", getUsername());
         model.addAttribute("activeFixtures", activeFixtures());
-        model.addAttribute("bet");
+        model.addAttribute("bet", new Bet());
         return "home";
-    }
-
-    @RequestMapping("/admin")
-    @ResponseBody
-    public String admin() {
-        return "admin page";
     }
 
     @ModelAttribute("coupon")
@@ -50,10 +43,15 @@ public class HomeController {
         return coupon;
     }
 
-    @ModelAttribute("fixturesActive")
-    public Map<Integer, List<Fixture>> activeFixtures() {
-        List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("active");
-        Map<Integer, List<Fixture>> activeFixtureMap = fixtureService.fixturesAsMapSortByMatchday(activeEvents);
+    private String getUsername() {
+        String userName= SecurityContextHolder.getContext().getAuthentication().getName();
+        return userName;
+    }
+
+//    @ModelAttribute("fixturesActive")
+    private Map<Integer, List<Fixture>> activeFixtures() {
+        List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("scheduled");
+        Map<Integer, List<Fixture>> activeFixtureMap = fixtureService.groupByMatchday(activeEvents);
         return activeFixtureMap;
     }
 

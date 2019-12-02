@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.bets365mj.fixtureMisc.*;
 import pl.bets365mj.fixture.Fixture;
+import pl.bets365mj.fixtureMisc.*;
 
 import java.util.Map;
 
