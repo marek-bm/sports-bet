@@ -13,7 +13,7 @@ import java.util.List;
 public class TableDto {
     @JsonProperty ("competition") Competition competition;
     @JsonProperty ("season") SeasonDto season;
-    @JsonProperty("standings") List standings;
+    @JsonProperty("standings") List<Standing> standings;
 
     @Data
     @NoArgsConstructor @AllArgsConstructor
@@ -40,23 +40,9 @@ public class TableDto {
 
     @Data
     @NoArgsConstructor @AllArgsConstructor
-    private class ApiTable{
-        @JsonProperty("position") int position;
-        @JsonProperty("team") TeamDto team;
-        @JsonProperty("playedGames") String playedGames;
-        @JsonProperty("won") int won;
-        @JsonProperty("draw") int draw;
-        @JsonProperty("lost") int lost;
-        @JsonProperty("points") int points;
-        @JsonProperty("goalsFor") int goalsFor;
-        @JsonProperty("goalsAgainst") int goalsAgainst;
-        @JsonProperty("goalDifference") int goalsDifference;
-    }
-
-    @Data
-    @NoArgsConstructor @AllArgsConstructor
     private class TeamDto{
         @JsonProperty("name") String name;
         @JsonProperty("crestUrl") String crestUrl;
     }
+
 }

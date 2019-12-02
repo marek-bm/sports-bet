@@ -14,7 +14,7 @@ import pl.bets365mj.fixtureMisc.SeasonRepository;
 import pl.bets365mj.fixtureMisc.SeasonResult;
 import pl.bets365mj.fixtureMisc.SeasonResultsService;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class TableController {
@@ -43,7 +43,9 @@ public class TableController {
         HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
         ResponseEntity<TableDto> responseEntity=restTemplate.exchange(URL, HttpMethod.GET, httpEntity, TableDto.class);
         HttpStatus responseStatus=responseEntity.getStatusCode();
-        model.addAttribute("apiTable", responseEntity.getBody());
-        return "api-table";
+        TableDto tableDto=responseEntity.getBody();
+        List<ApiTable> table= tableDto.getStandings().get(0).getTable();
+        model.addAttribute("apiTable", table);
+        return "table";
     }
 }
