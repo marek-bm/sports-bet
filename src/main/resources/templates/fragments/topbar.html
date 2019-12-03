@@ -26,13 +26,185 @@
 <!--    <link th:href="@{/css/sb-admin.css}" rel="stylesheet"/>-->
 
 </head>
+
 <body id="page-top">
+
+<!--<div class="site-mobile-menu" th:fragment="mobile-menu">-->
+<!--    <div class="site-mobile-menu-header">-->
+<!--        <div class="site-mobile-menu-logo">-->
+<!--            <a href="#"><img src="img/icons8-the-premier-league-500.png" alt="Image"></a>-->
+<!--        </div>-->
+<!--        <div class="site-mobile-menu-close mt-3">-->
+<!--            <span class="icon-close2 js-menu-toggle"></span>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="site-mobile-menu-body"><ul class="site-nav-wrap">-->
+
+
+<!--        <li><a href="/">Welcome</a></li>-->
+<!--        <li class="has-children active"><span class="arrow-collapse collapsed" data-toggle="collapse" data-target="#collapseItem0" aria-expanded="false"></span>-->
+<!--            <a href="/account">User</a>-->
+
+<!--            <ul class="collapse" sec:authorize="isAuthenticated()" id="collapseItem0" style="">-->
+<!--                <li><a th:href="@{/account}">Profile</a></li>-->
+<!--                <li><a th:href="@{/mycoupons}">Bets</a></li>-->
+<!--                <li><a th:href="@{/wallet}">Wallet</a></li>-->
+<!--                <li><a th:href="@{/logout}">Logout</a></li>-->
+<!--            </ul>-->
+
+
+<!--            <ul class="collapse" sec:authorize="isAnonymous()" id="collapseItem0" style="">-->
+<!--                <li><a th:href="@{/login}">Login</a></li>-->
+<!--                <li><a th:href="@{/register}">Register</a></li>-->
+<!--                <li><a th:href="@{/forgot-password}">Forgot Password</a></li>-->
+<!--            </ul>-->
+
+<!--        </li>-->
+
+<!--        <li class="has-children"><span class="arrow-collapse active" data-toggle="collapse" data-target="#collapseItem1" aria-expanded="true"></span>-->
+<!--            <a href="#">Events</a>-->
+<!--            <ul class="collapse show" id="collapseItem1" style="">-->
+<!--                <li><a href="/active">Active</a></li>-->
+<!--                <li><a href="/fixture-finished">Finished</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+
+<!--        <li><a href="/table">Table</a></li>-->
+<!--        <li><a href="/instruction">How to bet?</a></li>-->
+<!--        <li><a href="/about-me">About me</a></li>-->
+<!--        <li><a href="/contact">Contact</a></li>-->
+
+<!--    </ul></div>-->
+<!--</div>-->
+<!--<header class="site-navbar absolute transparent" role="banner" th:fragment="topbar">-->
+<!--        <div class="container py-3">-->
+<!--            <div class="row align-items-center">-->
+<!--                <div class="col-6 col-md-3">-->
+<!--                    <a href="/"><img src="img/icons8-the-premier-league-500.png" style="height:100px" alt="" ></a>-->
+<!--                    <a href="https://www.linkedin.com/in/marek-jastrzebski-6a90399a/" class="text-secondary px-2"><span class="icon-linkedin"></span></a>-->
+<!--                    <a href="https://github.com/marek-bm" class="text-secondary px-2"><span class="icon-github"></span></a>-->
+<!--                </div>-->
+<!--                <div class="col-6 col-md-9 text-right">-->
+<!--                    <div class="d-inline-block"><a href="#" class="text-secondary p-2 d-flex align-items-center"><span class="icon-envelope mr-3"></span> <span class="d-none d-md-block">marek.jastrzebski@outlook.com</span></a></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    <nav class="site-navigation position-relative text-right bg-black text-md-right" role="navigation">-->
+<!--        <div class="container position-relative">-->
+<!--            <div class="d-inline-block d-md-none ml-md-0 mr-auto py-3">-->
+<!--                <a href="#" class="site-menu-toggle js-menu-toggle text-white">-->
+<!--                    <span class="icon-menu h3"></span></a>-->
+<!--            </div>-->
+<!--            <ul class="site-menu js-clone-nav d-none d-md-block">-->
+<!--&lt;!&ndash;                <li>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    <div position-relative text-left bg-black text-md-right sec:authorize="isAnonymous()">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <p> GUEST </p>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li><a href="/">Welcome</a></li>&ndash;&gt;-->
+<!--                <li class="has-children active">-->
+<!--                    <a href="/account">User</a>-->
+
+<!--                    <ul class="dropdown arrow-top" sec:authorize="isAuthenticated()">-->
+<!--                        <li><a th:href="@{/account}">Profile</a></li>-->
+<!--                        <li><a th:href="@{/mycoupons}">Bets</a></li>-->
+<!--                        <li><a th:href="@{/wallet}">Wallet</a></li>-->
+<!--                        <li><a th:href="@{/logout}">Logout</a></li>-->
+<!--                    </ul>-->
+<!--                    <ul class="dropdown arrow-top" sec:authorize="isAnonymous()">-->
+<!--                        <li><a th:href="@{/login}">Login</a></li>-->
+<!--                        <li><a th:href="@{/register}">Register</a></li>-->
+<!--                        <li><a th:href="@{/forgot-password}">Forgot Password</a></li>-->
+<!--                    </ul>-->
+
+<!--                </li>-->
+<!--                <li class="has-children">-->
+<!--                    <a href="#">Events</a>-->
+<!--                    <ul class="dropdown arrow-top">-->
+<!--                        <li><a href="/fixture-active">Active</a></li>-->
+<!--                        <li><a href="/fixture-finished">Finished</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                <li><a href="/api-table">Table</a></li>-->
+<!--                <li><a href="/instruction">How to bet?</a></li>-->
+<!--                <li><a href="/about-me">Used technology</a></li>-->
+<!--                <li><a href="/contact">Contact</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--        </div>-->
+<!--    </nav>-->
+
+<!--    <nav class="site-navigation position-relative text-right bg-black text-md-right" role="navigation">-->
+<!--        <div class="container position-relative">-->
+
+<!--            <div class="d-inline-block d-md-none ml-md-0 mr-auto py-3">-->
+<!--                <a href="#" class="site-menu-toggle js-menu-toggle text-white active">-->
+<!--                    <span class="icon-menu h3"></span></a></div>-->
+
+<!--            <ul class="site-menu js-clone-nav d-none d-md-block">-->
+
+
+<!--                <li><a href="/">Welcome</a></li>-->
+<!--                <li class="has-children active">-->
+<!--                    <a href="/account">User</a>-->
+
+<!--                    <ul class="dropdown arrow-top" sec:authorize="isAuthenticated()">-->
+<!--                        <li><a th:href="@{/account}">Profile</a></li>-->
+<!--                        <li><a th:href="@{/mycoupons}">Bets</a></li>-->
+<!--                        <li><a th:href="@{/wallet}">Wallet</a></li>-->
+<!--                        <li><a th:href="@{/logout}">Logout</a></li>-->
+<!--                    </ul>-->
+
+
+<!--                    <ul class="dropdown arrow-top" sec:authorize="isAnonymous()">-->
+<!--                        <li><a th:href="@{/login}">Login</a></li>-->
+<!--                        <li><a th:href="@{/register}">Register</a></li>-->
+<!--                        <li><a th:href="@{/forgot-password}">Forgot Password</a></li>-->
+<!--                    </ul>-->
+
+<!--                </li>-->
+
+<!--                <li class="has-children">-->
+<!--                    <a href="#">Events</a>-->
+<!--                    <ul class="dropdown arrow-top">-->
+<!--                        <li><a href="/active">Active</a></li>-->
+<!--                        <li><a href="/fixture-finished">Finished</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+
+<!--                <li><a href="/table">Table</a></li>-->
+<!--                <li><a href="/instruction">How to bet?</a></li>-->
+<!--                <li><a href="/about-me">About me</a></li>-->
+<!--                <li><a href="/contact">Contact</a></li>-->
+
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </nav>-->
+
+
+<!--</header>-->
+
+
+<div class="site-mobile-menu" th:fragment="mobile-menu">
+    <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-logo">
+            <a href="#"><img src="img/icons8-the-premier-league-500.png" alt="Image"></a>
+        </div>
+        <div class="site-mobile-menu-close mt-3">
+            <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+</div>
+
 <header class="site-navbar absolute transparent" role="banner" th:fragment="topbar">
     <div class="py-3">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-6 col-md-3">
-                    <a href="/"><img src="img/icons8-the-premier-league-500.png" style="height:100px" alt="" ></a>
+                    <a href="/home"><img src="img/icons8-the-premier-league-500.png" style="height:100px" alt="" ></a>
                     <a href="https://www.linkedin.com/in/marek-jastrzebski-6a90399a/" class="text-secondary px-2"><span class="icon-linkedin"></span></a>
                     <a href="https://github.com/marek-bm" class="text-secondary px-2"><span class="icon-github"></span></a>
                 </div>
@@ -44,15 +216,15 @@
     </div>
     <nav class="site-navigation position-relative text-right bg-black text-md-right" role="navigation">
         <div class="container position-relative">
+
             <div class="d-inline-block d-md-none ml-md-0 mr-auto py-3">
                 <a href="#" class="site-menu-toggle js-menu-toggle text-white">
-                    <span class="icon-menu h3"></span></a>
-            </div>
-            <ul class="site-menu js-clone-nav d-none d-md-block">
-                <li>
+                    <span class="icon-menu h3"></span></a></div>
 
-                </li>
-<!--                <li><a href="/">Welcome</a></li>-->
+            <ul class="site-menu js-clone-nav d-none d-md-block">
+
+
+                <li><a href="/">Welcome</a></li>
                 <li class="has-children active">
                     <a href="/account">User</a>
 
@@ -62,6 +234,8 @@
                         <li><a th:href="@{/wallet}">Wallet</a></li>
                         <li><a th:href="@{/logout}">Logout</a></li>
                     </ul>
+
+
                     <ul class="dropdown arrow-top" sec:authorize="isAnonymous()">
                         <li><a th:href="@{/login}">Login</a></li>
                         <li><a th:href="@{/register}">Register</a></li>
@@ -69,23 +243,27 @@
                     </ul>
 
                 </li>
+
                 <li class="has-children">
                     <a href="#">Events</a>
                     <ul class="dropdown arrow-top">
-                        <li><a href="/fixture-active">Active</a></li>
+                        <li><a href="/active">Active</a></li>
                         <li><a href="/fixture-finished">Finished</a></li>
                     </ul>
                 </li>
+
                 <li><a href="/api-table">Table</a></li>
                 <li><a href="/instruction">How to bet?</a></li>
-                <li><a href="/about-me">Used technology</a></li>
+                <li><a href="/about-me">About me</a></li>
                 <li><a href="/contact">Contact</a></li>
+
             </ul>
         </div>
-        </div>
     </nav>
-
 </header>
+
+
+
 
 </body>
 </html>

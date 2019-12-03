@@ -1,114 +1,195 @@
 <!DOCTYPE html>
-
-<html lang="en"
+<html lang="en" lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
-
-
-<head th:replace="fragments/header :: header">
-
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::head">
+    <title> Premier League Bets </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
-<body id="page-top">
-
-<nav th:replace="fragments/topbar :: topbar"></nav>
-
-<div id="wrapper">
-
-    <ul class="sidebar navbar-nav" th:include="fragments/sidebar :: sidebar"></ul>
-
-    <div id="content-wrapper">
-
-
-        <h1>User account details</h1>
-
-
-        <div sec:authorize="isAnonymous()">
-            <p> Section available for logges users</p>
-            <a th:href="@{/home}">Home</a>
-        </div>
-
-        <div sec:authorize="isAuthenticated()">
-
-
-            <p sec:authorize="isAuthenticated()">
-            <p>Logged as <span sec:authentication="name"/></p>
-            </p>
-
-            <table>
-                <tr>
-                    <td>
-                        <a th:href="@{/home}">Home</a>
-                    </td>
-            </table>
-
-
-            <ul>
-                <li th:text="|Currently in you wallet is: ${wallet.balance} PLN|"/>
-                <li th:text="|Your wallet is linked to bank account: ${wallet.bankAccount}|"/>
-            </ul>
-
-
-            <table>
-                <tr>
-                    <td>
-
-                        <form th:action="@{/chargeaccount}" th:object="${wallet}" method="get">
-                            <input type="submit" value="Deposit"/>
-                        </form>
-                    </td>
-
-                    <td>
-                        <form th:action="@{/withdraw}" th:object="${wallet}" method="get">
-                            <input type="submit" value="Withdraw money"/>
-                        </form>
-                    </td>
-                </tr>
-
-            </table>
-
-<br></div>
-
-            <h3>Operations history:</h3>
-
-            <div class="card mb-3">
-                <div class="card-header">
-                    <i class="fas fa-table"></i>
-                    Recent operations
+<body>
+<div class="container-fluid">
+    <div id="wrapper">
+        <div id="content-wrapper">
+            <div class="site-mobile-menu" th:fragment="mobile-menu">
+                <div class="site-mobile-menu-header">
+                    <div class="site-mobile-menu-logo">
+                        <a href="#"><img src="img/icons8-the-premier-league-500.png" alt="Image"></a>
+                    </div>
+                    <div class="site-mobile-menu-close mt-3">
+                        <span class="icon-close2 js-menu-toggle"></span>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <div>
-                            <label>Show entries <select name="dataTable_length" aria-controls="dataTable"
-                                                class="custom-select custom-select-sm form-control form-control-sm">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select> </label>
+                <div class="site-mobile-menu-body"></div>
+            </div>
+            <header class="site-navbar absolute transparent" role="banner" th:fragment="header">
+                <div class="py-3">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-6 col-md-3">
+                                <a href="/"><img src="img/icons8-the-premier-league-500.png" style="height:100px" alt=""></a>
+                                <a href="https://www.linkedin.com/in/marek-jastrzebski-6a90399a/"
+                                   class="text-secondary px-2"><span class="icon-linkedin"></span></a>
+                                <a href="https://github.com/marek-bm" class="text-secondary px-2"><span
+                                        class="icon-github"></span></a>
+                            </div>
+                            <div class="col-6 col-md-9 text-right">
+                                <div class="d-inline-block"><a href="#"
+                                                               class="text-secondary p-2 d-flex align-items-center"><span
+                                        class="icon-envelope mr-3"></span> <span class="d-none d-md-block">marek.jastrzebski@outlook.com</span></a>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <nav class="site-navigation position-relative text-right bg-black text-md-right" role="navigation">
+                    <div class="container position-relative">
+                        <div class="d-inline-block d-md-none ml-md-0 mr-auto py-3">
+                            <a href="#" class="site-menu-toggle js-menu-toggle text-white">
+                                <span class="icon-menu h3"></span></a></div>
+                        <ul class="site-menu js-clone-nav d-none d-md-block">
+                            <li><a href="/">Welcome</a></li>
+                            <li class="has-children active">
+                                <a href="/account">User</a>
+                                <ul class="dropdown arrow-top" sec:authorize="isAuthenticated()">
+                                    <li><a th:href="@{/account}">Profile</a></li>
+                                    <li><a th:href="@{/mycoupons}">Bets</a></li>
+                                    <li><a th:href="@{/wallet}">Wallet</a></li>
+                                    <li><a th:href="@{/logout}">Logout</a></li>
+                                </ul>
+                                <ul class="dropdown arrow-top" sec:authorize="isAnonymous()">
+                                    <li><a th:href="@{/login}">Login</a></li>
+                                    <li><a th:href="@{/register}">Register</a></li>
+                                    <li><a th:href="@{/forgot-password}">Forgot Password</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-children">
+                                <a href="#">Events</a>
+                                <ul class="dropdown arrow-top">
+                                    <li><a href="/fixture-active">Active</a></li>
+                                    <li><a href="/fixture-finished">Finished</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/api-table">Table</a></li>
+                            <li><a href="/instruction">How to bet?</a></li>
+                            <li><a href="/about-me">Used Technology</a></li>
+                            <li><a href="/contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            </br>
 
-                        <table class="table table-responsive-md">
-
-                            <tr th:each="operation : ${wallet.transactions}">
-                                <td th:text="${operation}">
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-8">
+                    <h1>User account details</h1>
+                    <div sec:authorize="isAnonymous()">
+                        <p> Section available for logges users</p>
+                        <a th:href="@{/home}">Home</a>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <p sec:authorize="isAuthenticated()">
+                        <p>Logged as <span sec:authentication="name"/></p>
+                        </p>
+                        <table>
+                            <tr>
+                                <td>
+                                    <a th:href="@{/home}">Home</a>
+                                </td>
+                        </table>
+                        <ul>
+                            <li th:text="|Currently in you wallet is: ${wallet.balance} PLN|"/>
+                            <li th:text="|Your wallet is linked to bank account: ${wallet.bankAccount}|"/>
+                        </ul>
+                        <table>
+                            <tr>
+                                <td
+                                <form th:action="@{/chargeaccount}" th:object="${wallet}" method="get">
+                                    <input type="submit" value="Deposit"/>
+                                </form>
+                                </td>
+                                <td>
+                                    <form th:action="@{/withdraw}" th:object="${wallet}" method="get">
+                                        <input type="submit" value="Withdraw money"/>
+                                    </form>
                                 </td>
                             </tr>
-
                         </table>
-
-
+                        <br></div>
+                    <h3>Operations history:</h3>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fas fa-table"></i>
+                            Recent operations
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <div>
+                                    <label>Show entries <select name="dataTable_length" aria-controls="dataTable"
+                                                                class="custom-select custom-select-sm form-control form-control-sm">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> </label>
+                                </div>
+                                <table class="table table-responsive-md">
+                                    <tr th:each="operation : ${wallet.transactions}">
+                                        <td th:text="${operation}">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Coupon</h4>
+                        </div>
+                        <div class="card-body">
+                            <table class="table-responsive-sm" style="width: auto">
+                                <tr>
+                                    <td>
+                                        <div th:include="coupon::coupon"></div>
+                                        <p style="color:red;" th:text="${error}"></p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<footer th:replace="fragments/footer :: footer">
+</footer>
 
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/jquery-migrate-3.0.1.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/jquery.stellar.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/aos.js"></script>
+<script src="js/main.js"></script>
 
-<div th:include="fragments/footer :: footer"></div>
-</div>
 </body>
 </html>

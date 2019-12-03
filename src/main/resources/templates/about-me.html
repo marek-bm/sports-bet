@@ -1,52 +1,145 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="en" lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-    <title>About me</title>
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::head">
+    <title> Premier League Bets </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body id="page-top">
-<nav th:replace="fragments/topbar :: topbar"></nav>
-<div id="wrapper">
-    <div id="content-wrapper">
-        <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-8 offset-sm-2">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>About the project</h4>
+<body>
+<div class="container-fluid">
+    <div id="wrapper">
+        <div id="content-wrapper">
+            <div class="site-mobile-menu" th:fragment="mobile-menu">
+                <div class="site-mobile-menu-header">
+                    <div class="site-mobile-menu-logo">
+                        <a href="#"><img src="img/icons8-the-premier-league-500.png" alt="Image"></a>
+                    </div>
+                    <div class="site-mobile-menu-close mt-3">
+                        <span class="icon-close2 js-menu-toggle"></span>
+                    </div>
+                </div>
+                <div class="site-mobile-menu-body"></div>
+            </div>
+            <header class="site-navbar absolute transparent" role="banner" th:fragment="header">
+                <div class="py-3">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-6 col-md-3">
+                                <a href="/"><img src="img/icons8-the-premier-league-500.png" style="height:100px" alt=""></a>
+                                <a href="https://www.linkedin.com/in/marek-jastrzebski-6a90399a/"
+                                   class="text-secondary px-2"><span class="icon-linkedin"></span></a>
+                                <a href="https://github.com/marek-bm" class="text-secondary px-2"><span
+                                        class="icon-github"></span></a>
                             </div>
-                            <div class="card-body">
-                                <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
-                                     class="chartjs-size-monitor">
-                                    <div class="chartjs-size-monitor-expand"
-                                         style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
-                                    </div>
-                                    <div class="chartjs-size-monitor-shrink"
-                                         style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
-                                    </div>
-                                </div>
-                                <div class="statistic-details mt-sm-4" style="text-justify: auto">
-                                    <p>
-                                    <ul>Key technology and tools I used in project:
-                                        <li>Spring Boot framework (in particular Security for authentication, Data,
-                                            Batch to feed database from csv,
-                                            Data JPA, and MVC)</li>
-                                        <li>MySQL database design (managed mainly through MyWorkbench)</li>
-                                        <li>Junit testing</li>
-                                        <li>Front-end is combination of Bootstrap templates modified to my needs and
-                                            vision</li>
-                                    </ul>
+                            <div class="col-6 col-md-9 text-right">
+                                <div class="d-inline-block"><a href="#"
+                                                               class="text-secondary p-2 d-flex align-items-center"><span
+                                        class="icon-envelope mr-3"></span> <span class="d-none d-md-block">marek.jastrzebski@outlook.com</span></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <nav class="site-navigation position-relative text-right bg-black text-md-right" role="navigation">
+                    <div class="container position-relative">
+                        <div class="d-inline-block d-md-none ml-md-0 mr-auto py-3">
+                            <a href="#" class="site-menu-toggle js-menu-toggle text-white">
+                                <span class="icon-menu h3"></span></a></div>
+                        <ul class="site-menu js-clone-nav d-none d-md-block">
+                            <li><a href="/">Welcome</a></li>
+                            <li class="has-children active">
+                                <a href="/account">User</a>
+                                <ul class="dropdown arrow-top" sec:authorize="isAuthenticated()">
+                                    <li><a th:href="@{/account}">Profile</a></li>
+                                    <li><a th:href="@{/mycoupons}">Bets</a></li>
+                                    <li><a th:href="@{/wallet}">Wallet</a></li>
+                                    <li><a th:href="@{/logout}">Logout</a></li>
+                                </ul>
+                                <ul class="dropdown arrow-top" sec:authorize="isAnonymous()">
+                                    <li><a th:href="@{/login}">Login</a></li>
+                                    <li><a th:href="@{/register}">Register</a></li>
+                                    <li><a th:href="@{/forgot-password}">Forgot Password</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-children">
+                                <a href="#">Events</a>
+                                <ul class="dropdown arrow-top">
+                                    <li><a href="/fixture-active">Active</a></li>
+                                    <li><a href="/fixture-finished">Finished</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/api-table">Table</a></li>
+                            <li><a href="/instruction">How to bet?</a></li>
+                            <li><a href="/about-me">Used Technology</a></li>
+                            <li><a href="/contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            </br>
+            <div class="row">
+                <div class="col-lg-8 offset-sm-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>About the project</h4>
+                        </div>
+                        <div class="card-body">
+                            <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
+                                 class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink"
+                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                    <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                </div>
+                            </div>
+                            <div class="statistic-details mt-sm-4" style="text-justify: auto">
+                                <p>
+                                <ul>Key technology and tools I used in project:
+                                    <li>Spring Boot framework (in particular Security for authentication, Data,
+                                        Batch to feed database from csv,
+                                        Data JPA, and MVC)</li>
+                                    <li>MySQL database design (managed mainly through MyWorkbench)</li>
+                                    <li>Junit testing</li>
+                                    <li>Front-end is combination of Bootstrap templates modified to my needs and
+                                        vision</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<div th:include="fragments/footer :: footer"></div>
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/jquery-migrate-3.0.1.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/jquery.stellar.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/aos.js"></script>
+<script src="js/main.js"></script>
+
 </body>
 </html>
