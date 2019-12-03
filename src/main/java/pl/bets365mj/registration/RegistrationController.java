@@ -13,7 +13,7 @@ import pl.bets365mj.user.UserDTO;
 import pl.bets365mj.user.User;
 import pl.bets365mj.wallet.Wallet;
 import pl.bets365mj.wallet.WalletRepository;
-import pl.bets365mj.user.UserService;
+//import pl.bets365mj.user.UserService;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
