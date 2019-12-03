@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.bets365mj.role.Role;
 import pl.bets365mj.user.User;
+import pl.bets365mj.user.UserRepository;
 import pl.bets365mj.user.UserService;
 
 import java.util.HashSet;
@@ -18,13 +19,13 @@ import java.util.Set;
 @Service
 public class CurrentUserDetailsService implements UserDetailsService {
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user= Optional
-                .ofNullable(userService.findByUsername(username))
+                .ofNullable(userRepository.findByUsername(username))
                 .orElseThrow(()-> new UsernameNotFoundException(username));
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
