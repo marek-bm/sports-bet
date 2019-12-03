@@ -116,8 +116,8 @@
                                     </tr>
                                     <tr th:each="g, iteration: ${#numbers.sequence(0,5)}">
                                         <td th:text="${iteration.index}"></td>
-                                        <td th:text="${#numbers.formatDecimal(homeGoals[g],1,2)}*100 + '%'"></td>
-                                        <td th:text="${#numbers.formatDecimal(awayGoals[g],1,2)}*100 + '%'"></td>
+                                        <td th:text="${#numbers.formatDecimal(homeGoals[g],1,2,'POINT')}*100 + '%'"></td>
+                                        <td th:text="${#numbers.formatDecimal(awayGoals[g],1,2,'POINT')}*100 + '%'"></td>
                                     </tr>
                                 </table>
                             </div>
