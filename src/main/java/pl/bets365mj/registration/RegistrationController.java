@@ -25,7 +25,8 @@ public class RegistrationController {
     CountryService countryService;
 
     @Autowired
-    UserService userService;
+    //UserService userService;
+    UserRepository userRepository;
 
     @Autowired
     WalletRepository walletRepository;
@@ -57,7 +58,7 @@ public class RegistrationController {
         user.setWallet(new Wallet());
         user.getWallet().setBankAccount(userDTO.getBankAccount());
         user.getWallet().setBalance(BigDecimal.valueOf(0));
-        userService.saveUser(user);
+        userRepository.save(user);
 
         Wallet wallet = user.getWallet();
         wallet.setOwner(user);
