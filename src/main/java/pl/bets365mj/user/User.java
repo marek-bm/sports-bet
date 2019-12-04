@@ -35,7 +35,7 @@ public class User {
     private String firstName;
     private String lastName;
     private boolean adult;
-    @Email @Column(unique = true)
+//    @Email @Column(unique = true)
     private String mail;
     @OneToOne(cascade = CascadeType.ALL)
     private Wallet wallet;
