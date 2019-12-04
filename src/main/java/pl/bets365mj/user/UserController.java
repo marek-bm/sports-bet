@@ -1,5 +1,6 @@
 package pl.bets365mj.user;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
+@SessionAttributes("coupon")
 public class UserController {
 
     @Autowired
@@ -36,7 +38,6 @@ public class UserController {
                 model.addAttribute("text", warning);
             }
         }
-
         return "user-account";
     }
 
