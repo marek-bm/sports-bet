@@ -37,7 +37,8 @@
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="col-6 col-md-3">
-                                <a href="/"><img src="img/icons8-the-premier-league-500.png" style="height:100px" alt=""></a>
+                                <a href="/"><img src="img/icons8-the-premier-league-500.png" style="height:100px"
+                                                 alt=""></a>
                                 <a href="https://www.linkedin.com/in/marek-jastrzebski-6a90399a/"
                                    class="text-secondary px-2"><span class="icon-linkedin"></span></a>
                                 <a href="https://github.com/marek-bm" class="text-secondary px-2"><span
@@ -100,91 +101,71 @@
                         <a th:href="@{/home}">Home</a>
                     </div>
                     <div sec:authorize="isAuthenticated()">
-                        <table class="table">
-                            <tr>
-                                <td>
-                                    <p sec:authorize="isAuthenticated()">
-                                    <p>Logged as <span sec:authentication="name"/></p>
-                                    <!--<p>User role: <span sec:authentication="authorities"></span></p>-->
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <form th:action="@{/user-edit/{id} (id=${user.getId()})}" th:object="${user}" method="get">
-                                        <input type="submit" value="Edit"/>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form th:action="@{/user-updatePassword}" method="get">
-                                        <input type="number" name="id" hidden th:value="${user.getId()}">
-                                        <input type="submit" value="Change Password"/>
-                                    </form>
-                                </td>
-                            </tr>
+                        <div class="card">
+                            <div class="card-header">
+                                <p sec:authorize="isAuthenticated()">
+                                <p>Logged as <span sec:authentication="name"/></p>
+                                </p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-responsive">
+                                    <tr>
+                                        <td>
+                                            <form th:action="@{/user-edit/{id} (id=${user.getId()})}"
+                                                  th:object="${user}" method="get">
+                                                <input type="submit" value="Edit"/>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form th:action="@{/user-updatePassword}" method="get">
+                                                <input type="number" name="id" hidden th:value="${user.getId()}">
+                                                <input type="submit" value="Change Password"/>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td> First Name:</td>
+                                                    <td><p th:text="${user.firstName}"/></td>
+                                                </tr>
 
-                        </table>
-                        <table class="table table-sm">
-                            <tr>
-                                <td>
-                                    <!--<form th:action="@{/register}" th:object="${userDTO}" method="post"></br>-->
-                                    <table>
-                                        <tr>
-                                            <td> First Name:</td>
-                                            <td><p th:text="${user.firstName}"/></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td> Last Name:</td>
-                                            <td><p th:text="${user.lastName}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td> Username</td>
-                                            <td><p th:text="${user.username}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td> e-mail</td>
-                                            <td><p th:text="${user.mail}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td> Street</td>
-                                            <td><p th:text="${user.street}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td> City</td>
-                                            <td><p th:text="${user.city}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td> Zip code</td>
-                                            <td><p th:text="${user.zip}"/></td>
-                                        </tr>
-                                        <!--<tr>-->
-                                        <!--<td> Bank Account</td>-->
-                                        <!--<td><input type="text" th:field="*{wallet.bankAccount}"></td>-->
-                                        <!--</tr>-->
-                                    </table>
-                                    <!--</form>-->
-                                </td>
-                            </tr>
-                        </table>
+                                                <tr>
+                                                    <td> Last Name:</td>
+                                                    <td><p th:text="${user.lastName}"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Username</td>
+                                                    <td><p th:text="${user.username}"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> e-mail</td>
+                                                    <td><p th:text="${user.mail}"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Street</td>
+                                                    <td><p th:text="${user.street}"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> City</td>
+                                                    <td><p th:text="${user.city}"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Zip code</td>
+                                                    <td><p th:text="${user.zip}"/></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Coupon</h4>
-                        </div>
-                        <div class="card-body">
-                            <table class="table-responsive-sm" style="width: auto">
-                                <tr>
-                                    <td>
-                                        <div th:include="coupon::coupon"></div>
-                                        <p style="color:red;" th:text="${error}"></p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

@@ -99,6 +99,7 @@
                         <p> Section available for logges users</p>
                         <a th:href="@{/home}">Home</a>
                     </div>
+
                     <div sec:authorize="isAuthenticated()">
                         <p sec:authorize="isAuthenticated()">
                         <p>Logged as <span sec:authentication="name"/></p>
@@ -127,51 +128,53 @@
                                 </td>
                             </tr>
                         </table>
-                        <br></div>
-                    <h3>Operations history:</h3>
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <i class="fas fa-table"></i>
-                            Recent operations
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <div>
-                                    <label>Show entries <select name="dataTable_length" aria-controls="dataTable"
-                                                                class="custom-select custom-select-sm form-control form-control-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> </label>
+                        <br>
+                        <h3>Operations history:</h3>
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <i class="fas fa-table"></i>
+                                Recent operations
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div>
+                                        <label>Show entries <select name="dataTable_length" aria-controls="dataTable"
+                                                                    class="custom-select custom-select-sm form-control form-control-sm">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> </label>
+                                    </div>
+                                    <table class="table table-responsive-md">
+                                        <tr th:each="operation : ${wallet.transactions}">
+                                            <td th:text="${operation}">
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
-                                <table class="table table-responsive-md">
-                                    <tr th:each="operation : ${wallet.transactions}">
-                                        <td th:text="${operation}">
-                                        </td>
-                                    </tr>
-                                </table>
                             </div>
                         </div>
                     </div>
+
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Coupon</h4>
-                        </div>
-                        <div class="card-body">
-                            <table class="table-responsive-sm" style="width: auto">
-                                <tr>
-                                    <td>
-                                        <div th:include="coupon::coupon"></div>
-                                        <p style="color:red;" th:text="${error}"></p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+<!--                <div class="col-md-4">-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <h4>Coupon</h4>-->
+<!--                        </div>-->
+<!--                        <div class="card-body">-->
+<!--                            <table class="table-responsive-sm" style="width: auto">-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <div th:include="coupon::coupon"></div>-->
+<!--                                        <p style="color:red;" th:text="${error}"></p>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                            </table>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
