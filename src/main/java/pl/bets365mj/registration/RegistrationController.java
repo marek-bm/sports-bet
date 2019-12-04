@@ -45,17 +45,17 @@ public class RegistrationController {
             return "register";
         }
         User user = new User();
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
+//        user.setFirstName(userDTO.getFirstName());
+//        user.setLastName(userDTO.getLastName());
         user.setUsername(userDTO.getUsername());
-        user.setMail(userDTO.getMail());
+//        user.setMail(userDTO.getMail());
         user.setPassword(userDTO.getPassword());
         user.setEnabled(true);
-        user.setAdult(userDTO.isAdult());
-        user.setStreet(userDTO.getStreet());
-        user.setCity(userDTO.getCity());
-        user.setCountry(userDTO.getCountry());
-        user.setDataProcessingAcknowledgement(userDTO.allowsDataProcessing());
+//        user.setAdult(userDTO.isAdult());
+//        user.setStreet(userDTO.getStreet());
+//        user.setCity(userDTO.getCity());
+//        user.setCountry(userDTO.getCountry());
+//        user.setDataProcessingAcknowledgement(userDTO.allowsDataProcessing());
         user.setWallet(new Wallet());
         user.getWallet().setBankAccount(userDTO.getBankAccount());
         user.getWallet().setBalance(BigDecimal.valueOf(0));

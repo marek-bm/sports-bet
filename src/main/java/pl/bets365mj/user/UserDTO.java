@@ -14,38 +14,22 @@ public class UserDTO {
     @UsernameUnique
     @NotNull
     private String username;
-
     @NotNull
     private String password;
-
-    @NotNull
     private String firstName;
-
-    @NotNull
     private String lastName;
-
     private boolean adult;
-
-    @EmailUnique
-    @Email
+//    @EmailUnique @Email
     private String mail;
-
     private String bankAccount;
-
     private String street;
-
     private String city;
-
     private String zip;
-
     private Country country;
-
     private boolean dataProcessingAcknowledgement = false;
-
     public boolean isAdult() {
         return adult;
     }
-
     public boolean allowsDataProcessing() {
         return dataProcessingAcknowledgement;
     }
