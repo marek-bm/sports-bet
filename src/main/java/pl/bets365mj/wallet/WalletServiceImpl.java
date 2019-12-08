@@ -5,10 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.bets365mj.user.User;
 import pl.bets365mj.user.UserService;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Optional;
-
 @Service
 public class WalletServiceImpl implements WalletService {
     @Autowired
@@ -17,7 +13,7 @@ public class WalletServiceImpl implements WalletService {
     @Autowired
     UserService userService;
 
-    public  void save(Wallet wallet){
+    public  void saveWallet(Wallet wallet){
         walletRepository.save(wallet);
     }
 
@@ -32,13 +28,4 @@ public class WalletServiceImpl implements WalletService {
         return walletRepository.findByOwner(user);
     }
 
-    @Override
-    public Wallet updateWallet(BigDecimal charge, Integer walletId) {
-        Optional<Wallet> walletOptional=walletRepository.findById(walletId);
-        Wallet wallet=walletOptional.get();
-        wallet.setBalance(wallet.getBalance().subtract(charge));
-        wallet.getTransactions().add(new Date() + " you placed  " + charge + " PLN on betting coupon");
-        save(wallet);
-        return wallet;
-    }
 }

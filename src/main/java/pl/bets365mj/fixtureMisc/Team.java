@@ -5,7 +5,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Entity
 @Data
@@ -35,21 +34,5 @@ public class Team {
                 ", apiId=" + apiId +
                 ", logoUrl='" + logoUrl + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Team team = (Team) o;
-        return apiId == team.apiId &&
-                id.equals(team.id) &&
-                name.equals(team.name) &&
-                Objects.equals(logoUrl, team.logoUrl);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, apiId, logoUrl);
     }
 }

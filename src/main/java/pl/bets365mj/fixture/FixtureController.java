@@ -180,6 +180,7 @@ public class FixtureController {
     }
 
     @RequestMapping("/api-import-next")
+    @ResponseBody
     public String importNextFixturesRoundFromApi(){
         Season season=seasonService.findCurrent();
         int matchday=season.getCurrentMatchday()+1;
@@ -196,7 +197,7 @@ public class FixtureController {
         fixtureService.saveAll(fixtures);
         season.setCurrentMatchday(matchday);
         seasonService.save(season);
-        return "redirect:/";
+        return "OK";
     }
 
     @Secured("ROLE_ADMIN")
@@ -217,27 +218,9 @@ public class FixtureController {
     };
 
     @RequestMapping("/api-resolve")
-    public String resolveFixture(){
-        List<Fixture> activeFixtures=fixtureService.findAllByMatchStatus("scheduled");
-        activeFixtures.forEach(fixture -> {
-            MatchDto matchDto = callApiForMatchDto(fixture.getApiId());
-            String apiStatus=matchDto.getStatus();
-            if(apiStatus.equalsIgnoreCase("FINISHED"));{
-                fixture.update(matchDto);
-                fixtureService.save(fixture);
-                List<Bet> bets=betService.updateBets(fixture);
-                List<Coupon> coupons=couponService.findAllByBetsIn(bets);
-                couponService.resolveCoupons(coupons);
-            }
-        });
-        importNextFixturesRoundFromApi();
-        return "redirect:/";
-    }
+    public void resolveFixture(){
 
-    private MatchDto callApiForMatchDto(long apiId) {
-        String URL= ApiDetails.URL_MATCH + apiId;
-        ResponseEntity<FixtureDTO> responseEntity=fixtureService.makeApiCall(URL);
-        return responseEntity.getBody().getMatchDto();
+
     }
 
     @ResponseBody

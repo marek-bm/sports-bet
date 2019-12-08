@@ -83,8 +83,7 @@ public class CouponController {
                 return "error/moneyalert";
             }
             finalizeCoupon(charge, session, user);
-//            updateWallet(charge, wallet);
-            walletService.updateWallet(charge, wallet.getId());
+            updateWallet(charge, wallet);
             getNewCoupon(model);
         }
         return"redirect:/mycoupons";
@@ -102,7 +101,7 @@ public class CouponController {
     private void updateWallet(@RequestParam(name = "charge") BigDecimal charge, Wallet wallet) {
         wallet.setBalance(wallet.getBalance().subtract(charge));
         wallet.getTransactions().add(new Date() + " you placed  " + charge + " PLN on betting coupon");
-        walletService.save(wallet);
+        walletService.saveWallet(wallet);
     }
 
     private User getUser(Authentication authentication) {

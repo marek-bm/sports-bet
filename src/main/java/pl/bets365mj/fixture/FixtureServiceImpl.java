@@ -140,7 +140,8 @@ public class FixtureServiceImpl  implements FixtureService {
 
         //Half Time Score
         ScoreDto score=dto.getScore();
-        if (status.equalsIgnoreCase("FINISHED")) {
+        String winner=score.getWinner();
+        if (winner != null) {
             Map<String, Integer> halfTimeResult = score.getHalfTime();
             int halfTimefHomeTeamScore = halfTimeResult.get("homeTeam");
             int halfTimeAwayTeamScore = halfTimeResult.get("awayTeam");
@@ -152,7 +153,7 @@ public class FixtureServiceImpl  implements FixtureService {
             int fullTimeAwayTeamScore = fullTimeResult.get("awayTeam");
             fixture.setFTHG(fullTimefHomeTeamScore);
             fixture.setFTAG(fullTimeAwayTeamScore);
-            fixture.setFTR(String.valueOf(dto.getStatus().charAt(0)));
+            fixture.setFTR(String.valueOf(winner.charAt(0)));
         }
         return fixture;
     }

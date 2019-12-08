@@ -58,13 +58,4 @@ public class User {
     public void setPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", wallet=" + wallet +
-                '}';
-    }
 }
