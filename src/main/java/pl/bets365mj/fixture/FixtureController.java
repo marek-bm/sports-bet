@@ -70,7 +70,7 @@ public class FixtureController {
     @RequestMapping("/fixture-active")
     public String showActiveFixtures(Model model) {
         List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("scheduled");
-        Map<Integer, List<Fixture>> fixtureMap = fixtureService.groupByMatchday(activeEvents);
+        Map<String, List<Fixture>> fixtureMap = fixtureService.groupByStatus(activeEvents);
         model.addAttribute("activeFixtures", fixtureMap);
         Bet bet = new Bet();
         model.addAttribute("bet", bet);
@@ -143,50 +143,11 @@ public class FixtureController {
         return "fixture-stats";
     }
 
-    @RequestMapping("/api-import-batch")
-    @ResponseBody
-    public String importAllFixturesFromApi(){
-        Season season=seasonService.findCurrent();
-        int currentMatchdayDataBase=season.getCurrentMatchday();
-        int currentMatchdayApi=fixtureService.getCurrentApiMatchday();
-        System.out.println("Current matchday  API " + currentMatchdayApi);
-
-        while (currentMatchdayDataBase <= currentMatchdayApi){
-            String URL= ApiDetails.URL_MATCHES+"?matchday="+currentMatchdayDataBase;
-            ResponseEntity<FixtureDTO> responseEntity = fixtureService.makeApiCall(URL);
-            FixtureDTO dto=responseEntity.getBody();
-            List<MatchDto> matches=dto.getMatches();
-
-            HttpStatus httpStatus=responseEntity.getStatusCode();
-            System.out.println(httpStatus);
-            int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
-            System.out.println("Available Requests "+ availableRequests);
-            if(availableRequests==1){
-                wait60seconds();
-            }
-
-            List<Fixture> fixtures=matches.stream()
-                    .map(m->fixtureService.convertDtoToFixtureEntity(m))
-                    .map(f-> footballOdd.calculateOdds(f))
-                    .collect(Collectors.toList());
-
-            currentMatchdayDataBase+=1;
-            fixtureService.saveAll(fixtures);
-        }
-
-        season.setCurrentMatchday(currentMatchdayApi);
-        seasonService.save(season);
-        return "OK";
-    }
-
-    @RequestMapping("/api-import-next")
+    @RequestMapping("/api-import-next-matchday")
     public String importNextFixturesRoundFromApi(){
         Season season=seasonService.findCurrent();
-        int matchday=season.getCurrentMatchday()+1;
-        String URL = ApiDetails.URL_MATCHES + "?matchday=" + matchday;
-        ResponseEntity<FixtureDTO> responseEntity = fixtureService.makeApiCall(URL);
-        FixtureDTO dto = responseEntity.getBody();
-        List<MatchDto> matches = dto.getMatches();
+        int matchdayRequested=season.getCurrentMatchday()+1;
+        List<MatchDto> matches = fixtureService.apiGetRequestForFixturesInMatchday(matchdayRequested);
 
         List<Fixture> fixtures = matches.stream()
                 .map(m -> fixtureService.convertDtoToFixtureEntity(m))
@@ -194,8 +155,23 @@ public class FixtureController {
                 .collect(Collectors.toList());
 
         fixtureService.saveAll(fixtures);
-        season.setCurrentMatchday(matchday);
+        season.setCurrentMatchday(matchdayRequested);
         seasonService.save(season);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/api-auto-update")
+    public String autoUpdateFixtures(){
+        int matchdayApi= fixtureService.getCurrentApiMatchday();
+        int matchdayDb = seasonService.findCurrent().getCurrentMatchday();
+
+        if(matchdayApi==matchdayDb){
+            List<MatchDto> matches = fixtureService.apiGetRequestForFixturesInMatchday(matchdayApi);
+            matches.forEach(m->fixtureService.updateFromDto(m));
+        }
+        else{
+            importNextFixturesRoundFromApi();
+        }
         return "redirect:/";
     }
 
@@ -205,8 +181,8 @@ public class FixtureController {
     public String apiUpdateSeasonStartingIn2018(){
       String URL ="http://api.football-data.org/v2/competitions/PL/matches?dateFrom=2018-11-06&dateTo=2019-07-01";
 //      String URL="http://api.football-data.org/v2/competitions/PL/matches?matchday=11&season=2018";
-      ResponseEntity<FixtureDTO> responseEntity=fixtureService.makeApiCall(URL);
-      FixtureDTO dto=responseEntity.getBody();
+      ResponseEntity<FixtureRoundDTO> responseEntity=fixtureService.apiGetRequestFixturesRound(URL);
+      FixtureRoundDTO dto=responseEntity.getBody();
       List<MatchDto> matches=dto.getMatches();
       List<Fixture> fixtures=matches.stream()
               .map(m->fixtureService.convertDtoToFixtureEntity(m))
@@ -215,30 +191,6 @@ public class FixtureController {
       fixtureService.saveAll(fixtures);
       return "OK";
     };
-
-    @RequestMapping("/api-resolve")
-    public String resolveFixture(){
-        List<Fixture> activeFixtures=fixtureService.findAllByMatchStatus("scheduled");
-        activeFixtures.forEach(fixture -> {
-            MatchDto matchDto = callApiForMatchDto(fixture.getApiId());
-            String apiStatus=matchDto.getStatus();
-            if(apiStatus.equalsIgnoreCase("FINISHED"));{
-                fixture.update(matchDto);
-                fixtureService.save(fixture);
-                List<Bet> bets=betService.updateBets(fixture);
-                List<Coupon> coupons=couponService.findAllByBetsIn(bets);
-                couponService.resolveCoupons(coupons);
-            }
-        });
-        importNextFixturesRoundFromApi();
-        return "redirect:/";
-    }
-
-    private MatchDto callApiForMatchDto(long apiId) {
-        String URL= ApiDetails.URL_MATCH + apiId;
-        ResponseEntity<FixtureDTO> responseEntity=fixtureService.makeApiCall(URL);
-        return responseEntity.getBody().getMatchDto();
-    }
 
     @ResponseBody
     @RequestMapping("/test")
@@ -250,14 +202,6 @@ public class FixtureController {
         fixtures.forEach(System.out :: println);
     }
 
-    private void wait60seconds() {
-        try {
-            System.out.println("Waiting 60 seconds for new requestes pool");
-            Thread.sleep(61000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     @ModelAttribute
     public void itemsForFixtureEditionForm(Model model) {

@@ -84,22 +84,23 @@ public class Fixture {
 
 
     public void update(MatchDto matchDto) {
-        String apiStatus=matchDto.getStatus();
+        String apiStatus=matchDto.getStatus().toLowerCase();
         this.setMatchStatus(apiStatus);
         ScoreDto score=matchDto.getScore();
         String winner=score.getWinner();
         Map<String, Integer> halfTimeResult = score.getHalfTime();
-        int halfTimefHomeTeamScore = halfTimeResult.get("homeTeam");
-        int halfTimeAwayTeamScore = halfTimeResult.get("awayTeam");
+        int halfTimefHomeTeamScore = halfTimeResult.get("homeTeam") == null? 0 : halfTimeResult.get("homeTeam");
+        int halfTimeAwayTeamScore = halfTimeResult.get("awayTeam")  == null? 0 : halfTimeResult.get("awayTeam");
         this.setHTHG(halfTimefHomeTeamScore);
         this.setHTAG(halfTimeAwayTeamScore);
 
         Map<String, Integer> fullTimeResult = score.getFullTime();
-        int fullTimefHomeTeamScore = fullTimeResult.get("homeTeam");
-        int fullTimeAwayTeamScore = fullTimeResult.get("awayTeam");
+        int fullTimefHomeTeamScore = fullTimeResult.get("homeTeam")== null? 0 : fullTimeResult.get("homeTeam");
+        int fullTimeAwayTeamScore = fullTimeResult.get("awayTeam")== null? 0 : fullTimeResult.get("awayTeam");
         this.setFTHG(fullTimefHomeTeamScore);
         this.setFTAG(fullTimeAwayTeamScore);
-        this.setFTR(String.valueOf(winner.charAt(0)));
+        String FTR = winner==null ? "?": String.valueOf(winner.charAt(0));
+        this.setFTR(FTR);
     }
 
     @Override

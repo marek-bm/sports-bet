@@ -9,6 +9,7 @@ import pl.bets365mj.bet.Bet;
 import pl.bets365mj.coupon.Coupon;
 import pl.bets365mj.fixture.Fixture;
 import pl.bets365mj.fixture.FixtureService;
+import pl.bets365mj.fixtureMisc.Season;
 import pl.bets365mj.fixtureMisc.SeasonResultsService;
 import pl.bets365mj.fixtureMisc.SeasonService;
 
@@ -49,9 +50,11 @@ public class HomeController {
     }
 
 //    @ModelAttribute("fixturesActive")
-    private Map<Integer, List<Fixture>> activeFixtures() {
-        List<Fixture> activeEvents = fixtureService.findAllByMatchStatus("scheduled");
-        Map<Integer, List<Fixture>> activeFixtureMap = fixtureService.groupByMatchday(activeEvents);
+    private Map<String, List<Fixture>> activeFixtures() {
+        Season season= seasonService.findCurrent();
+        int currentMatchday=season.getCurrentMatchday();
+        List<Fixture> activeEvents = fixtureService.findAllByMatchdayAndSeason(currentMatchday, season);
+        Map<String, List<Fixture>> activeFixtureMap = fixtureService.groupByStatus(activeEvents);
         return activeFixtureMap;
     }
 
