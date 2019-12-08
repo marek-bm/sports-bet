@@ -37,4 +37,5 @@ public interface FixtureRepository extends JpaRepository<Fixture, Integer> {
 
     List<Fixture> findAllByMatchStatus(String status);
     Fixture findById(int id);
+    Fixture findByApiId(long id);
 }

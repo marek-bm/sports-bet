@@ -9,6 +9,10 @@ import pl.bets365mj.api.ApiDetails;
 import pl.bets365mj.api.MatchDto;
 import pl.bets365mj.api.ScoreDto;
 import pl.bets365mj.api.TeamDto;
+import pl.bets365mj.bet.Bet;
+import pl.bets365mj.bet.BetService;
+import pl.bets365mj.coupon.Coupon;
+import pl.bets365mj.coupon.CouponService;
 import pl.bets365mj.fixtureMisc.*;
 
 import java.util.*;
@@ -28,6 +32,12 @@ public class FixtureServiceImpl  implements FixtureService {
 
     @Autowired
     SeasonService seasonService;
+
+    @Autowired
+    CouponService couponService;
+
+    @Autowired
+    BetService betService;
 
     public Fixture save(Fixture fixture){
         return fixtureRepository.save(fixture);
@@ -95,15 +105,17 @@ public class FixtureServiceImpl  implements FixtureService {
         return fixtureRepository.findById(id);
     }
 
-
-    /*
-     *following method takes as an input fixtures from selected season and creates map of
-     * matchday vs. list of fixtures in a given matchday
-     */
     public
     Map<Integer, List<Fixture>> groupByMatchday(List<Fixture> currentSeasonGames) {
         Map<Integer, List<Fixture>> mappedFixtures=currentSeasonGames.stream()
                 .collect(Collectors.groupingBy(Fixture::getMatchday));
+        return mappedFixtures;
+    }
+
+    @Override
+    public Map<String, List<Fixture>> groupByStatus(List<Fixture> fixtures) {
+        Map<String, List<Fixture>> mappedFixtures=fixtures.stream()
+                .collect(Collectors.groupingBy(Fixture :: getMatchStatus));
         return mappedFixtures;
     }
 
@@ -140,8 +152,7 @@ public class FixtureServiceImpl  implements FixtureService {
 
         //Half Time Score
         ScoreDto score=dto.getScore();
-        String winner=score.getWinner();
-        if (winner != null) {
+        if (status.equalsIgnoreCase("FINISHED")) {
             Map<String, Integer> halfTimeResult = score.getHalfTime();
             int halfTimefHomeTeamScore = halfTimeResult.get("homeTeam");
             int halfTimeAwayTeamScore = halfTimeResult.get("awayTeam");
@@ -153,27 +164,83 @@ public class FixtureServiceImpl  implements FixtureService {
             int fullTimeAwayTeamScore = fullTimeResult.get("awayTeam");
             fixture.setFTHG(fullTimefHomeTeamScore);
             fixture.setFTAG(fullTimeAwayTeamScore);
-            fixture.setFTR(String.valueOf(winner.charAt(0)));
+            fixture.setFTR(String.valueOf(dto.getStatus().charAt(0)));
         }
         return fixture;
     }
 
     @Override
+    public Fixture updateFromDto(MatchDto dto) {
+        long apiId=dto.getApiMatchId();
+        Fixture fixture=fixtureRepository.findByApiId(apiId);
+        String currentStatus=fixture.getMatchStatus();
+        String updatedStatus=dto.getStatus();
+        if(currentStatus.equalsIgnoreCase(updatedStatus)){
+            return fixture;
+        } else if(updatedStatus.equalsIgnoreCase("finished") && !currentStatus.equalsIgnoreCase("finished")) {
+            resolve(dto, fixture);
+        } else {
+            fixture.update(dto);
+            fixtureRepository.save(fixture);
+        }
+        return fixture;
+    }
+
+    private void resolve(MatchDto dto, Fixture fixture) {
+        fixture.update(dto);
+        fixtureRepository.save(fixture);
+        List<Bet> bets=betService.updateBets(fixture);
+        List<Coupon> coupons=couponService.findAllByBetsIn(bets);
+        couponService.resolveCoupons(coupons);
+    }
+
+    @Override
     public int getCurrentApiMatchday() {
         String URL= ApiDetails.URL_MATCHES+"?matchday=1";
-        ResponseEntity<FixtureDTO> responseEntity=makeApiCall(URL);
-        FixtureDTO dto=responseEntity.getBody();
+        ResponseEntity<FixtureRoundDTO> responseEntity= apiGetRequestFixturesRound(URL);
+        FixtureRoundDTO dto=responseEntity.getBody();
         int currentMatchdayApi= Integer.parseInt(dto.getMatches().get(0).getSeason().get("currentMatchday"));
         return currentMatchdayApi;
     }
 
     @Override
-    public ResponseEntity<FixtureDTO> makeApiCall(String URL) {
+    public ResponseEntity<FixtureRoundDTO> apiGetRequestFixturesRound(String URL) {
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders httpHeaders=new HttpHeaders();
         httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
-        return restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureDTO.class);
+        return restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureRoundDTO.class);
+    }
+
+    @Override
+    public MatchDto apiGetRequestMatchDto(long apiId) {
+        String URL= ApiDetails.URL_MATCH + apiId;
+        ResponseEntity<FixtureRoundDTO> responseEntity= apiGetRequestFixturesRound(URL);
+        HttpStatus httpStatus=responseEntity.getStatusCode();
+        System.out.println(httpStatus);
+        int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
+        System.out.println("Available Requests "+ availableRequests);
+        if(availableRequests==1){
+            wait60seconds();
+        }
+        return responseEntity.getBody().getMatchDto();
+    }
+
+    @Override
+    public List<MatchDto> apiGetRequestForFixturesInMatchday(int matchday) {
+        String URL = ApiDetails.URL_MATCHES + "?matchday=" + matchday;
+        ResponseEntity<FixtureRoundDTO> responseEntity = apiGetRequestFixturesRound(URL);
+        FixtureRoundDTO roundDTO = responseEntity.getBody();
+        return roundDTO.getMatches();
+    }
+
+    public void wait60seconds() {
+        try {
+            System.out.println("Waiting 60 seconds for new requestes pool");
+            Thread.sleep(61000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

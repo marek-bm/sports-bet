@@ -27,7 +27,7 @@ public class TableDto {
 
     @Data
     @NoArgsConstructor @AllArgsConstructor
-    private class SeasonDto {
+    public class SeasonDto {
         @JsonProperty ("currentMatchday") int currentMatchday;
     }
 

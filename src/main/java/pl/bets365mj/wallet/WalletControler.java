@@ -48,7 +48,7 @@ public class WalletControler {
         wallet.setBalance(updatedBalance);
         Date date = new Date();
         wallet.getTransactions().add(date + " you charged your account by " + charge + " PLN");
-        walletService.saveWallet(wallet);
+        walletService.save(wallet);
         return "redirect:/wallet";
     }
 

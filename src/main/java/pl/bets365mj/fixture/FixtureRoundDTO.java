@@ -8,8 +8,9 @@ import java.util.*;
 
 @Data
 @NoArgsConstructor @AllArgsConstructor
-public class FixtureDTO {
+public class FixtureRoundDTO {
     @JsonProperty("count")
     int count;
     @JsonProperty("matches") List<MatchDto> matches;
+    @JsonProperty("match") MatchDto matchDto;
 }

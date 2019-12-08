@@ -11,5 +11,5 @@ public interface BetService {
     List<Bet> findAllByCouponId(int id);
     List<Bet> findAllByFixtureMatchday(int id);
     List<Bet> findAllByFixture(Fixture fixture);
-    void updateBets(Fixture fixture);
+    List<Bet> updateBets(Fixture fixture);
 }
