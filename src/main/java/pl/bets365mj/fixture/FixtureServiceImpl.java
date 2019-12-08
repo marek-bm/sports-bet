@@ -198,6 +198,10 @@ public class FixtureServiceImpl  implements FixtureService {
     public int getCurrentApiMatchday() {
         String URL= ApiDetails.URL_MATCHES+"?matchday=1";
         ResponseEntity<FixtureRoundDTO> responseEntity= apiGetRequestFixturesRound(URL);
+        int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
+        if(availableRequests==1){
+            wait60seconds();
+        }
         FixtureRoundDTO dto=responseEntity.getBody();
         int currentMatchdayApi= Integer.parseInt(dto.getMatches().get(0).getSeason().get("currentMatchday"));
         return currentMatchdayApi;
@@ -231,6 +235,11 @@ public class FixtureServiceImpl  implements FixtureService {
     public List<MatchDto> apiGetRequestForFixturesInMatchday(int matchday) {
         String URL = ApiDetails.URL_MATCHES + "?matchday=" + matchday;
         ResponseEntity<FixtureRoundDTO> responseEntity = apiGetRequestFixturesRound(URL);
+        int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
+        System.out.println("Available Requests "+ availableRequests);
+        if(availableRequests==1){
+            wait60seconds();
+        }
         FixtureRoundDTO roundDTO = responseEntity.getBody();
         return roundDTO.getMatches();
     }
