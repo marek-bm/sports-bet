@@ -131,6 +131,10 @@ public class CouponServiceImpl implements CouponService {
         coupon.setUser(owner);
         coupon.calculateWin(bets, charge);
         couponRepository.save(coupon);
+        bets.forEach(b-> {
+            b.setCoupon(coupon);
+            betService.save(b);
+        });
     }
 }
 

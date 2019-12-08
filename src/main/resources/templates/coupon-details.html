@@ -37,7 +37,8 @@
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="col-6 col-md-3">
-                                <a href="/"><img src="img/icons8-the-premier-league-500.png" style="height:100px" alt=""></a>
+                                <a href="/"><img src="img/icons8-the-premier-league-500.png" style="height:100px"
+                                                 alt=""></a>
                                 <a href="https://www.linkedin.com/in/marek-jastrzebski-6a90399a/"
                                    class="text-secondary px-2"><span class="icon-linkedin"></span></a>
                                 <a href="https://github.com/marek-bm" class="text-secondary px-2"><span
@@ -94,61 +95,88 @@
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-8">
-                    <table class="table">
-                        <tr>
-                            <td>Category: </td>
-                            <!--<td>Country:</td>-->
-                            <td>League:</td>
-                            <td>Teams:</td>
-                            <td>Matchday:</td>
-                            <td>Half Time Result:</td>
-                            <td>Final Time Result:</td>
-                            <td>Bet placed:</td>
-                            <td> Winning combination:</td>
-                            <td>Status:</td>
-                        </tr>
-                        <tr th:each="bet: ${bets}">
-                            <td th:text="${bet.getFixture.category.name}"></td>
-                            <!--<td th:text="${bet.event.country.countryName}"></td>-->
-                            <td th:text="${bet.getFixture.league.name}"></td>
-                            <td th:text="|${bet.getFixture.homeTeam.name} v ${bet.getFixture.awayTeam.name}|" ></td>
-                            <td th:text="|Nr: ${bet.getFixture.matchday} played on: ${bet.getFixture.Date}|"></td>
-                            <td th:text="|${bet.getFixture.HTHG} : ${bet.getFixture.HTAG}|"></td>
-                            <td th:text="|${bet.getFixture.FTHG} : ${bet.getFixture.FTAG}|"></td>
-                            <td th:if="${bet.placedBet.startsWith('H')}" th:text="'1'"></td>
-                            <td th:if="${bet.placedBet.startsWith('D')}" th:text="'X'"></td>
-                            <td th:if="${bet.placedBet.startsWith('A')}" th:text="'2'"></td>
-                            <td th:if="${bet.placedBet.startsWith('LT2_5')}" th:text="'<2.5'"></td>
-                            <td th:if="${bet.placedBet.startsWith('GT2_5')}" th:text="'>2.5'"></td>
-
-                            <div th:switch="${bet.getFixture.FTR}">
-                                <td th:case='null' th:text="'active'"> </td>
-                                <td th:case="H" th:text="'1'"></td>
-                                <td th:case="${bet.getFixture.FTR.startsWith('D')}" th:text="'X'"></td>
-                                <td th:case="${bet.getFixture.FTR.startsWith('A')}" th:text="'2'"></td>
-                                <td th:case="${bet.getFixture.FTR.startsWith('LT2_5')}" th:text="'<2.5'"></td>
-                                <td th:case="${bet.getFixture.FTR.startsWith('GT2_5')}" th:text="'>2.5'"></td>
+                    <div class="card-header">
+                        <!--                        <div class="card-header">-->
+                        <div class="float-right">
+                            <div class="btn-group">
+                                <a href="#" class="btn active">Today</a>
+                                <a href="#" class="btn">All</a>
                             </div>
-                            <div th:switch="${bet.getFixture.FTR}">
-                                <td th:case='null' th:text="'active'"> </td>
-                                <td th:case='!null' th:if="${bet.won==true}" th:text="'won'"> </td>
-                                <td th:case='!null' th:if="${bet.won==false}" th:text="'won'"> </td>
-                            </div>
-                        </tr>
-                    </table>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Coupon</h4>
                         </div>
-                        <div class="card-body">
-                            <table class="table-responsive-sm" style="width: auto">
+                        <h4>Coupon Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <div style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"
+                             class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand"
+                                 style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink"
+                                 style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                            </div>
+                        </div>
+                        <!--                            <div class="statistic-details mt-sm-4" style="text-justify: auto" th:if="${activeFixtures.get('scheduled').size()>=0}" th:each="fixture : ${activeFixtures.get('scheduled')}">-->
+                        <div class="statistic-details mt-sm-4" style="text-justify: auto">
+                            <table class="table">
                                 <tr>
+                                    <td>Category:</td>
+                                    <!--<td>Country:</td>-->
+                                    <td>League:</td>
+                                    <td>Teams:</td>
+                                    <td>Matchday:</td>
+                                    <td>Half Time Result:</td>
+                                    <td>Final Time Result:</td>
+                                    <td>Bet placed:</td>
+                                    <td> Winning combination:</td>
+                                    <td>Status:</td>
+                                </tr>
+                                <tr th:each="bet: ${bets}">
                                     <td>
-                                        <div th:include="coupon::coupon"></div>
-                                        <p style="color:red;" th:text="${error}"></p>
+                                        <span th:if="${bet.getFixture().getCategory()!=null}"
+                                              th:text="${bet.getFixture().category.name}"></span>
+                                        <span th:if="${bet.getFixture().getCategory()==null}" th:text="Footbal"></span>
                                     </td>
+                                    <td>
+                                        <span th:if="${bet.getFixture().getLeague()!=null}"
+                                              th:text="${bet.getFixture().league.name}"></span>
+                                        <span th:if="${bet.getFixture().getLeague()==null}"
+                                              th:text="Premier League"></span>
+                                    </td>
+                                    <td th:text="|${bet.getFixture().homeTeam.name} v ${bet.getFixture().awayTeam.name}|"></td>
+                                    <td th:text="|Nr: ${bet.getFixture().matchday} played on: ${bet.getFixture().Date}|"></td>
+                                    <!--                            <td th:text="|${bet.getFixture().HTHG} : ${bet.getFixture().HTAG}|"></td>-->
+                                    <td>
+                                        <span th:if="${bet.getFixture().HTHG==null}" th:text="|-- : --|"></span>
+                                        <span th:if="${bet.getFixture().HTHG!=null}"
+                                              th:text="|${bet.getFixture().HTHG} : ${bet.getFixture().HTAG}|"></span>
+                                    </td>
+                                    <!--                            <td th:text="|${bet.getFixture().FTHG} : ${bet.getFixture().FTAG}|"></td>-->
+                                    <td>
+                                        <span th:if="${bet.getFixture().FTHG==null}" th:text="|-- : --|"></span>
+                                        <span th:if="${bet.getFixture().FTHG!=null}"
+                                              th:text="|${bet.getFixture().FTHG} : ${bet.getFixture().FTAG}|"></span>
+                                    </td>
+                                    <td th:if="${bet.placedBet.startsWith('H')}" th:text="'1'"></td>
+                                    <td th:if="${bet.placedBet.startsWith('D')}" th:text="'X'"></td>
+                                    <td th:if="${bet.placedBet.startsWith('A')}" th:text="'2'"></td>
+                                    <td th:if="${bet.placedBet.startsWith('LT2_5')}" th:text="'<2.5'"></td>
+                                    <td th:if="${bet.placedBet.startsWith('GT2_5')}" th:text="'>2.5'"></td>
+
+                                    <div th:switch="${bet.getFixture().FTR}">
+                                        <td th:case='null' th:text="'active'"></td>
+                                        <td th:case="H" th:text="'1'"></td>
+                                        <td th:case="${bet.getFixture().FTR.startsWith('D')}" th:text="'X'"></td>
+                                        <td th:case="${bet.getFixture().FTR.startsWith('A')}" th:text="'2'"></td>
+                                        <td th:case="${bet.getFixture().FTR.startsWith('LT2_5')}" th:text="'<2.5'"></td>
+                                        <td th:case="${bet.getFixture().FTR.startsWith('GT2_5')}" th:text="'>2.5'"></td>
+                                    </div>
+                                    <div th:switch="${bet.getFixture().FTR}">
+                                        <td th:case='null' th:text="'active'"></td>
+                                        <td th:case='!null' th:if="${bet.won==true}" th:text="'won'"></td>
+                                        <td th:case='!null' th:if="${bet.won==false}" th:text="'won'"></td>
+                                    </div>
                                 </tr>
                             </table>
                         </div>

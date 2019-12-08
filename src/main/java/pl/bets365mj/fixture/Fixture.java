@@ -3,6 +3,8 @@ package pl.bets365mj.fixture;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Synchronized;
+import pl.bets365mj.api.MatchDto;
+import pl.bets365mj.api.ScoreDto;
 import pl.bets365mj.bet.Bet;
 import pl.bets365mj.fixtureMisc.League;
 import pl.bets365mj.fixtureMisc.Season;
@@ -81,4 +83,64 @@ public class Fixture {
     }
 
 
+    public void update(MatchDto matchDto) {
+        String apiStatus=matchDto.getStatus();
+        this.setMatchStatus(apiStatus);
+        ScoreDto score=matchDto.getScore();
+        String winner=score.getWinner();
+        Map<String, Integer> halfTimeResult = score.getHalfTime();
+        int halfTimefHomeTeamScore = halfTimeResult.get("homeTeam");
+        int halfTimeAwayTeamScore = halfTimeResult.get("awayTeam");
+        this.setHTHG(halfTimefHomeTeamScore);
+        this.setHTAG(halfTimeAwayTeamScore);
+
+        Map<String, Integer> fullTimeResult = score.getFullTime();
+        int fullTimefHomeTeamScore = fullTimeResult.get("homeTeam");
+        int fullTimeAwayTeamScore = fullTimeResult.get("awayTeam");
+        this.setFTHG(fullTimefHomeTeamScore);
+        this.setFTAG(fullTimeAwayTeamScore);
+        this.setFTR(String.valueOf(winner.charAt(0)));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Fixture fixture = (Fixture) o;
+        return matchday == fixture.matchday &&
+                apiId == fixture.apiId &&
+                id.equals(fixture.id) &&
+                Objects.equals(season, fixture.season) &&
+                Objects.equals(Date, fixture.Date) &&
+                Objects.equals(matchStatus, fixture.matchStatus);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, season, matchday, Date, matchStatus, apiId);
+    }
+
+    @Override
+    public String toString() {
+        return "Fixture{" +
+                "id=" + id +
+                ", matchday=" + matchday +
+                ", Date=" + Date +
+                ", matchStatus='" + matchStatus + '\'' +
+                ", homeTeam=" + homeTeam +
+                ", awayTeam=" + awayTeam +
+                ", FTHG=" + FTHG +
+                ", FTAG=" + FTAG +
+                ", HTHG=" + HTHG +
+                ", HTAG=" + HTAG +
+                ", HTR='" + HTR + '\'' +
+                ", FTR='" + FTR + '\'' +
+                ", homeWinOdd=" + homeWinOdd +
+                ", drawOdd=" + drawOdd +
+                ", awayWinOdd=" + awayWinOdd +
+                ", goalsLessOrEquals2odd=" + goalsLessOrEquals2odd +
+                ", goalsMoreThan2odd=" + goalsMoreThan2odd +
+                ", apiId=" + apiId +
+                '}';
+    }
 }

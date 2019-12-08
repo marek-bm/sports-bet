@@ -12,4 +12,5 @@ public class FixtureDTO {
     @JsonProperty("count")
     int count;
     @JsonProperty("matches") List<MatchDto> matches;
+    @JsonProperty("match") MatchDto matchDto;
 }

@@ -41,7 +41,7 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
-    public void updateBets(Fixture fixture) {
+    public List<Bet> updateBets(Fixture fixture) {
         List<Bet> bets = new ArrayList<>();
         try {
             bets = betRepository.findAllByFixture(fixture);
@@ -50,6 +50,7 @@ public class BetServiceImpl implements BetService {
         } catch (BetNotFoundException e) {
             e.printStackTrace();
         }
+        return bets;
     }
 
     private List<Bet> resolveBets(List<Bet> bets, Fixture fixture) {

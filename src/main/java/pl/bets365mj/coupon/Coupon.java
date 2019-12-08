@@ -19,7 +19,7 @@ import java.util.List;
 public class Coupon {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @NotNull @OneToMany (mappedBy = "coupon",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @NotNull @OneToMany (mappedBy = "coupon",cascade = {CascadeType.ALL})
     private List<Bet> bets;
     @NotNull @Min(value = 1)
     private BigDecimal betValue;
