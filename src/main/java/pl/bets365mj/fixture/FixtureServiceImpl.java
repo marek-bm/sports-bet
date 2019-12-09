@@ -215,7 +215,9 @@ public class FixtureServiceImpl  implements FixtureService {
 //        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
         ResponseEntity<FixtureRoundDTO> responseEntity=restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureRoundDTO.class);
-        System.out.println(responseEntity.getStatusCode().toString());
+        System.out.println("Line 218 " + URL);
+        System.out.println("Line 219 " +responseEntity.getStatusCode().toString());
+        System.out.println("Line 220 " +responseEntity.getBody().toString());
         return responseEntity;
     }
 
