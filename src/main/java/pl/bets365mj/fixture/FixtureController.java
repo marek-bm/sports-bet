@@ -209,7 +209,7 @@ public class FixtureController {
         model.addAttribute("sports", sports);
         List<League> leagues = leagueRepository.findAll();
         model.addAttribute("leagues", leagues);
-        Season season = seasonService.findById(7);
+        Season season = seasonService.findCurrent();
         List<Season> seasons = new ArrayList<>();
         seasons.add(season);
         model.addAttribute("seasons", seasons);

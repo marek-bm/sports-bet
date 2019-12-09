@@ -212,9 +212,11 @@ public class FixtureServiceImpl  implements FixtureService {
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders httpHeaders=new HttpHeaders();
         httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
-        return restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureRoundDTO.class);
+        ResponseEntity<FixtureRoundDTO> responseEntity=restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureRoundDTO.class);
+        System.out.println(responseEntity.getStatusCode().toString());
+        return responseEntity;
     }
 
     @Override
