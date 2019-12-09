@@ -145,9 +145,12 @@ public class FixtureController {
 
     @RequestMapping("/api-import-next-matchday")
     public String importNextFixturesRoundFromApi(){
+        System.out.println("importNextFixturesRoundFromApi() ENTER");
         Season season=seasonService.findCurrent();
         int matchdayRequested=season.getCurrentMatchday()+1;
+        System.out.println("Line 152 service request for fixtures in matchday");
         List<MatchDto> matches = fixtureService.apiGetRequestForFixturesInMatchday(matchdayRequested);
+        System.out.println("Line 153 service completed");
 
         List<Fixture> fixtures = matches.stream()
                 .map(m -> fixtureService.convertDtoToFixtureEntity(m))
@@ -164,12 +167,17 @@ public class FixtureController {
     public String autoUpdateFixtures(){
         int matchdayApi= fixtureService.getCurrentApiMatchday();
         int matchdayDb = seasonService.findCurrent().getCurrentMatchday();
+        System.out.println("Line 167 matchdayApi "+ matchdayApi);
+        System.out.println("Line 168 matchdayDb "+ matchdayDb);
 
         if(matchdayApi==matchdayDb){
             List<MatchDto> matches = fixtureService.apiGetRequestForFixturesInMatchday(matchdayApi);
+            System.out.println("Line 172 @ FixtureController "+ matches);
             matches.forEach(m->fixtureService.updateFromDto(m));
+            System.out.println("Line 174 @ FixtureController UPDATE FINISHED");
         }
         else{
+            System.out.println("Line 177 @ FixtureController IMPORT NEXT ROUND");
             importNextFixturesRoundFromApi();
         }
         return "redirect:/";

@@ -212,7 +212,7 @@ public class FixtureServiceImpl  implements FixtureService {
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders httpHeaders=new HttpHeaders();
         httpHeaders.set(ApiDetails.TOKEN, ApiDetails.TOKEN_KEY);
-//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> httpEntity=new HttpEntity<>("parameters", httpHeaders);
         ResponseEntity<FixtureRoundDTO> responseEntity=restTemplate.exchange(URL, HttpMethod.GET, httpEntity, FixtureRoundDTO.class);
         System.out.println("Line 218 " + URL);
@@ -238,7 +238,9 @@ public class FixtureServiceImpl  implements FixtureService {
     @Override
     public List<MatchDto> apiGetRequestForFixturesInMatchday(int matchday) {
         String URL = ApiDetails.URL_MATCHES + "?matchday=" + matchday;
+        System.out.println("Line 241 "+ URL);
         ResponseEntity<FixtureRoundDTO> responseEntity = apiGetRequestFixturesRound(URL);
+        System.out.println("Line 243 response entity "+ responseEntity.toString());
         int availableRequests= Integer.parseInt(responseEntity.getHeaders().get("X-Requests-Available-Minute").get(0));
         System.out.println("Available Requests "+ availableRequests);
         if(availableRequests==1){
