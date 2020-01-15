@@ -17,12 +17,16 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
     calculation based on:
     https://help.smarkets.com/hc/en-gb/articles/115001457989-How-to-calculate-Poisson-distribution-for-football-betting
      */
-
-    @Autowired
     FixtureService fixtureService;
-
-    @Autowired
     SeasonService seasonService;
+
+    public MatchStatistics() {
+    }
+
+    public MatchStatistics(FixtureService fixtureService, SeasonService seasonService) {
+        this.fixtureService = fixtureService;
+        this.seasonService = seasonService;
+    }
 
     @Override
     public double homeTeamAttackStrength(Team team, Season season) {
@@ -152,7 +156,7 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
         else {
             List<Fixture> fixtures = fixtureService.findAllBySeasonAndMatchStatus(season, "finished");
             for (Fixture f : fixtures) {
-                totalGoals += f.getFTHG();
+                totalGoals += f.getFTAG();
                 games += 1;
             }
         }
