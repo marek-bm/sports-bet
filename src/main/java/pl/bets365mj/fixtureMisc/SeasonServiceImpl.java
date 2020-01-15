@@ -7,9 +7,14 @@ import java.util.List;
 
 @Service
 public class SeasonServiceImpl implements SeasonService {
+    private SeasonRepository seasonRepository;
 
-    @Autowired
-    SeasonRepository seasonRepository;
+    public SeasonServiceImpl() {
+    }
+
+    public SeasonServiceImpl(SeasonRepository seasonRepository) {
+        this.seasonRepository = seasonRepository;
+    }
 
     @Override
     public Season findById(int id) {
