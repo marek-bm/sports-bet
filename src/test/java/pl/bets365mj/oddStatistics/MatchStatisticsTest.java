@@ -18,7 +18,9 @@ import pl.bets365mj.fixture.FixtureService;
 import pl.bets365mj.fixture.FixtureServiceImpl;
 import pl.bets365mj.fixtureMisc.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -73,11 +75,18 @@ public class MatchStatisticsTest {
         final double expectedStrength = 0.7704;
         double actualDefensiveStrength= matchStatistics.homeTeamDefensiveStrength(homeTeam, currentSeason);
         assertEquals(expectedStrength,actualDefensiveStrength , 0.001);
-
     }
 
     @Test
     public void homeTeamGoalsPrediction() {
+        Team homeTeam=teamRepository.findTeamById(16);
+        assert homeTeam.getName().equals("Man United");
+        Team awayTeam=teamRepository.findTeamById(31);
+        assert awayTeam.getName().equals("Wolves");
+        Season currentSeason=seasonRepository.findBySeasonYearIsStartingWith(2019);
+        double goalsPrediction=matchStatistics.homeTeamGoalsPrediction(homeTeam,awayTeam,currentSeason);
+        final double expectedGoals=2.6733;
+        assertEquals(expectedGoals,goalsPrediction, 0.001);
     }
 
     @Test
@@ -86,10 +95,20 @@ public class MatchStatisticsTest {
 
     @Test
     public void awayTeamAttackStrength() {
+        Season currentSeason=seasonRepository.findBySeasonYearIsStartingWith(2019);
+        Team team=teamRepository.findTeamById(16);
+        final double expected=1.0785;
+        double calculated=matchStatistics.awayTeamAttackStrength(team,currentSeason);
+        assertEquals(expected, calculated, 0.001);
     }
 
     @Test
     public void awayTeamDefensiveStrength() {
+        Season currentSeason=seasonRepository.findBySeasonYearIsStartingWith(2019);
+        Team team=teamRepository.findTeamById(16);
+        final double expected= 1.0911;
+        double calculated=matchStatistics.awayTeamDefensiveStrength(team, currentSeason);
+        assertEquals(expected, calculated, 0.001);
     }
 
     @Test
@@ -98,14 +117,58 @@ public class MatchStatisticsTest {
 
     @Test
     public void awayTeamGoalsPrediction() {
+        Team homeTeam=teamRepository.findTeamById(16);
+        assert homeTeam.getName().equals("Man United");
+        Team awayTeam=teamRepository.findTeamById(31);
+        assert awayTeam.getName().equals("Wolves");
+        Season currentSeason=seasonRepository.findBySeasonYearIsStartingWith(2019);
+        final double expected=1.0785;
+        double goalsPrediction=matchStatistics.awayTeamGoalsPrediction(homeTeam,awayTeam,currentSeason);
+        assertEquals( expected, goalsPrediction, 0.001);
     }
 
     @Test
     public void probabilityDistributionToScoreZeroToSixGoals() {
+        final double[] htExpectedProbability={0.0690,0.1845, 0.2466, 0.2198,0.1469, 0.0785};
+        final double htGoalsPrediction=2.6733;
+        final double[] atExpectedGoalsProbability={0.3401,0.3668,0.1978, 0.0711, 0.0192, 0.0041};
+        final double atGoalsPrediction=1.0785;
+
+        double[] htCalculatedProbability=matchStatistics.probabilityDistributionToScoreZeroToSixGoals(htGoalsPrediction);
+        double[] atCalculatedProbability=matchStatistics.probabilityDistributionToScoreZeroToSixGoals(atGoalsPrediction);
+
+        for(int i=0; i<htExpectedProbability.length; i++){
+            assertEquals(htExpectedProbability[i], htCalculatedProbability[i], 0.001);
+            assertEquals(atExpectedGoalsProbability[i], atCalculatedProbability[i], 0.001);
+        }
     }
+
 
     @Test
     public void matchScoreProbabilityMatrix() {
+        double[][] expectedMatrix={
+//                {0.0235, 0.0253, 0.0137, 0.0049, 0.0013, 0.0003},
+//                {0.0628, 0.0677, 0.0365, 0.0131, 0.0035, 0.0008},
+//                {0.0839, 0.0905, 0.0488, 0.0175, 0.0047, 0.0010},
+//
+//                {0.0049,	0.0131,	0.0175,	0.0156,	0.0104,	0.0056},
+//                {0.0013,	0.0035,	0.0047,	0.0042,	0.0028,	0.0015},
+//                {0.0003,	0.0008,	0.0010,	0.0009,	0.0006,	0.0003}
+        };
+
+        final double htGoalsPrediction=2.6733;
+        final double atGoalsPrediction=1.0785;
+        double[] htScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(htGoalsPrediction);
+        double[] atScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(atGoalsPrediction);
+        double[][] calculatedMatrix = matchStatistics.matchScoreProbabilityMatrix(htScoreProbability, atScoreProbability);
+
+        for(int i=0; i<expectedMatrix.length; i++){
+           for (int j=0; j<calculatedMatrix.length; j++ ){
+               double expected=expectedMatrix[i][j];
+               double actual=calculatedMatrix[i][j];
+               assertEquals(expected, actual, 0.01);
+           }
+        }
     }
 
     @Test
