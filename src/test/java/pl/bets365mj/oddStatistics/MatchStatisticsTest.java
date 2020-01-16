@@ -5,6 +5,7 @@ import com.sun.org.slf4j.internal.LoggerFactory;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -41,7 +42,6 @@ public class MatchStatisticsTest {
 
     @Autowired
     TeamRepository teamRepository;
-
 
     @Before
     public void setUp(){
@@ -143,17 +143,15 @@ public class MatchStatisticsTest {
         }
     }
 
-
     @Test
     public void matchScoreProbabilityMatrix() {
         double[][] expectedMatrix={
-//                {0.0235, 0.0253, 0.0137, 0.0049, 0.0013, 0.0003},
-//                {0.0628, 0.0677, 0.0365, 0.0131, 0.0035, 0.0008},
-//                {0.0839, 0.0905, 0.0488, 0.0175, 0.0047, 0.0010},
-//
-//                {0.0049,	0.0131,	0.0175,	0.0156,	0.0104,	0.0056},
-//                {0.0013,	0.0035,	0.0047,	0.0042,	0.0028,	0.0015},
-//                {0.0003,	0.0008,	0.0010,	0.0009,	0.0006,	0.0003}
+                {0.0235, 0.0253, 0.0137, 0.0049, 0.0013, 0.0003},
+                {0.0628, 0.0677, 0.0365, 0.0131, 0.0035, 0.0008},
+                {0.0839, 0.0905, 0.0488, 0.0175, 0.0047, 0.0010},
+                {0.0747, 0.0806, 0.0435, 0.0156, 0.0042, 0.0009},
+                {0.0500, 0.0539, 0.0291, 0.0104, 0.0028, 0.0006},
+                {0.0267, 0.0288, 0.0155, 0.0056, 0.0015, 0.0003}
         };
 
         final double htGoalsPrediction=2.6733;
@@ -173,21 +171,61 @@ public class MatchStatisticsTest {
 
     @Test
     public void homeTeamWin() {
+        final double htGoalsPrediction=2.6733;
+        final double atGoalsPrediction=1.0785;
+        double[] htScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(htGoalsPrediction);
+        double[] atScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(atGoalsPrediction);
+        double[][] calculatedMatrix = matchStatistics.matchScoreProbabilityMatrix(htScoreProbability, atScoreProbability);
+        double homeTeamWinProbability= matchStatistics.homeTeamWin(calculatedMatrix);
+        double expectedHomeTeamProbability=0.6574;
+        assertEquals(expectedHomeTeamProbability, homeTeamWinProbability, 0.001);
     }
 
     @Test
     public void draw() {
+        final double htGoalsPrediction=2.6733;
+        final double atGoalsPrediction=1.0785;
+        double[] htScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(htGoalsPrediction);
+        double[] atScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(atGoalsPrediction);
+        double[][] calculatedMatrix = matchStatistics.matchScoreProbabilityMatrix(htScoreProbability, atScoreProbability);
+        double drawProbability= matchStatistics.draw(calculatedMatrix);
+        double expected=0.1587;
+        assertEquals(expected, drawProbability,0.001);
     }
 
     @Test
     public void awayTeamWin() {
+        final double htGoalsPrediction=2.6733;
+        final double atGoalsPrediction=1.0785;
+        double[] htScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(htGoalsPrediction);
+        double[] atScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(atGoalsPrediction);
+        double[][] calculatedMatrix = matchStatistics.matchScoreProbabilityMatrix(htScoreProbability, atScoreProbability);
+        double awayTeamWinProbability= matchStatistics.awayTeamWin(calculatedMatrix);
+        final double expectedProbability=0.1284;
+        assertEquals(expectedProbability, awayTeamWinProbability, 0.001);
     }
 
     @Test
     public void goalsLessEquals2() {
+        final double htGoalsPrediction=2.6733;
+        final double atGoalsPrediction=1.0785;
+        double[] htScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(htGoalsPrediction);
+        double[] atScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(atGoalsPrediction);
+        double[][] calculatedMatrix = matchStatistics.matchScoreProbabilityMatrix(htScoreProbability, atScoreProbability);
+        double goalsLessEquals2Probability= matchStatistics.goalsLessEquals2(calculatedMatrix);
+        final double expectedProbability=0.4525;
+        assertEquals(expectedProbability, goalsLessEquals2Probability, 0.001);
     }
 
     @Test
     public void goalMoreThan2() {
+        final double htGoalsPrediction=2.6733;
+        final double atGoalsPrediction=1.0785;
+        double[] htScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(htGoalsPrediction);
+        double[] atScoreProbability = matchStatistics.probabilityDistributionToScoreZeroToSixGoals(atGoalsPrediction);
+        double[][] calculatedMatrix = matchStatistics.matchScoreProbabilityMatrix(htScoreProbability, atScoreProbability);
+        double goalsMoreThan2Probability= matchStatistics.goalMoreThan2(calculatedMatrix);
+        final double expectedProbability=0.5475;
+        assertEquals(expectedProbability, goalsMoreThan2Probability, 0.001);
     }
 }

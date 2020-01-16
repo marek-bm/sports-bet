@@ -217,7 +217,14 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
 
     @Override
     public double awayTeamWin(double[][] matchResultsProbabilityMatrix) {
-        return 1-homeTeamWin(matchResultsProbabilityMatrix);
+        double awayTeamWinProbability=0;
+        for(int i= 0; i<matchResultsProbabilityMatrix.length; i++){
+            for (int j=i+1; j<matchResultsProbabilityMatrix[i].length; j++){
+                awayTeamWinProbability+=matchResultsProbabilityMatrix[i][j];
+            }
+        }
+        return awayTeamWinProbability;
+//        return 1-homeTeamWin(matchResultsProbabilityMatrix);
     }
 
     @Override
