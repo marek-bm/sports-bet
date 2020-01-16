@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SeasonServiceImpl implements SeasonService {
@@ -18,7 +19,8 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     public Season findById(int id) {
-        return seasonRepository.getOne(id);
+        Optional<Season> optionalSeason=seasonRepository.findById(id);
+        return optionalSeason.get();
     }
 
     @Override
