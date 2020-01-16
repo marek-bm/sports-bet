@@ -29,7 +29,6 @@ import static org.junit.Assert.*;
 @DataJpaTest
 @TestPropertySource (locations = "/application-test.properties")
 public class MatchStatisticsTest {
-    private static final Logger log = LoggerFactory.getLogger(MatchStatisticsTest.class);
     FixtureService fixtureService;
     SeasonService seasonService;
     MatchStatistics matchStatistics;
