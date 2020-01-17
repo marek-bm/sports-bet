@@ -61,9 +61,12 @@ public class FixtureController {
     @RequestMapping("/fixture-finished")
     public String showFinishedFixtures(Model model) {
         Season currentSeason = seasonService.findCurrent();
+        System.out.println("currentSeason " + currentSeason);
         List<Fixture> allFixtures = fixtureService.findAllBySeasonAndMatchStatus(currentSeason, "finished");
-        Map<Integer, List<Fixture>> grouppedByMatchday = fixtureService.groupByMatchday(allFixtures);
-        model.addAttribute("fixtures", grouppedByMatchday);
+        System.out.println("Fixtures finished " + allFixtures);
+        Map<Integer, List<Fixture>> groupedByMatchday = fixtureService.groupByMatchday(allFixtures);
+        System.out.println("Grouped by matchday "+ groupedByMatchday);
+        model.addAttribute("fixtures", groupedByMatchday);
         return "results-all";
     }
 
