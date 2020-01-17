@@ -60,6 +60,7 @@ public class FixtureController {
 
     @RequestMapping("/fixture-finished")
     public String showFinishedFixtures(Model model) {
+        System.out.println("##### FIXTURES FINISHED BEGIN ####");
         Season currentSeason = seasonService.findCurrent();
         System.out.println("currentSeason " + currentSeason);
         List<Fixture> allFixtures = fixtureService.findAllBySeasonAndMatchStatus(currentSeason, "finished");
