@@ -13,6 +13,7 @@ public class SeasonServiceImpl implements SeasonService {
     public SeasonServiceImpl() {
     }
 
+    @Autowired
     public SeasonServiceImpl(SeasonRepository seasonRepository) {
         this.seasonRepository = seasonRepository;
     }

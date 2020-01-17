@@ -23,6 +23,7 @@ public class MatchStatistics implements MarketStatistics, OpponentsStatistics {
     public MatchStatistics() {
     }
 
+    @Autowired
     public MatchStatistics(FixtureService fixtureService, SeasonService seasonService) {
         this.fixtureService = fixtureService;
         this.seasonService = seasonService;

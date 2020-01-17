@@ -20,8 +20,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class FixtureServiceImpl  implements FixtureService {
-
-//    @Autowired
     FixtureRepository fixtureRepository;
 
     @Autowired
@@ -41,6 +39,7 @@ public class FixtureServiceImpl  implements FixtureService {
     public FixtureServiceImpl() {
     }
 
+    @Autowired
     public FixtureServiceImpl(FixtureRepository fixtureRepository, SeasonService seasonService) {
         this.fixtureRepository = fixtureRepository;
         this.seasonService = seasonService;
