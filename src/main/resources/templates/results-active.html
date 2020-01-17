@@ -179,7 +179,7 @@
                                                 <input type="hidden" name="betPrice"
                                                        th:value="${event.goalsLessOrEquals2odd}"/>
                                                 <input type="hidden" name="placedBet" th:value="LT2_5"/>
-                                                <input type="submit" th:value="${event.goalsMoreThan2odd}"
+                                                <input type="submit" th:value="${event.getGoalsLessOrEquals2odd()}"
                                                        class="btn btn-dark" style="width:95%"/>
                                             </td>
                                         </form>
