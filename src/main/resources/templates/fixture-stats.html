@@ -239,7 +239,7 @@
                                     <tr th:each="i, iter: ${#numbers.sequence(0,5)}">
                                         <th width="100px" th:text="${iter.index}"></th>
                                         <td th:each="j: ${#numbers.sequence(0,5)}"
-                                            th:text="${#numbers.formatDecimal(result[i][j],1,2)}*100 + '%'" ></td>
+                                            th:text="${#numbers.formatDecimal(result[i][j],1,2,'POINT')}*100+ '%'" ></td>
                                     </tr>
                                 </table>
                             </div>
