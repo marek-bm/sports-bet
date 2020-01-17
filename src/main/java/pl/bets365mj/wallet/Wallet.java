@@ -28,7 +28,7 @@ public class Wallet {
     @OneToOne
     private User owner;
 
-    @NotNull
+//    @NotNull
     @Getter @Setter
     private String bankAccount;
 

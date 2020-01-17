@@ -34,16 +34,17 @@ public class WalletControler {
         return "wallet";
     }
 
-    @RequestMapping(value = "/chargeaccount", method = RequestMethod.GET)
-    public String chargeWalletRequest(Authentication authentication, Model model) {
-        User current = userService.findByUsername(authentication.getName());
-        Wallet wallet = current.getWallet();
+    @GetMapping(value = "/chargeaccount")
+    public String chargeWalletRequest(Model model) {
+        Wallet wallet = new Wallet();
         model.addAttribute("wallet", wallet);
         return "wallet-charge";
     }
 
-    @RequestMapping(value = "/chargeaccount", method = RequestMethod.POST)
-    public String chargeWalletProcessing(@Valid Wallet wallet, @RequestParam BigDecimal charge) {
+    @PostMapping(value = "/chargeaccount")
+    public String chargeWalletProcessing(Authentication authentication, @RequestParam BigDecimal charge) {
+        User current = userService.findByUsername(authentication.getName());
+        Wallet wallet = current.getWallet();
         BigDecimal updatedBalance = wallet.getBalance().add(charge);
         wallet.setBalance(updatedBalance);
         Date date = new Date();
